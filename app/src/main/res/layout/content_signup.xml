@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.getinstaapp.instaapppartner.SignupActivity"
+    tools:showIn="@layout/activity_signup">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@mipmap/login_logo"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="55dp"
+                android:id="@+id/poo"
+                android:layout_marginRight="55dp"
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true">
+
+
+                <EditText
+                    android:id="@+id/sedsignup_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:background="@drawable/rounded_edittextred"
+                    android:hint="Name"
+                    android:textColor="@color/colorAccent"
+                    android:paddingLeft="15dp"
+                    android:textColorHint="#4b4b4b"
+                    android:inputType="textPersonName"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/sedsignup_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_edittextred"
+                    android:hint="Mail Id"
+                    android:textColor="@color/colorAccent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:paddingLeft="15dp"
+                    android:textColorHint="#4b4b4b"
+                    android:inputType="textEmailAddress"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/sedsignup_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_edittextred"
+                    android:hint="Mobile Number"
+                    android:textColor="@color/colorAccent"
+                    android:maxLength="10"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:paddingLeft="15dp"
+                    android:textColorHint="#4b4b4b"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/sedsignup_pswd"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:background="@drawable/rounded_edittextred"
+                    android:hint="Password"
+                    android:paddingLeft="15dp"
+                    android:textColorHint="#4b4b4b"
+                    android:inputType="textPassword"
+                    android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/sedsignup_referalcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:background="@drawable/rounded_edittextred"
+                    android:hint="Referal Code"
+                    android:paddingLeft="15dp"
+                    android:textColorHint="#4b4b4b"
+                    android:inputType="text"
+                    android:textSize="18sp" />
+                <RadioGroup
+                    android:id="@+id/shome_radioone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/sradio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female" />
+
+                <RadioButton
+                    android:id="@+id/sradio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="Male" />
+                </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/shome_radiotwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/sradio_indi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Individual" />
+
+                    <RadioButton
+                        android:id="@+id/sradio_biz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Business" />
+                </RadioGroup>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <CheckBox
+                        android:id="@+id/shome_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/checkBox1"
+                        android:text="I agree to your" />
+
+                    <TextView
+                        android:id="@+id/tvsignup_tc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:gravity="start"
+                        android:text=" terms &amp; Conditions "
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/sbutsignup_signup"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_editsecond"
+                    android:hint="SIGN UP"
+                    android:textColorHint="#fff"
+                    android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aleady have an Account?"
+                        android:gravity="center"
+                        android:layout_weight="0.5"/>
+                    <TextView
+                        android:id="@+id/tvsignup_signin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SIGN IN"
+                        android:textColor="@color/colorAccent"
+                        android:gravity="center"
+                        android:layout_weight="0.5"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
