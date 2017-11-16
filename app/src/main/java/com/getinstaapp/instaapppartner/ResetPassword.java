@@ -20,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,11 +98,11 @@ public class ResetPassword extends AppCompatActivity {
 
                                 sreset_password=edconfirmpswd.getText().toString();
                                 resetpassword(sreset_mobile,sreset_password);
-                                Intent intent=new Intent(ResetPassword.this,HomeScreen.class);
-                                intent.putExtra("mobile_number",sreset_mobile);
-                                Toast.makeText(getApplicationContext(),sreset_mobile,Toast.LENGTH_SHORT).show();
+                               // Intent intent=new Intent(ResetPassword.this,HomeScreen.class);
+                               // intent.putExtra("mobile_number",sreset_mobile);
+                               // Toast.makeText(getApplicationContext(),sreset_mobile,Toast.LENGTH_SHORT).show();
 
-                                startActivity(intent);
+                               // startActivity(intent);
                             }
                         });
                     }
@@ -112,7 +115,35 @@ public class ResetPassword extends AppCompatActivity {
     public void resetpassword(final String s1, final String s2) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_resetpas, new Response.Listener<String>() {
             public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
 
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("user_det");
+                        String uname1 = users.getString("partner_mobile");
+                        String uid=users.getString("partner_uid");
+
+                        // String uname2 = users.getString("partner_otp");
+
+                        Intent intent=new Intent(ResetPassword.this,HomeScreen.class);
+                        intent.putExtra("mobile_number",uname1);
+                        intent.putExtra("partner_uid",uid);
+
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please enter correct otp",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
         }, new Response.ErrorListener() {

@@ -297,11 +297,13 @@ insertme(last_number);
                     {
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("partner_mobile");
+                        String uid=users.getString("partner_uid");
 
                        // String uname2 = users.getString("partner_otp");
 
                         Intent intent=new Intent(OTPVerify.this,HomeScreen.class);
                         intent.putExtra("mobile_number",uname1);
+                        intent.putExtra("partner_uid",uid);
                       //  intent.putExtra("partner_otp",uname2);
 //                        if (fromforgot.equals("fromforgot"))
 //                        {
