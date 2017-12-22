@@ -5,69 +5,198 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapppartner.HomeScreen"
+    tools:context="com.ringaapp.ringapartner.HomeScreen"
     tools:showIn="@layout/activity_home_screen">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="12dp"
-android:layout_marginRight="12dp"
-    android:orientation="vertical">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-      />
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-  android:layout_marginTop="30dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Images"
-android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-        <ImageButton
-            android:id="@+id/docv_imageupload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:layout_gravity="right"
-        android:layout_weight="2"
-            android:paddingLeft="250dp"
-android:background="@null"
-            android:src="@drawable/ic_backup_black_24dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/docv_imagesel"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:background="@drawable/imagebutton_border"
-            android:src="@drawable/ic_add_black_24dp"
-           />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
         <ImageView
-            android:id="@+id/docv_imagedis"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/imagebutton_border"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/verify_doc"
+            android:layout_gravity="center"
             />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#7b7a7a"
-        android:layout_marginTop="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/nunito"
+                android:text="Images"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
 
-</LinearLayout>
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_black_24dp"/>
+                <TextView
+                    android:id="@+id/docv_imagesel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Click here to Upload Image"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <GridView
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:id="@+id/listview"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:horizontalSpacing="0dp"
+                android:verticalSpacing="10dp"
+                android:numColumns="5"
+android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#7b7a7a"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/nunito"
+                android:text="Documents"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_black_24dp"/>
+                <TextView
+                    android:id="@+id/docv_docupload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Click here to Upload Documents"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:id="@+id/listviewk"
+android:visibility="invisible"
+                android:divider="@null"
+                android:layout_marginTop="10dp"
+                android:dividerHeight="0dp"
+               />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#7b7a7a"
+                android:layout_marginTop="15dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/nunito"
+                android:text="Budget  "
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/uploadbudget"
+
+                android:background="@drawable/imagebutton_border"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1.7"
+                android:gravity="center"
+                android:maxLines="1"
+                android:layout_height="70dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="Features"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.3"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/uploadfeatures"
+                        android:background="@drawable/imagebutton_border"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.7"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:layout_height="70dp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#7b7a7a"
+
+                android:layout_marginTop="5dp"/>
+            <Button
+                android:id="@+id/alluploadbut"
+                android:layout_width="200dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="15dp"
+                android:text="Submit"
+                android:visibility="invisible"
+                android:textStyle="bold"
+                android:fontFamily="@font/nunito"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                android:background="@drawable/rounded_editsecond"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
+

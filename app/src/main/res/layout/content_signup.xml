@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapppartner.SignupActivity"
+    tools:context="com.ringaapp.ringapartner.SignupActivity"
     tools:showIn="@layout/activity_signup">
     <ImageView
         android:layout_width="match_parent"
@@ -38,14 +38,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:background="@drawable/rounded_edittextred"
+                    android:fontFamily="@font/nunito"
                     android:hint="Name"
-                    android:textColor="@color/colorAccent"
-                    android:paddingLeft="15dp"
-                    android:textColorHint="#4b4b4b"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#4b4b4b"
                     android:textSize="18sp" />
 
                 <EditText
@@ -54,13 +55,14 @@
                     android:layout_height="45dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_edittextred"
+                    android:fontFamily="@font/nunito"
                     android:hint="Mail Id"
-                    android:textColor="@color/colorAccent"
                     android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:paddingLeft="15dp"
-                    android:textColorHint="#4b4b4b"
                     android:inputType="textEmailAddress"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#4b4b4b"
                     android:textSize="18sp" />
 
                 <EditText
@@ -69,12 +71,13 @@
                     android:layout_height="45dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_edittextred"
+                    android:fontFamily="@font/nunito"
                     android:hint="Mobile Number"
-                    android:textColor="@color/colorAccent"
-                    android:maxLength="10"
                     android:inputType="number"
-                    android:singleLine="true"
+                    android:maxLength="10"
                     android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
                     android:textColorHint="#4b4b4b"
                     android:textSize="18sp" />
 
@@ -83,28 +86,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorAccent"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:background="@drawable/rounded_edittextred"
+                    android:fontFamily="@font/nunito"
                     android:hint="Password"
-                    android:paddingLeft="15dp"
-                    android:textColorHint="#4b4b4b"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#4b4b4b"
                     android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/sedsignup_referalcode"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorAccent"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:background="@drawable/rounded_edittextred"
+                    android:fontFamily="@font/nunito"
                     android:hint="Referal Code"
-                    android:paddingLeft="15dp"
-                    android:textColorHint="#4b4b4b"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#4b4b4b"
                     android:textSize="18sp" />
                 <RadioGroup
                     android:id="@+id/shome_radioone"
@@ -112,18 +118,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/sradio_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Female" />
 
-                <RadioButton
-                    android:id="@+id/sradio_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:text="Male" />
+                    <RadioButton
+                        android:id="@+id/sradio_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="Female" />
+
+                    <RadioButton
+                        android:id="@+id/sradio_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="Male" />
                 </RadioGroup>
                 <RadioGroup
                     android:id="@+id/shome_radiotwo"
@@ -131,10 +140,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
+
                     <RadioButton
                         android:id="@+id/sradio_indi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
                         android:text="Individual" />
 
                     <RadioButton
@@ -142,6 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/nunito"
                         android:text="Business" />
                 </RadioGroup>
                 <LinearLayout
@@ -157,6 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/checkBox1"
+                        android:fontFamily="@font/nunito"
                         android:text="I agree to your" />
 
                     <TextView
@@ -165,6 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:clickable="true"
+                        android:fontFamily="@font/nunito"
                         android:gravity="start"
                         android:text=" terms &amp; Conditions "
                         android:textColor="@color/colorAccent" />
@@ -177,6 +191,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded_editsecond"
+                    android:fontFamily="@font/nunito"
                     android:hint="SIGN UP"
                     android:textColorHint="#fff"
                     android:textSize="18sp" />

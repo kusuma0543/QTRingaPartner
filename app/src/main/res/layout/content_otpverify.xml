@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapppartner.OTPVerify"
+    tools:context="com.ringaapp.ringapartner.OTPVerify"
     tools:showIn="@layout/activity_otpverify">
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,47 +17,54 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/phone_otp"
             android:layout_gravity="center" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito"
+            android:text="Verification code sent to your mobile"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Verification code sent to your mobile"/>
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito"
+            android:text="number"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="number"/>
+            android:textStyle="bold" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito"
+                android:gravity="right"
+                android:text="+91-"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="+91-"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tvotp_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito"
+                android:gravity="left"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,48 +76,55 @@
             android:layout_marginRight="39dp"
             android:weightSum="4"
             >
-            <EditText android:id="@+id/pinone"
-                android:layout_width="wrap_content"
-                android:inputType="number"
-                android:layout_weight="1"
-                android:background="@drawable/ggg"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:hint="*"
-                android:contentDescription="@string/pin_content_desc"
-                />
-            <EditText android:id="@+id/pintwo"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:hint="*"
-                android:paddingLeft="34dp"
-                android:inputType="number"
-                android:background="@drawable/ggg"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/pin_content_desc"
-                />
-            <EditText android:id="@+id/pinthree"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:inputType="number"
-                android:hint="*"
-                android:paddingLeft="30dp"
-                android:background="@drawable/ggg"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/pin_content_desc"
-                />
 
-            <EditText android:id="@+id/pinfour"
+            <EditText
+                android:id="@+id/pinone"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:inputType="number"
-                android:background="@drawable/ggg"
-                android:hint="*"
-
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ggg"
                 android:contentDescription="@string/pin_content_desc"
-                />
+                android:fontFamily="@font/nunito"
+                android:hint="*"
+                android:inputType="number"
+                android:paddingLeft="30dp" />
+
+            <EditText
+                android:id="@+id/pintwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ggg"
+                android:contentDescription="@string/pin_content_desc"
+                android:fontFamily="@font/nunito"
+                android:hint="*"
+                android:inputType="number"
+                android:paddingLeft="34dp" />
+
+            <EditText
+                android:id="@+id/pinthree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ggg"
+                android:contentDescription="@string/pin_content_desc"
+                android:fontFamily="@font/nunito"
+                android:hint="*"
+                android:inputType="number"
+                android:paddingLeft="30dp" />
+
+            <EditText
+                android:id="@+id/pinfour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ggg"
+                android:contentDescription="@string/pin_content_desc"
+                android:fontFamily="@font/nunito"
+
+                android:hint="*"
+                android:inputType="number"
+                android:paddingLeft="30dp" />
 
         </LinearLayout>
         <EditText android:id="@+id/pin_hidden_edittext"
@@ -131,46 +145,54 @@
             android:layout_marginTop="15dp"
             android:weightSum="2"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito"
+                android:gravity="right"
+                android:text="Didn't receive the code ? "
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="Didn't receive the code ? "/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tvotp_resend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito"
                 android:gravity="left"
                 android:text="RESEND"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:textSize="19sp"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                />
+                android:textSize="19sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
         <Button
             android:id="@+id/butotp_verify"
             android:layout_width="130dp"
 
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="25dp"
             android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/rounded_editsecond"
+            android:fontFamily="@font/nunito"
             android:hint="VERIFY"
             android:textColorHint="#fff"
-            android:background="@drawable/rounded_editsecond" />
+            android:textSize="18sp" />
+
         <TextView
+            android:id="@+id/secondk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please wait auto detecting code"
-            android:textSize="18sp"
+            android:layout_gravity="center"
             android:layout_marginTop="19dp"
-            android:layout_gravity="center"/>
+            android:fontFamily="@font/nunito"
+            android:text="Please wait auto detecting code"
+            android:textSize="18sp" />
         <LinearLayout
             android:id="@+id/kkkkkkjk"
             android:layout_width="match_parent"
@@ -178,23 +200,27 @@
             android:layout_marginTop="19dp"
             android:weightSum="2">
 
-            <TextView android:id="@+id/countdown"
+            <TextView
+                android:id="@+id/countdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_centerInParent="true"
 
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito"
                 android:gravity="end"
-                android:textSize="15pt"
                 android:textColor="@color/colorAccent"
-                android:layout_centerInParent="true" />
+                android:textSize="15pt" />
+
             <TextView
                 android:id="@+id/k"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  seconds"
-                android:textSize="18sp"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:layout_gravity="center"/>
+                android:fontFamily="@font/nunito"
+                android:text="  seconds"
+                android:textSize="18sp" />
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.getinstaapp.instaapppartner.MainActivity"
+    tools:context="com.ringaapp.ringapartner.MainActivity"
     tools:showIn="@layout/activity_main">
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
                 android:src="@drawable/logi_ap"/>
 
         </LinearLayout>
+
         <Button
             android:id="@+id/sbutsingin"
             android:layout_width="match_parent"
@@ -33,11 +34,13 @@
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
             android:layout_marginTop="50dp"
-            android:textSize="21sp"
-            android:padding="10dip"
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/nunito"
             android:hint="LOGIN"
+            android:padding="10dip"
             android:textColorHint="@color/colorPrimary"
-            android:background="@drawable/rounded_edittext" />
+            android:textSize="21sp" />
+
         <Button
             android:id="@+id/sbutsignup"
             android:layout_width="match_parent"
@@ -45,11 +48,12 @@
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
             android:layout_marginTop="30dp"
-            android:textSize="21sp"
-            android:padding="10dip"
+            android:background="@drawable/rounded_editetxtnobg"
+            android:fontFamily="@font/nunito"
             android:hint="SIGN UP"
+            android:padding="10dip"
             android:textColorHint="#FFF"
-            android:background="@drawable/rounded_editetxtnobg" />
+            android:textSize="21sp" />
     </LinearLayout>
 
 
