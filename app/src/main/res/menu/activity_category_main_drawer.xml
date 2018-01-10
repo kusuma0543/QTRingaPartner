@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/nav_mydashboard"
+          android:title="@string/my_dashboard" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/nav_myprofile"
+            android:title="@string/my_profile"  />
+        <item
+            android:id="@+id/nav_refer"
+            android:icon="@drawable/nav_refer"
+            android:title="@string/refer_a_friend" />
+        <item
+           android:id="@+id/nav_chat"
+            android:icon="@drawable/nav_chat"
+            android:title="@string/chat_us" />
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/nav_star"
+            android:title="@string/rate_us" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/nav_share"
+            android:title="@string/share" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/nav_about"
+            android:title="@string/about_us" />
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/nav_contact"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/nav_tc"
+            android:icon="@drawable/nav_terms"
+            android:title="Terms &amp; Comditions" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/nav_logout"
+            android:title="Logout" />
+
+    </group>
+
+
+
+</menu>

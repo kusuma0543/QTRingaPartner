@@ -7,6 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ringaapp.ringapartner.HomeScreen"
     tools:showIn="@layout/activity_home_screen">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,7 +31,8 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/nunito"
                 android:text="Images"
-                android:textSize="20sp"
+                android:textColor="@color/colorHint"
+                android:textSize="18sp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,19 +42,21 @@
 
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/docv_itemsel"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_add_black_24dp"/>
+                    android:src="@drawable/adharuploadbut"/>
                 <TextView
                     android:id="@+id/docv_imagesel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:text="Click here to Upload Image"
+                    android:textColor="@color/colorHint"
+                    android:text="Click here to Upload Adhar Card"
                     android:layout_gravity="center"
                     android:fontFamily="@font/nunito"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
             <GridView
                 android:layout_width="350dp"
@@ -71,132 +75,92 @@ android:layout_marginLeft="20dp"
                 android:background="#7b7a7a"
                 android:layout_marginTop="15dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:fontFamily="@font/nunito"
-                android:text="Documents"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_add_black_24dp"/>
-                <TextView
-                    android:id="@+id/docv_docupload"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:text="Click here to Upload Documents"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/nunito"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:id="@+id/listviewk"
-android:visibility="invisible"
-                android:divider="@null"
-                android:layout_marginTop="10dp"
-                android:dividerHeight="0dp"
-               />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#7b7a7a"
-                android:layout_marginTop="15dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Visiting Charges"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorHint"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center">
+                <RadioGroup
+                    android:id="@+id/shome_radioone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                 android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
 
-                android:layout_marginLeft="10dp"
-                android:fontFamily="@font/nunito"
-                android:text="Budget  "
-                android:layout_gravity="center"
-                android:layout_weight="0.3"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            <EditText
-                android:id="@+id/uploadbudget"
-
-                android:background="@drawable/imagebutton_border"
-                android:layout_width="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1.7"
-                android:gravity="center"
-                android:maxLines="1"
-                android:layout_height="70dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-                    <TextView
+                    <RadioButton
+                        android:id="@+id/sradio_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="10dp"
+                        android:text="Free"
+                        android:textColorHint="@color/colorHint"
+                        android:textColor="@color/colorHint"
+                        android:textSize="18sp"
                         android:fontFamily="@font/nunito"
-                        android:text="Features"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.3"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-                    <EditText
-                        android:id="@+id/uploadfeatures"
-                        android:background="@drawable/imagebutton_border"
-                        android:layout_width="0dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1.7"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:layout_height="70dp" />
-                </LinearLayout>
+                        />
 
+                    <RadioButton
+                        android:id="@+id/sradio_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
 
+                        android:fontFamily="@font/nunito"
+                        android:text="Custom Charge"
+                        android:textColor="@color/colorHint" />
+
+                </RadioGroup>
+
+    <EditText
+        android:id="@+id/getcharge"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="7dp"
+        android:inputType="number"
+        android:hint="10000"
+        android:maxLength="5"/>
+
+</LinearLayout>
+                <Button
+                    android:id="@+id/alluploadbut"
+                    android:layout_width="170dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="99dp"
+                    android:background="@drawable/edittext_afterseslect"
+
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center"
+                    android:text="Submit"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#7b7a7a"
 
-                android:layout_marginTop="5dp"/>
-            <Button
-                android:id="@+id/alluploadbut"
-                android:layout_width="200dp"
-                android:layout_gravity="center|bottom"
-                android:layout_marginTop="15dp"
-                android:text="Submit"
-                android:visibility="invisible"
-                android:textStyle="bold"
-                android:fontFamily="@font/nunito"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:background="@drawable/rounded_editsecond"
-                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>
 

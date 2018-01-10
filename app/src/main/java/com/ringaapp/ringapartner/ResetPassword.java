@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,9 @@ public class ResetPassword extends AppCompatActivity {
     private EditText edresetpswd,edconfirmpswd;
     private Button butreset_otp;
     private String sreset_mobile,sreset_password;
+
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,9 @@ public class ResetPassword extends AppCompatActivity {
         edresetpswd=(EditText) findViewById(R.id.edresetpswd);
         edconfirmpswd=(EditText) findViewById(R.id.edconfirnpswd);
         butreset_otp=(Button ) findViewById(R.id.butreset_otp);
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {

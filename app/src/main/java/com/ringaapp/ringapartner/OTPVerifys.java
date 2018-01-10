@@ -22,6 +22,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +43,8 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
     String fromforgot, last_number;
     private static final String FORMAT = "%02d:%02d";
     CountDownTimer bb;
-
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,9 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
         k=(TextView) findViewById(R.id.k);
         secondk=(TextView) findViewById(R.id.secondk);
         tvotp_mobile.setText(last_number);
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
 
         bb = new CountDownTimer(50000, 1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {

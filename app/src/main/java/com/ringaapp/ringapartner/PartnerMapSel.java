@@ -44,6 +44,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class PartnerMapSel extends FragmentActivity implements LocationListener, OnMapReadyCallback {
+    private Button mylocationnav;
 
     private GoogleMap mMap;
     private TrackGps gps;
@@ -74,18 +77,34 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
     protected String mCityOutput;
     protected String mStateOutput;
     private AddressResultReceiver mResultReceiver;
-    public String uidthree;
+     String uidthree,partmapemail,partmapmobile,alllatittude,alllongitude,alld;
     List<Address> addressess;
+
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_map_sel);
         Intent intk=getIntent();
         uidthree=intk.getStringExtra("oneuid");
+        partmapemail=intk.getStringExtra("usrmapemail");
+        partmapmobile=intk.getStringExtra("mobile_number");
+
         Toast.makeText(getApplicationContext(),uidthree,Toast.LENGTH_SHORT).show();
 
         list29 = (ListView) findViewById(R.id.listview);
         ridenow=(Button) findViewById(R.id.ride);
+        mylocationnav=findViewById(R.id.mylocnav);
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
+        mylocationnav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMapReady(mMap);
+            }
+        });
         ridenow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +124,9 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    String alllatittude=Double.toString(mCenterLatLong.latitude);
-                    String alllongitude=Double.toString(mCenterLatLong.longitude);
-                    String alld=adminarea+" "+address+" "+cityName+" "+postlCode ;
+                     alllatittude=Double.toString(mCenterLatLong.latitude);
+                     alllongitude=Double.toString(mCenterLatLong.longitude);
+                     alld=adminarea+" "+address+" "+cityName+" "+postlCode ;
 
 
                     rideme(uidthree,alld,cityName,address,postlCode,alllatittude,alllongitude);
@@ -209,7 +228,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
 
 
                 mMap.clear();
-                getmygps();
+               // getmygps();
                 try {
 
                     Location mLocation = new Location("");
@@ -245,7 +264,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
 
     protected void startIntentService(Location mLocation) {
 
-        getmygps();
+        //getmygps();
 
         Intent intent = new Intent(this, FetchAddressIntentService.class);
 
@@ -356,9 +375,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.mop
-        ))
-                .position(new LatLng(lat,lng)));
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,6.5f));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
@@ -366,12 +383,6 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
         mMap.setMinZoomPreference(6.5f);
 
 
-        mMap.addCircle(new CircleOptions()
-                .center(new LatLng(lat,lng))
-                .radius(1000)
-                .fillColor(Color.argb(20, 255, 0, 255))
-                .strokeColor(Color.BLUE)
-                .strokeWidth(2.0f));
 
     }
 
@@ -387,20 +398,37 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         JSONObject users = jObj.getJSONObject("users_detail");
 
                         String uname1 = users.getString("partner_name");
+                        String checkdoc=users.getString("messeade");
+                        if(checkdoc.equals("0"))
+                        {
+                            session.setLogin(true);
 
-                        Intent intentmm=new Intent(PartnerMapSel.this,PartnerSerSel.class);
-                        intentmm.putExtra("oneuid",uidthree);
-                        intentmm.putExtra("user_city",s2);
-                        intentmm.putExtra("user_area",s3);
-                        intentmm.putExtra("user_unamehome",uname1);
-                       // intentmm.putExtra("updtaedimage",uname2);
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PartnerMapSel.this);
-                        SharedPreferences.Editor editor = preferences.edit();
+                            db.addUser(uname1, partmapemail, s3, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
 
-                        editor.putString("user_city", cityName);
+                            Intent intentmm=new Intent(PartnerMapSel.this,PartnerSerSel.class);
+                            intentmm.putExtra("oneuid",uidthree);
+                            intentmm.putExtra("user_city",s2);
+                            intentmm.putExtra("user_area",s3);
+                            intentmm.putExtra("user_unamehome",uname1);
+                            // intentmm.putExtra("updtaedimage",uname2);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PartnerMapSel.this);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("useruidentire",uidthree);
 
-                        editor.apply();
-                        startActivity(intentmm);
+                            editor.putString("user_city", cityName);
+
+                            editor.apply();
+                            startActivity(intentmm);
+
+                        }
+                        else {
+                            session.setLogin(true);
+
+                            db.addUser(uname1, partmapemail, s3, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
+
+                            startActivity(new Intent(PartnerMapSel.this,CategoryMain.class));
+
+                        }
 
                     }
                     else

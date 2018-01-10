@@ -38,6 +38,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
@@ -72,8 +76,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static java.sql.Types.NULL;
+
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener{
-private TextView docv_imagesel,docv_docsel;
+private TextView docv_imagesel;
+private ImageView docv_itemsel;
+    String hsleradio;
+
+    private RadioGroup shome_groupone;
+    private RadioButton shome_oneradio,shom_tworadio;
+
 
     public static final String UPLOAD_KEY = "partner_images";
     public static final String UPLOAD_KEYTWO="partner_uid";
@@ -84,10 +96,13 @@ private TextView docv_imagesel,docv_docsel;
     private Uri filePath;
     private String uidimage;
     private GridView linearLayout;
-    private ListView listdoc;
+    EditText mEdit;
+    String sleradio;
     private ProgressDialog dialog;
-    private EditText etuploadbudget,etuploadfeatures;
     private Button butallupload;
+    private SessionManager session;
+    private SQLiteHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,18 +110,27 @@ private TextView docv_imagesel,docv_docsel;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Documents Verification");
+
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
         dialog = new ProgressDialog(this);
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-        Intent intent=getIntent();
-        uidimage=intent.getStringExtra("uidimage");
+//        Intent intent=getIntent();
+//        uidimage=intent.getStringExtra("uidimage");
      //   uidimage="5a2799e95c05f9.57886214";
-        Toast.makeText(this, uidimage, Toast.LENGTH_SHORT).show();
+
+        final HashMap<String, String> user = db.getUserDetails();
+        uidimage=user.get("uid");
+
+       // Toast.makeText(this, uidimage, Toast.LENGTH_SHORT).show();
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -125,18 +149,44 @@ private TextView docv_imagesel,docv_docsel;
             }
         });
        linearLayout=findViewById(R.id.listview);
-       listdoc=findViewById(R.id.listviewk);
+        mEdit = findViewById(R.id.getcharge);
+
+        shome_groupone=(RadioGroup) findViewById(R.id.shome_radioone);
+
+      // listdoc=findViewById(R.id.listviewk);
         docv_imagesel= findViewById(R.id.docv_imagesel);
-        docv_docsel=findViewById(R.id.docv_docupload);
-        etuploadbudget=findViewById(R.id.uploadbudget);
-        etuploadfeatures=findViewById(R.id.uploadfeatures);
+        docv_itemsel=findViewById(R.id.docv_itemsel);
+
         butallupload=findViewById(R.id.alluploadbut);
-        etuploadbudget.setSelection(0);
-        etuploadfeatures.setSelection(0);
+        shom_tworadio=findViewById(R.id.sradio_two);
+        shome_oneradio=findViewById(R.id.sradio_one);
 
         docv_imagesel.setOnClickListener(this);
-        docv_docsel.setOnClickListener(this);
-butallupload.setOnClickListener(this);
+       docv_itemsel.setOnClickListener(this);
+        butallupload.setOnClickListener(this);
+//        shome_oneradio.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sleradio = "Free";
+//                butallupload.setVisibility(View.VISIBLE);
+//
+//            }
+//        });
+//        shom_tworadio.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sleradio = mEdit.getText().toString();
+//            butallupload.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        mEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mEdit.setSelection(0);
+//                butallupload.setVisibility(View.VISIBLE);
+//
+//            }
+//        });
     }
 
     private void showFileChooser() {
@@ -164,17 +214,17 @@ butallupload.setOnClickListener(this);
                             e.printStackTrace();
                     }
              }
-             else if(PICK_PDF_REQUEST==1)
-             {
-                  if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-                         filePath = data.getData();
-                         uploadMultipart();
-                      Toast.makeText(this, "Document Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                      new JSONTasks().execute(GlobalUrl.partner_docret+"?"+UPLOAD_KEYTWO+"="+uidimage);
-
-                  }
-
-             }
+//             else if(PICK_PDF_REQUEST==1)
+//             {
+//                  if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//                         filePath = data.getData();
+//                         uploadMultipart();
+//                      Toast.makeText(this, "Document Uploaded Successfully", Toast.LENGTH_SHORT).show();
+//                      new JSONTasks().execute(GlobalUrl.partner_docret+"?"+UPLOAD_KEYTWO+"="+uidimage);
+//
+//                  }
+//
+//             }
         }
     }
 
@@ -197,6 +247,7 @@ butallupload.setOnClickListener(this);
             protected void onPreExecute() {
                 super.onPreExecute();
                 loading = ProgressDialog.show(HomeScreen.this, "Uploading Image", "Please wait...",true,true);
+                mEdit.setVisibility(View.VISIBLE);
 
             }
 
@@ -233,80 +284,130 @@ butallupload.setOnClickListener(this);
         if (v == docv_imagesel) {
             showFileChooser();
         }
-        if (v == docv_docsel) {
-            showFileChoosers();
-        }
-        if(v==butallupload)
+        if(v==docv_itemsel)
         {
-            if (etuploadbudget.getText().toString().equals("") && etuploadfeatures.getText().toString().equals("")) {
-                Toast.makeText(this, "Please enter your budget and feature details", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                String sbudget=etuploadbudget.getText().toString();
-                String sfeature=etuploadfeatures.getText().toString();
-                uploadbf(uidimage,sbudget,sfeature);
-                Toast.makeText(this, "Thank You for Submitting Your Details", Toast.LENGTH_SHORT).show();
-            }
+            showFileChooser();
         }
+//        if (v == docv_docsel) {
+//            showFileChoosers();
+//        }
+        if(v==butallupload)
+//        { int selectedId = shome_groupone.getCheckedRadioButtonId();
+//            shome_oneradio =  findViewById(selectedId);
+//            if (shome_oneradio.getText().toString().equals("Free")) {
+//                sleradio = "Free";
+//            }
+//            if (shome_oneradio.getText().toString().equals("Type Your amount")) {
+//                sleradio = mEdit.getText().toString();
+//            }
+
+
+        {
+            int selectedId = shome_groupone.getCheckedRadioButtonId();
+
+            shome_oneradio =  findViewById(selectedId);
+
+            sleradio=shome_oneradio.getText().toString();
+
+                if(sleradio.equals("Free"))
+                {
+                    hsleradio="Free";
+                    callmetoupload();
+
+                }
+                else if(sleradio.equals("Custom Charge"))
+                {
+
+                    hsleradio=mEdit.getText().toString();
+
+                        callmetoupload();
+
+
+                }
+                else if(sleradio.equals(""))
+                {
+
+                    Toast.makeText(this, "please enter value between 1-1000", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+//
+       }
 
     }
-    private void showFileChoosers() {
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PICK_PDF_REQUEST);
+    public void callmetoupload()
+    {
+        uploadbf(uidimage,hsleradio);
+        Toast.makeText(this, sleradio, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(HomeScreen.this,DocVerification.class));
+
     }
-
-
-
-    private void requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this,     android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            return;
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-        }
-
-        ActivityCompat.requestPermissions(this, new String[]{    android.Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    public void uploadMultipart() {
-       // String name = editText.getText().toString().trim();
-        String path = FilePath.getPath(this, filePath);
-
-        if (path == null) {
-
-            Toast.makeText(this, "Please move your .pdf file to internal storage and retry", Toast.LENGTH_LONG).show();
-        } else {
-
-            try {
-                String uploadId = UUID.randomUUID().toString();
-
-                //Creating a multi part request
-                new MultipartUploadRequest(this, uploadId, GlobalUrl.partner_docv_upload)
-                        .addFileToUpload(path, "file") //Adding file
-                        .addParameter("name", uidimage) //Adding text parameter to the request
-                        .setNotificationConfig(new UploadNotificationConfig())
-                        .setMaxRetries(2)
-                        .startUpload(); //Starting the upload
-            } catch (Exception exc) {
-                Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
+//    private void showFileChoosers() {
+//        Intent intent = new Intent();
+//        intent.setType("application/pdf");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PICK_PDF_REQUEST);
+//    }
+//
+//
+//
+//    private void requestStoragePermission() {
+//        if (ContextCompat.checkSelfPermission(this,     android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+//            return;
+//
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(this,    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//        }
+//
+//        ActivityCompat.requestPermissions(this, new String[]{    android.Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+//    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        if (requestCode == STORAGE_PERMISSION_CODE) {
+//
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
+//    public void uploadMultipart() {
+//       // String name = editText.getText().toString().trim();
+//        String path = FilePath.getPath(this, filePath);
+//
+//        if (path == null) {
+//
+//            Toast.makeText(this, "Please move your .pdf file to internal storage and retry", Toast.LENGTH_LONG).show();
+//        } else {
+//
+//            try {
+//                String uploadId = UUID.randomUUID().toString();
+//
+//                //Creating a multi part request
+//                new MultipartUploadRequest(this, uploadId, GlobalUrl.partner_docv_upload)
+//                        .addFileToUpload(path, "file") //Adding file
+//                        .addParameter("name", uidimage) //Adding text parameter to the request
+//                        .setNotificationConfig(new UploadNotificationConfig())
+//                        .setMaxRetries(2)
+//                        .startUpload(); //Starting the upload
+//            } catch (Exception exc) {
+//                Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
 
     @Override
     public void onBackPressed()
@@ -413,7 +514,6 @@ butallupload.setOnClickListener(this);
                 holder.menuimage = (ImageView)convertView.findViewById(R.id.docv_imagedissi);
 
 
-
                 convertView.setTag(holder);
             }
             else {
@@ -421,9 +521,6 @@ butallupload.setOnClickListener(this);
             }
             Imageret categorieslist= movieModelList.get(position);
             Picasso.with(context).load(categorieslist.getPartner_images()).fit().error(R.drawable.phone_otp).fit().into(holder.menuimage);
-
-
-
 
 
             return convertView;
@@ -438,142 +535,142 @@ butallupload.setOnClickListener(this);
 
 
 
-    public class JSONTasks extends AsyncTask<String,String, List<docret>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.show();
+//    public class JSONTasks extends AsyncTask<String,String, List<docret>> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            dialog.show();
+//
+//        }
+//        @Override
+//        protected List<docret> doInBackground(String... params) {
+//            HttpURLConnection connection = null;
+//            BufferedReader reader = null;
+//            try {
+//                URL url = new URL(params[0]);
+//
+//                connection = (HttpURLConnection) url.openConnection();
+//                connection.connect();
+//                InputStream stream = connection.getInputStream();
+//                reader = new BufferedReader(new InputStreamReader(stream));
+//                StringBuilder buffer = new StringBuilder();
+//                String line ="";
+//                while ((line = reader.readLine()) != null){
+//                    buffer.append(line);
+//                }
+//                String finalJson = buffer.toString();
+//                JSONObject parentObject = new JSONObject(finalJson);
+//                JSONArray parentArray = parentObject.getJSONArray("result");
+//                List<docret> movieModelList = new ArrayList<>();
+//                Gson gson = new Gson();
+//                for(int i=0; i<parentArray.length(); i++) {
+//                    JSONObject finalObject = parentArray.getJSONObject(i);
+//
+//                    docret categorieslist = gson.fromJson(finalObject.toString(),docret.class);
+//                    movieModelList.add(categorieslist);
+//
+//
+//                }
+//                return movieModelList;
+//            } catch (JSONException | IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if(connection != null) {
+//                    connection.disconnect();
+//                }
+//                try {
+//                    if(reader != null) {
+//                        reader.close();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return  null;
+//        }
+//        @Override
+//        protected void onPostExecute(final List<docret> movieModelList) {
+//            super.onPostExecute(movieModelList);
+//            dialog.dismiss();
+//            if(movieModelList != null) {
+//                MovieAdapters adapter = new MovieAdapters(getApplicationContext(), R.layout.docret, movieModelList);
+//                listdoc.setVisibility(View.VISIBLE);
+//                listdoc.setAdapter(adapter);
+//                butallupload.setVisibility(View.VISIBLE);
+//                adapter.notifyDataSetChanged();
+//                listdoc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        docret item = movieModelList.get(position);
+//                        String gg=item.getPartner_documents();
+//
+//                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+ gg);
+//                        Intent target = new Intent(Intent.ACTION_VIEW);
+//                        target.setDataAndType(Uri.fromFile(file),"application/pdf");
+//                        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//
+//                        Intent intent = Intent.createChooser(target, "Open File");
+//                        try {
+//                            startActivity(intent);
+//                        } catch (ActivityNotFoundException e) {
+//                            // Instruct the user to install a PDF reader here, or something
+//                        }
+//                    }
+//                });
+//            }
+//            else {
+//                Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    public class MovieAdapters extends ArrayAdapter {
+//        private List<docret> movieModelList;
+//        private int resource;
+//        Context context;
+//        private LayoutInflater inflater;
+//        MovieAdapters(Context context, int resource, List<docret> objects) {
+//            super(context, resource, objects);
+//            movieModelList = objects;
+//            this.context =context;
+//            this.resource = resource;
+//            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//        }
+//        @Override
+//        public int getViewTypeCount() {
+//            return 1;
+//        }
+//        @Override
+//        public int getItemViewType(int position) {
+//            return position;
+//        }
+//        @Override
+//        public View getView(final int position, View convertView, ViewGroup parent) {
+//            final ViewHolder holder  ;
+//            if(convertView == null){
+//                convertView = inflater.inflate(resource,null);
+//                holder = new ViewHolder();
+//                holder.menuimage = convertView.findViewById(R.id.texttopic);
+//
+//
+//
+//                convertView.setTag(holder);
+//            }
+//            else {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//            docret categorieslist= movieModelList.get(position);
+//            //Picasso.with(context).load(categorieslist.getPartner_documentname()).fit().error(R.drawable.texttopic).fit().into(holder.menuimage);
+//            holder.menuimage.setText(categorieslist.getPartner_documentname());
+//            return convertView;
+//        }
+//        class ViewHolder{
+//            private TextView menuimage;
+//
+//        }
+//    }
 
-        }
-        @Override
-        protected List<docret> doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuilder buffer = new StringBuilder();
-                String line ="";
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-                String finalJson = buffer.toString();
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("result");
-                List<docret> movieModelList = new ArrayList<>();
-                Gson gson = new Gson();
-                for(int i=0; i<parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-
-                    docret categorieslist = gson.fromJson(finalObject.toString(),docret.class);
-                    movieModelList.add(categorieslist);
-
-
-                }
-                return movieModelList;
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
-            } finally {
-                if(connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if(reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return  null;
-        }
-        @Override
-        protected void onPostExecute(final List<docret> movieModelList) {
-            super.onPostExecute(movieModelList);
-            dialog.dismiss();
-            if(movieModelList != null) {
-                MovieAdapters adapter = new MovieAdapters(getApplicationContext(), R.layout.docret, movieModelList);
-                listdoc.setVisibility(View.VISIBLE);
-                listdoc.setAdapter(adapter);
-                butallupload.setVisibility(View.VISIBLE);
-                adapter.notifyDataSetChanged();
-                listdoc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        docret item = movieModelList.get(position);
-                        String gg=item.getPartner_documents();
-
-                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+ gg);
-                        Intent target = new Intent(Intent.ACTION_VIEW);
-                        target.setDataAndType(Uri.fromFile(file),"application/pdf");
-                        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-                        Intent intent = Intent.createChooser(target, "Open File");
-                        try {
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            // Instruct the user to install a PDF reader here, or something
-                        }
-                    }
-                });
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    public class MovieAdapters extends ArrayAdapter {
-        private List<docret> movieModelList;
-        private int resource;
-        Context context;
-        private LayoutInflater inflater;
-        MovieAdapters(Context context, int resource, List<docret> objects) {
-            super(context, resource, objects);
-            movieModelList = objects;
-            this.context =context;
-            this.resource = resource;
-            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        }
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder  ;
-            if(convertView == null){
-                convertView = inflater.inflate(resource,null);
-                holder = new ViewHolder();
-                holder.menuimage = convertView.findViewById(R.id.texttopic);
-
-
-
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            docret categorieslist= movieModelList.get(position);
-            //Picasso.with(context).load(categorieslist.getPartner_documentname()).fit().error(R.drawable.texttopic).fit().into(holder.menuimage);
-            holder.menuimage.setText(categorieslist.getPartner_documentname());
-            return convertView;
-        }
-        class ViewHolder{
-            private TextView menuimage;
-
-        }
-    }
-
-    public void uploadbf(final String sdpartneruid, final String sdpartnerbudeget,final String sdpartnerfeatures) {
+    public void uploadbf(final String sdpartneruid, final String sdpartnerbudeget) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_allbudfeadet, new Response.Listener<String>() {
             public void onResponse(String response) {
 
@@ -589,8 +686,6 @@ butallupload.setOnClickListener(this);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("partner_uid", sdpartneruid);
                 params.put("partner_budget", sdpartnerbudeget);
-                params.put("partner_features", sdpartnerfeatures);
-
                 return params;
             }
         };

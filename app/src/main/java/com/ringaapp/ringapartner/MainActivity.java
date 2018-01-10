@@ -8,9 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
+
 public class MainActivity extends AbsRuntimePermission {
     private Button home_butsignin,home_butsignup;
     private static final int REQUEST_PERMISSION = 10;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,12 @@ public class MainActivity extends AbsRuntimePermission {
                 },
 
                 R.string.msg,REQUEST_PERMISSION);
+        session = new SessionManager(getApplicationContext());
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(MainActivity.this, CategoryMain.class);
+            startActivity(intent);
+        }
+        db = new SQLiteHandler(getApplicationContext());
         home_butsignin=(Button) findViewById(R.id.sbutsingin);
         home_butsignup=(Button) findViewById(R.id.sbutsignup);
         home_butsignin.setOnClickListener(new View.OnClickListener() {

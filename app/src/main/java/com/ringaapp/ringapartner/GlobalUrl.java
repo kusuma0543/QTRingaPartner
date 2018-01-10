@@ -21,5 +21,17 @@ class GlobalUrl {
     public static String partner_selservices="http://quaticstech.in/projecti1andro/android_partner_selservices.php";
     public static String partner_delservices="http://quaticstech.in/projecti1andro/android_partner_delservices.php";
     public static String partner_allbudfeadet="http://quaticstech.in/projecti1andro/android_partner_allbudfeadet.php";
+    public static String partner_checkdocumentver="http://quaticstech.in/projecti1andro/android_partner_checkdocumentverification.php";
+    public static String partner_homeaccrejjobs="http://quaticstech.in/projecti1andro/android_partner_accrejjobs.php";
+    public static String partner_updateaccept="http://quaticstech.in/projecti1andro/android_partner_updateacceptjob.php";
+    public static String getPartner_updatereject="http://quaticstech.in/projecti1andro/android_partner_updaterejectjob.php";
+    public static String partner_logoutmode="http://quaticstech.in/projecti1andro/android_partner_logoutmode.php";
+    public static String partner_updatelastseen="http://quaticstech.in/projecti1andro/android_partner_updatelastseen.php";
+    public static String partner_profiledet="http://quaticstech.in/projecti1andro/android_partner_profiledet.php";
+    public static String partner_ongoingjobs="http://quaticstech.in/projecti1andro/android_partner_ongoingjobs.php";
+    public static String partner_startedjobs="http://quaticstech.in/projecti1andro/android_partner_updatestartedjob.php";
+    public static String partner_donejobs="http://quaticstech.in/projecti1andro/android_partner_updatedonejobs.php";
+    public static String partner_finishedjobs="http://quaticstech.in/projecti1andro/android_partner_finishedjobs.php";
+    public static String partner_getmyjobscount="http://quaticstech.in/projecti1andro/android_partner_getmyjobscount.php";
 }
 

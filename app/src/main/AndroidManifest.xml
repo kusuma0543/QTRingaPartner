@@ -46,25 +46,23 @@
         <activity
             android:name=".Splash"
             android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -114,11 +112,13 @@
             android:name=".HomeScreen"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".PartnerMapSel"
@@ -143,6 +143,74 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.HomeScreen" />
+        </activity>
+        <activity
+            android:name=".CategoryMain"
+            android:label="@string/title_activity_category_main"
+            android:parentActivityName=".DocVerification"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.DocVerification" />
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".AcceptReject"
+            android:label="@string/title_activity_accept_reject"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".ProfilePage"
+            android:label="@string/title_activity_profile_page"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
+        </activity>
+        <activity
+            android:name=".OnGoingJobs"
+            android:label="@string/title_activity_on_going_jobs"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
+        </activity>
+        <activity
+            android:name=".ServiceTracking"
+            android:label="@string/title_activity_service_tracking"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
+        </activity>
+        <activity
+            android:name=".FinishedJobs"
+            android:label="@string/title_activity_finished_jobs"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
         </activity>
     </application>
 

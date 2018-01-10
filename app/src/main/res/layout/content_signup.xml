@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="@mipmap/login_logo"/>
+        android:background="@drawable/login_logo"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +46,7 @@
                     android:paddingLeft="15dp"
                     android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:textColorHint="#4b4b4b"
+                    android:textColorHint="@color/colorHint"
                     android:textSize="18sp" />
 
                 <EditText
@@ -62,7 +62,7 @@
                     android:paddingLeft="15dp"
                     android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:textColorHint="#4b4b4b"
+                    android:textColorHint="@color/colorHint"
                     android:textSize="18sp" />
 
                 <EditText
@@ -78,7 +78,7 @@
                     android:paddingLeft="15dp"
                     android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:textColorHint="#4b4b4b"
+                    android:textColorHint="@color/colorHint"
                     android:textSize="18sp" />
 
                 <EditText
@@ -94,7 +94,7 @@
                     android:paddingLeft="15dp"
                     android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:textColorHint="#4b4b4b"
+                    android:textColorHint="@color/colorHint"
                     android:textSize="18sp" />
 
                 <EditText
@@ -110,7 +110,7 @@
                     android:paddingLeft="15dp"
                     android:singleLine="true"
                     android:textColor="@color/colorAccent"
-                    android:textColorHint="#4b4b4b"
+                    android:textColorHint="@color/colorHint"
                     android:textSize="18sp" />
                 <RadioGroup
                     android:id="@+id/shome_radioone"
@@ -123,8 +123,11 @@
                         android:id="@+id/sradio_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Female"
+                        android:textColor="@color/colorHint"
+
                         android:fontFamily="@font/nunito"
-                        android:text="Female" />
+                        />
 
                     <RadioButton
                         android:id="@+id/sradio_male"
@@ -132,7 +135,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/nunito"
-                        android:text="Male" />
+                        android:text="Male"
+                        android:textColor="@color/colorHint"
+
+                        />
                 </RadioGroup>
                 <RadioGroup
                     android:id="@+id/shome_radiotwo"
@@ -146,7 +152,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
-                        android:text="Individual" />
+                        android:text="Individual"
+                        android:textColor="@color/colorHint"
+                        />
 
                     <RadioButton
                         android:id="@+id/sradio_biz"
@@ -154,7 +162,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/nunito"
-                        android:text="Business" />
+                        android:text="Business"
+                        android:textColor="@color/colorHint"
+                        />
                 </RadioGroup>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -170,7 +180,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/checkBox1"
                         android:fontFamily="@font/nunito"
-                        android:text="I agree to your" />
+                        android:text="I agree to your"
+                        android:textColor="@color/colorHint"
+                        />
 
                     <TextView
                         android:id="@+id/tvsignup_tc"
@@ -180,6 +192,7 @@
                         android:clickable="true"
                         android:fontFamily="@font/nunito"
                         android:gravity="start"
+                        android:textStyle="bold"
                         android:text=" terms &amp; Conditions "
                         android:textColor="@color/colorAccent" />
                 </LinearLayout>
@@ -193,6 +206,7 @@
                     android:background="@drawable/rounded_editsecond"
                     android:fontFamily="@font/nunito"
                     android:hint="SIGN UP"
+                    android:textStyle="bold"
                     android:textColorHint="#fff"
                     android:textSize="18sp" />
                 <LinearLayout
@@ -210,12 +224,17 @@
                         android:layout_height="wrap_content"
                         android:text="Aleady have an Account?"
                         android:gravity="center"
+                        android:textColor="@color/colorHint"
+android:fontFamily="@font/nunito"
                         android:layout_weight="0.5"/>
                     <TextView
                         android:id="@+id/tvsignup_signin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SIGN IN"
+                     android:fontFamily="@font/nunito"
+
+                        android:textStyle="bold"
                         android:textColor="@color/colorAccent"
                         android:gravity="center"
                         android:layout_weight="0.5"/>

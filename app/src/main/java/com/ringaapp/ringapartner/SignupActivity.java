@@ -2,10 +2,12 @@ package com.ringaapp.ringapartner;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,7 +25,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.roger.catloadinglibrary.CatLoadingView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +46,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     CatLoadingView mView;
     private String emailInput,emailPattern;
     private String sname,semail,smobile,spassword,sradio_one,sradio_two;
+    String signupuid;
 
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +70,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         shome_submit=(Button) findViewById(R.id.sbutsignup_signup);
         shome_submit.setOnClickListener(this);
 
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
         sedsignup_name.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){
                 if(hasfocus){
                     sedsignup_name.setTextColor(Color.RED);
                     sedsignup_name.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     sedsignup_mail.setTextColor(Color.BLACK);
                     sedsignup_mobile.setTextColor(Color.BLACK);
                     sedsignup_pswd.setTextColor(Color.BLACK);
@@ -79,6 +96,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     sedsignup_mail.setTextColor(Color.RED);
                     sedsignup_mail.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     sedsignup_name.setTextColor(Color.BLACK);
                     sedsignup_mobile.setTextColor(Color.BLACK);
                     sedsignup_pswd.setTextColor(Color.BLACK);
@@ -92,6 +113,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                    sedsignup_mobile.setTextColor(Color.RED);
                     sedsignup_mobile.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
                     sedsignup_mail.setTextColor(Color.BLACK);
                     sedsignup_name.setTextColor(Color.BLACK);
                     sedsignup_pswd.setTextColor(Color.BLACK);
@@ -105,6 +129,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if(hasfocus){
                     sedsignup_pswd.setTextColor(Color.RED);
                     sedsignup_pswd.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedsignup_mail.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
+                    sedsignup_name.setBackgroundResource(R.drawable.rounded_edittextred);
                     sedsignup_mail.setTextColor(Color.BLACK);
                     sedsignup_mobile.setTextColor(Color.BLACK);
                     sedsignup_name.setTextColor(Color.BLACK);
@@ -163,27 +190,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         emailInput = sedsignup_mail.getText().toString().trim();
 
-        int selectedId = shome_groupone.getCheckedRadioButtonId();
-        int selectedIdtwo=Shome_grouptwo.getCheckedRadioButtonId();
-
-        shome_oneradio = (RadioButton) findViewById(selectedId);
-        shom_tworadio=(RadioButton) findViewById(selectedIdtwo);
-
-        sname = sedsignup_name.getText().toString();
-        semail = sedsignup_mail.getText().toString();
-        smobile = sedsignup_mobile.getText().toString();
-        spassword = sedsignup_pswd.getText().toString();
-        sradio_one=shome_oneradio.getText().toString();
-        sradio_two=shom_tworadio.getText().toString();
-
-
-
-
-
-        Toast.makeText(SignupActivity.this,
-                shome_oneradio.getText(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(SignupActivity.this,
-                shom_tworadio.getText(), Toast.LENGTH_SHORT).show();
 
         if (sedsignup_name.getText().toString().equals(""))
         {
@@ -197,36 +203,41 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (isConnectedToNetwork()) {
                     if (sedsignup_mobile.length() == 10) {
-                        if (checkbox.isChecked()) {
-                           // Toast.makeText(getApplication(),sradio_one,Toast.LENGTH_SHORT).show();
-                           // Toast.makeText(getApplication(),sradio_two,Toast.LENGTH_SHORT).show();
-                           insertme(sname, semail, smobile, spassword, sradio_one, sradio_two);
-                            Toast.makeText(SignupActivity.this, "THANK YOU!!!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignupActivity.this, OTPVerify.class);
-                            intent.putExtra("mobile_number",smobile);
+                        if (sedsignup_pswd.getText().toString().equals(""))
+                        {
+                            Toast.makeText(getApplicationContext(), "Enter Valid Password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {   int selectedId = shome_groupone.getCheckedRadioButtonId();
+                            int selectedIdtwo=Shome_grouptwo.getCheckedRadioButtonId();
+                            shome_oneradio =  findViewById(selectedId);
+                            shom_tworadio= findViewById(selectedIdtwo);
+
+                                if (checkbox.isChecked()) {
+
+                                    sname = sedsignup_name.getText().toString();
+                                    semail = sedsignup_mail.getText().toString();
+                                    smobile = sedsignup_mobile.getText().toString();
+                                    spassword = sedsignup_pswd.getText().toString();
+                                    sradio_one=shome_oneradio.getText().toString();
+                                    sradio_two=shom_tworadio.getText().toString();
+                                    insertme(sname, semail, smobile, spassword, sradio_one, sradio_two);
+                                    Toast.makeText(SignupActivity.this, "THANK YOU!!!", Toast.LENGTH_SHORT).show();
 
 
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(SignupActivity.this, "Please check the Terms & Comditions m", Toast.LENGTH_SHORT).show();
-
+                                } else {
+                                    Toast.makeText(SignupActivity.this, "Please check the Terms & Comditions m", Toast.LENGTH_SHORT).show();
+                                }
 
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), "Enter Valid Mobile Number",
                                 Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Toast.makeText(SignupActivity.this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
-                    if (sedsignup_mail.getText().toString().equals("") && sedsignup_mobile.getText().toString().equals("")) {
-                        Toast.makeText(getApplicationContext(), "Please enter fields", Toast.LENGTH_LONG).show();
-                    }
-
-
                 }
-
-
             } else {
                 Toast.makeText(getApplicationContext(), "Invalid email address",
                         Toast.LENGTH_SHORT).show();
@@ -242,7 +253,27 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     public void insertme(final String s1, final String s2,final String s3,final String s4,final String s5,final String s6) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_signup, new Response.Listener<String>() {
             public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
 
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("users_detail");
+                        signupuid=users.getString("partner_uid");
+                        Intent intent = new Intent(SignupActivity.this, OTPVerify.class);
+                        intent.putExtra("mobile_number",smobile);
+                        intent.putExtra("authuid",signupuid);
+                        startActivity(intent);
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please enter correct otp",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
         }, new Response.ErrorListener() {

@@ -19,6 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONException;
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button sbutlogin_login;
     private String sphone,spassword;
     CatLoadingView mView;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
         tvlogin_singnup=(TextView) findViewById(R.id.tvlogin_signup);
         sbutlogin_login=(Button) findViewById(R.id.sbutlogin_login);
 
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, CategoryMain.class);
+            startActivity(intent);
+        }
         sedlogin_mobile.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){
@@ -53,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                     sedlogin_mobile.setTextColor(Color.RED);
 
                     sedlogin_mobile.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedlogin_pswd.setBackgroundResource(R.drawable.rounded_edittextred);
+
                     sedlogin_pswd.setTextColor(Color.BLACK);
 
                 }
@@ -66,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     sedlogin_pswd.setTextColor(Color.RED);
 
                     sedlogin_pswd.setBackgroundResource( R.drawable.edittext_afterseslect);
+                    sedlogin_mobile.setBackgroundResource(R.drawable.rounded_edittextred);
                     sedlogin_mobile.setTextColor(Color.BLACK);
                 }
             }
@@ -130,20 +144,19 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean abc = jObj.getBoolean("exits");
                     if (abc)
-                    {
+                    { mView.dismiss();
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("partner_mobilenumber");
-
+                        String loginuid=users.getString("partner_uid");
                         Intent intent=new Intent(LoginActivity.this,OTPVerify.class);
                         intent.putExtra("mobile_number",uname1);
-
-
+                        intent.putExtra("authuid",loginuid);
                         startActivity(intent);
 
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(),"Please enter correct number",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {

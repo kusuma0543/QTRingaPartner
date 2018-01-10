@@ -1,6 +1,7 @@
 package com.ringaapp.ringapartner;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +31,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.thomashaertel.widget.MultiSpinner;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
@@ -51,10 +54,13 @@ public class PartnerSerSel extends AppCompatActivity  {
     ArrayList<String> studentss = new ArrayList<String>();
     private JSONArray results;
     String uisu,selec,selecteds, myserviceid,categget;
-    private TextView selectedcateg;
+    private TextView selectedcateg,addmore_srvsel;
     private CardView cardviewcateg;
     private ArrayAdapter<String> adapter;
     private Button bcategseladd;
+    private SessionManager session;
+    private SQLiteHandler db;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +71,18 @@ public class PartnerSerSel extends AppCompatActivity  {
         final Intent intent=getIntent();
         final String partnerslelocation=intent.getStringExtra("user_city");
         final String partneruid=intent.getStringExtra("oneuid");
-        Toast.makeText(this, partnerslelocation, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, partneruid, Toast.LENGTH_SHORT).show();
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
+      //  Toast.makeText(this, partnerslelocation, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, partneruid, Toast.LENGTH_SHORT).show();
         myLayout = findViewById(R.id.GridLayout1);
         partnercatsel_spinner =  findViewById(R.id.partnercatsel_spinner);
         partnersubcatsel_spinner =  findViewById(R.id.mySpinner);
         bcategseladd=findViewById(R.id.categseladd);
-        selectedcateg=findViewById(R.id.selectedcateg);
-        cardviewcateg=findViewById(R.id.cardviewcateg);
+        selectedcateg=findViewById(R.id.textnone);
+        addmore_srvsel=findViewById(R.id.addmore_srvsel);
         partnercatsel_spinner.setTitle("Select Category Item");
 
         partnercatsel_spinner.setPositiveButton("OK");
@@ -80,11 +90,18 @@ public class PartnerSerSel extends AppCompatActivity  {
         studentss = new ArrayList<String>();
         int initialposition=partnercatsel_spinner.getSelectedItemPosition();
         partnercatsel_spinner.setSelection(initialposition, false);//clear selection
+        addmore_srvsel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PartnerSerSel.this, "Please Select Categories", Toast.LENGTH_SHORT).show();
+            }
+        });
         getData();
 
 
         partnercatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                     selec = parent.getItemAtPosition(position).toString();
                  categget=getCategNamez(position);
                     getsData(categget);
@@ -96,32 +113,34 @@ public class PartnerSerSel extends AppCompatActivity  {
             }
         });
         partnersubcatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedcateg.setVisibility(View.VISIBLE);
+                selectedcateg.setVisibility(View.INVISIBLE);
                 bcategseladd.setVisibility(View.VISIBLE);
-                cardviewcateg.setVisibility(View.VISIBLE);
                 selecteds = parent.getItemAtPosition(position).toString();
                  myserviceid=getsuubcategNamez(position);
-                 Toast.makeText(PartnerSerSel.this, myserviceid, Toast.LENGTH_SHORT).show();
+                 //Toast.makeText(PartnerSerSel.this, myserviceid, Toast.LENGTH_SHORT).show();
 
                 final Button myEditText = new Button(PartnerSerSel.this); // Pass it an Activity or Context
                 myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)); // Pass two args; must be LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, or an integer pixel value.
                 myLayout.addView(myEditText);
-                myEditText.setText(selecteds);
+                myEditText.setText("  "+selecteds);
                 myEditText.setTextColor(Color.WHITE);
-                myEditText.setPadding(10,6,10,6);
+                myEditText.setPadding(30,16,30,6);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 4, 0, 12);
+                params.setMargins(5, 4, 0, 12);
                 myEditText.setLayoutParams(params);
                 Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.ic_cancel_black_24dp );
                 myEditText.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
                 myEditText.setBackground(getDrawable(R.drawable.rounded_editsecond));
                 myEditText.setCompoundDrawablesWithIntrinsicBounds( null, null, img, null);
 
+
+
                  addmyservices(partneruid,myserviceid,partnerslelocation,categget);
 
-                Toast.makeText(PartnerSerSel.this, "my selected service is was"+myserviceid, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(PartnerSerSel.this, "my selected service is was"+myserviceid, Toast.LENGTH_SHORT).show();
                 myEditText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -134,7 +153,7 @@ public class PartnerSerSel extends AppCompatActivity  {
                     @Override
                     public void onClick(View v) {
                         Intent intent1=new Intent(PartnerSerSel.this,HomeScreen.class);
-                        intent1.putExtra("uidimage",partneruid);
+                        //intent1.putExtra("uidimage",partneruid);
                         startActivity(intent1);
                     }
                 });

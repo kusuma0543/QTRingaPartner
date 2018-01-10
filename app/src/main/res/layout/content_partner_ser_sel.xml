@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mylayout"
@@ -9,53 +9,35 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ringaapp.ringapartner.PartnerSerSel"
     tools:showIn="@layout/activity_partner_ser_sel">
-<!--<Spinner-->
-    <!--android:id="@+id/partnercatsel_spinner"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp">-->
+
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
         android:id="@+id/partnercatsel_spinner"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+
         app:hintText="Select Your Category"/>
-    <!--<MultiSpinner-->
-        <!--android:layout_below="@+id/partnercatsel_spinner"-->
-        <!--android:layout_marginTop="100dp"-->
-        <!--android:id="@+id/partnersubcatsel_spinner"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
-    <!-- <ringaappp.instaapppartner.MultiSelectionSpinner-->
-        <!--android:id="@+id/mySpinner"-->
-        <!--android:layout_marginTop="100dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+
 
 
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
         android:id="@+id/mySpinner"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_below="@+id/partnercatsel_spinner"
         app:hintText="Select Your Sub Category"/>
-    <!--<com.thomashaertel.widget.MultiSpinner-->
-        <!--android:id="@+id/mySpinner"-->
-        <!--android:layout_marginTop="100dp"-->
-        <!--android:layout_width="match_parent"-->
-<!--android:selectAllOnFocus="false"-->
-        <!--android:layout_height="wrap_content">-->
-    <!--</com.thomashaertel.widget.MultiSpinner>-->
-<!--</Spinner>-->
+
     <TextView
-        android:id="@+id/selectedcateg"
+        android:id="@+id/selctedcategtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/nunito"
         android:textColor="@color/colorPrimary"
-        android:visibility="invisible"
+        android:layout_below="@+id/mySpinner"
         android:text="Your Selected Sub Categories are:" />
     <android.support.v7.widget.CardView
-        android:id="@+id/cardviewcateg"
+       android:layout_below="@+id/selctedcategtext"
         android:layout_width="match_parent"
         app:cardCornerRadius="5dp"
         app:cardPreventCornerOverlap="true"
@@ -64,13 +46,38 @@
         android:paddingBottom="10dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:visibility="invisible"
+
         android:layout_margin="10dp"
-        android:layout_height="250dp" >
+        android:layout_height="270dp" >
+        <TextView
+            android:id="@+id/textnone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="None of the Category has been selected"
+            android:fontFamily="@font/nunito"
+            android:textStyle="bold"/>
+        <Button
+     android:id="@+id/addmore_srvsel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="bottom|right"
+
+            android:layout_marginTop="10dp"
+
+            android:fontFamily="@font/nunito"
+            android:text="Add More"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp"
+
+            android:textStyle="bold"
+            android:visibility="visible" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -83,21 +90,27 @@
         android:layout_marginLeft="15dp"
         android:orientation="vertical"
         tools:context=".GridXMLActivity" />
+
     </ScrollView>
     </android.support.v7.widget.CardView>
 
 
     <Button
         android:id="@+id/categseladd"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
+
+android:layout_alignParentBottom="true"
+
+        android:layout_marginTop="10dp"
         android:background="@drawable/edittext_afterseslect"
         android:fontFamily="@font/nunito"
-        android:text="Add"
-android:visibility="invisible"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold" />
+        android:text="Next"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="1dp"
+        android:visibility="visible" />
 
 
-</LinearLayout>
+</RelativeLayout>

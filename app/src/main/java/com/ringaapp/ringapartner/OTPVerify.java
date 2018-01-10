@@ -28,6 +28,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
+import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,22 +51,30 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     private EditText mPinHiddenEditText;
     private Button butotp_verify;
     private TextView tvotp_mobile,tv_otpresend,k,secondk;
-    String fromforgot,last_number;
     private static final String FORMAT = "%02d:%02d";
     CountDownTimer bb;
-    String partner_uname;
-    String cityName;
+    String fromforgot,last_number,authsuid,partner_uname,checkdoc,cityName,otpemail,otpfulladress;
+
     private TrackGps gps;
+    private SessionManager session;
+    private SQLiteHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverify);
 
+
+        session = new SessionManager(getApplicationContext());
+        db = new SQLiteHandler(getApplicationContext());
+
+
         Intent intent=getIntent();
 
         last_number=intent.getStringExtra("mobile_number");
         fromforgot=intent.getStringExtra("fromforgot");
+        authsuid=intent.getStringExtra("authuid");
 
+        Toast.makeText(getApplicationContext(), authsuid, Toast.LENGTH_SHORT).show();
         mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
         mPinSecondDigitEditText = (EditText) findViewById(R.id.pintwo);
         mPinThirdDigitEditText = (EditText) findViewById(R.id.pinthree);
@@ -77,7 +87,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         tv_otpresend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-insertme(last_number);
+        insertme(last_number);
             }
         });
         tvotp_mobile.setText(last_number);
@@ -116,7 +126,7 @@ insertme(last_number);
                 String s3=mPinThirdDigitEditText.getText().toString().trim();
                 String s4=mPinForthDigitEditText.getText().toString().trim();
                 String s=s1+s2+s3+s4;
-                otp_check(last_number,s);
+                otp_check(last_number,s,authsuid);
 
 
             }
@@ -295,7 +305,7 @@ insertme(last_number);
     public void onClick(View v) {
 
     }
-    public void otp_check(final String sphone1,final String sphone2) {
+    public void otp_check(final String sphone1,final String sphone2,final String sphone3) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_otpverify, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -307,25 +317,67 @@ insertme(last_number);
                     {
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("partner_mobilenumber");
-String uname2=users.getString("partner_otp_identification");
-String uname3=users.getString("partner_uid");
-partner_uname=users.getString("partner_name");
-                        verifyclick(uname1,uname2,uname3);
+                        String uname2=users.getString("partner_otp_identification");
+                        String uname3=users.getString("partner_uid");
+                        partner_uname=users.getString("partner_name");
+                        otpemail=users.getString("partner_email");
+                        otpfulladress=users.getString("partner_address");
+                        String locality=users.getString("partner_locality");
+                        String partner_cityname=users.getString("partner_cityname");
+                        String latitude=users.getString("partner_latitude");
+                        String longitude=users.getString("partner_longitude");
+                        checkdoc=users.getString("messeade");
+                        if(locality.equals(""))
+                        {
+                            verifyclick(uname1,uname2,uname3);
 
+                        }
+                        else
+                        {
+                                if(checkdoc.equals("0"))
+                                {
+                                    session.setLogin(true);
 
+                                    Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
+                                    intentmm.putExtra("mobile_number",uname1);
+                                    intentmm.putExtra("otp_identification",uname2);
+                                    intentmm.putExtra("oneuid",uname3);
+                                    intentmm.putExtra("user_unamehome",partner_uname);
+                                    intentmm.putExtra("user_city", partner_cityname);
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("useruidentire",uname3);
+                                    editor.putString("user_city", partner_cityname);
+                                    editor.apply();
+                                    db.addUser(partner_uname, otpemail, uname3, uname1,otpfulladress,cityName,locality,latitude,longitude);
 
+                                    startActivity(intentmm);
 
+                                    finish();
+                                }
+                                else
+                                {
+                                    session.setLogin(true);
+
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("useruidentire",uname3);
+                                    editor.putString("user_city", partner_cityname);
+                                    editor.apply();
+                                    db.addUser(partner_uname, otpemail, uname3, uname1,otpfulladress,cityName,locality,latitude,longitude);
+
+                                    startActivity(new Intent(OTPVerify.this,CategoryMain.class));
+                                }
+
+                        }
                     }
                     else
                     {
                         Toast.makeText(getApplicationContext(),"Please enter correct otp",Toast.LENGTH_SHORT).show();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -339,13 +391,9 @@ partner_uname=users.getString("partner_name");
                 Map<String, String> insert = new HashMap<String, String>();
                 insert.put("partner_mobilenumber",sphone1);
                 insert.put("partner_otp_identification", sphone2);
-
+                insert.put("partner_uid",sphone3);
                 return insert;
-
             }
-
-
-
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
 
@@ -408,28 +456,43 @@ partner_uname=users.getString("partner_name");
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
+                                            if(checkdoc.equals("0"))
+                                            {
+                                                session.setLogin(true);
 
-                                            rideme(s3,alladd,cityName,addressn,pincode,latitu,longitu);
+                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
 
-                                            intentmm.putExtra("mobile_number",s1);
-                                            intentmm.putExtra("otp_identification",s2);
-                                            intentmm.putExtra("oneuid",s3);
-                                            intentmm.putExtra("user_unamehome",partner_uname);
-                                            intentmm.putExtra("user_city", cityName);
-                                            intentmm.putExtra("user_area", addressn);
-                                            intentmm.putExtra("user_unamehome",partner_uname);
-                                          //  intentmm.putExtra("updtaedimage",uname5);
-                                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
-                                            SharedPreferences.Editor editor = preferences.edit();
-                                            //   editor.putString("shareduidd",s3);
-                                            editor.putString("user_city", cityName);
-                                            //   editor.putString("user_area", addressn);
-                                            //   editor.putString("sharedaddress",addressn);
-                                            // editor.putString("sharedprofileimages",user_sharedimage);
-                                            editor.apply();
-                                            startActivity(intentmm);
-                                            finish();
+                                                Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
+
+                                                rideme(s3,alladd,cityName,addressn,pincode,latitu,longitu);
+
+                                                intentmm.putExtra("mobile_number",s1);
+                                                intentmm.putExtra("otp_identification",s2);
+                                                intentmm.putExtra("oneuid",s3);
+                                                intentmm.putExtra("user_unamehome",partner_uname);
+                                                intentmm.putExtra("user_city", cityName);
+                                                intentmm.putExtra("user_area", addressn);
+                                              //intentmm.putExtra("updtaedimage",uname5);
+                                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+                                                SharedPreferences.Editor editor = preferences.edit();
+                                                editor.putString("useruidentire",s3);
+                                                editor.putString("user_city", cityName);
+                                                //   editor.putString("user_area", addressn);
+                                                //   editor.putString("sharedaddress",addressn);
+                                                // editor.putString("sharedprofileimages",user_sharedimage);
+                                                editor.apply();
+                                                startActivity(intentmm);
+                                                finish();
+
+                                            }
+                                            else
+                                            {
+                                                session.setLogin(true);
+
+                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
+                                                startActivity(new Intent(OTPVerify.this,CategoryMain.class));
+                                            }
+
                                         }
                                     })
                                     .show();
@@ -449,6 +512,7 @@ partner_uname=users.getString("partner_name");
 
                 intentm.putExtra("mobile_number",s1);
                 intentm.putExtra("otp_identification",s2);
+                intentm.putExtra("usrmapemail",otpemail);
                 intentm.putExtra("oneuid",s3);
 
                 startActivity(intentm);
