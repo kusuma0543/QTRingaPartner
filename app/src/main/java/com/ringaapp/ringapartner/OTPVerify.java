@@ -326,7 +326,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                         String partner_cityname=users.getString("partner_cityname");
                         String latitude=users.getString("partner_latitude");
                         String longitude=users.getString("partner_longitude");
-                        checkdoc=users.getString("messeade");
+                        checkdoc=users.getString("partner_passess");
                         if(locality.equals(""))
                         {
                             verifyclick(uname1,uname2,uname3);

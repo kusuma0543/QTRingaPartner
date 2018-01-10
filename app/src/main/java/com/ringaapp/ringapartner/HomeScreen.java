@@ -94,7 +94,7 @@ private ImageView docv_itemsel;
     private static final int STORAGE_PERMISSION_CODE = 123;
     private Bitmap bitmap;
     private Uri filePath;
-    private String uidimage;
+    private String uidimagex;
     private GridView linearLayout;
     EditText mEdit;
     String sleradio;
@@ -123,14 +123,14 @@ private ImageView docv_itemsel;
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-//        Intent intent=getIntent();
-//        uidimage=intent.getStringExtra("uidimage");
-     //   uidimage="5a2799e95c05f9.57886214";
+        Intent intent=getIntent();
+        uidimagex=intent.getStringExtra("uidimagex");
+      //  x="5a2799e95c05f9.57886214";
 
-        final HashMap<String, String> user = db.getUserDetails();
-        uidimage=user.get("uid");
+//        final HashMap<String, String> user = db.getUserDetails();
+//        uidimagex=user.get("uid");
 
-       // Toast.makeText(this, uidimage, Toast.LENGTH_SHORT).show();
+      Toast.makeText(this, uidimagex, Toast.LENGTH_SHORT).show();
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -208,7 +208,7 @@ private ImageView docv_itemsel;
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                          uploadImage();
-                            new JSONTask().execute(GlobalUrl.partner_imageret+"?"+UPLOAD_KEYTWO+"="+uidimage);
+                            new JSONTask().execute(GlobalUrl.partner_imageret+"?"+UPLOAD_KEYTWO+"="+uidimagex);
 
                     } catch (IOException e) {
                             e.printStackTrace();
@@ -265,7 +265,7 @@ private ImageView docv_itemsel;
                 String uploadImage = getStringImage(bitmap);
 
                 HashMap<String,String> data = new HashMap<>();
-                data.put(UPLOAD_KEYTWO,uidimage);
+                data.put(UPLOAD_KEYTWO,uidimagex);
                 data.put(UPLOAD_KEY, uploadImage);
 
 
@@ -347,7 +347,7 @@ private ImageView docv_itemsel;
     }
     public void callmetoupload()
     {
-        uploadbf(uidimage,hsleradio);
+        uploadbf(uidimagex,hsleradio);
         Toast.makeText(this, sleradio, Toast.LENGTH_SHORT).show();
         startActivity(new Intent(HomeScreen.this,DocVerification.class));
 

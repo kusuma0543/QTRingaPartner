@@ -8,16 +8,16 @@
     tools:context="com.ringaapp.ringapartner.CategoryMain"
        tools:showIn="@layout/app_bar_category_main">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/partnerhome_listview"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        />
     <FrameLayout
-        android:id="@+id/fragments"
-        android:background="@color/transparent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomBar" />
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:bb_tabXmlResource="@xml/bottombar_tabs" />
 </RelativeLayout>

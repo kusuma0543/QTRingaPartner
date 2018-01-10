@@ -12,8 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -43,6 +45,8 @@ import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -90,20 +94,41 @@ public class CategoryMain extends AppCompatActivity
         db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
         partnerhome_partneruid=user.get("uid");
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragments, new com.ringaapp.ringapartner.MenusFragment()).commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.fragments, new com.ringaapp.ringapartner.MenusFragment()).commit();
 
          URLCOUNT=GlobalUrl.partner_getmyjobscount+"?partner_uid="+partnerhome_partneruid;
         getJobsMyCount(partnerhome_partneruid);
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//
-//        partnerhome_partneruid=preferences.getString("useruidentire","");
+        tv_toolbar=findViewById(R.id.tv_toolbar);
 
 
 
 
-tv_toolbar=findViewById(R.id.tv_toolbar);
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                android.support.v4.app.Fragment selectedFragment = null;
+                if (tabId == R.id.tab_new) {
+                    selectedFragment = NewJobs.newInstance();
+               }
+                 else if (tabId == R.id.tab_ongoing) {
+                    selectedFragment = OnGoingPartJobs.newInstance();
+                                }
+                else if (tabId == R.id.tab_finished) {
+                    selectedFragment = FinishedPartJobs.newInstance();
+                }
+                //else if (tabId == R.id.tab_sckell) {
+//                    selectedFragment = OnGoing.newInstance();
+//                }else if (tabId == R.id.tab_recharge) {
+//                    selectedFragment = OnGoing.newInstance();
+//                }
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentContainer, selectedFragment);
+                transaction.commit();
+            }
+        });
+
         Toast.makeText(this, partnerhome_partneruid, Toast.LENGTH_SHORT).show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         partneraccreject_but=findViewById(R.id.partneraccrej_rejectbut);
@@ -120,170 +145,170 @@ tv_toolbar=findViewById(R.id.tv_toolbar);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-        partnerhome_listview=findViewById(R.id.partnerhome_listview);
+       // partnerhome_listview=findViewById(R.id.partnerhome_listview);
 
-        String URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
-        new kilomilo().execute(URLL);
+//        String URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
+//        new kilomilo().execute(URLL);
         updatelastseen(partnerhome_partneruid);
 
     }
-    public class MovieAdap extends ArrayAdapter {
-        private List<home_accerejjobs> movieModelList;
-        private int resource;
-        Context context;
-        private LayoutInflater inflater;
-
-        MovieAdap(Context context, int resource, List<home_accerejjobs> objects) {
-            super(context, resource, objects);
-            movieModelList = objects;
-            this.context = context;
-            this.resource = resource;
-            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
-            if (convertView == null) {
-                convertView = inflater.inflate(resource, null);
-                holder = new ViewHolder();
-
-                holder.textone = (TextView) convertView.findViewById(R.id.partnerhome_username);
-                holder.textthree = (TextView)convertView.findViewById(R.id.partnerhome_usersubcateg);
-                holder.textbookingid=(TextView)convertView.findViewById(R.id.partner_bookingid);
-                holder.butrejectbut=convertView.findViewById(R.id.partneraccrej_rejectbut);
-                holder.butaccept=convertView.findViewById(R.id.partneraccrej_acceptbut);
-
-                convertView.setTag(holder);
-            }//ino
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            home_accerejjobs ccitacc = movieModelList.get(position);
-            holder.textone.setText(ccitacc.getService_subcateg_name());
-            holder.textthree.setText(ccitacc.getUser_name());
-            holder.textbookingid.setText(ccitacc.getBooking_uid());
-                holder.butaccept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String getmid=holder.textbookingid.getText().toString();
-                        acceptmeupdate(getmid);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-                    }
-                });
-
-                holder.butrejectbut.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                         getmyrejectid=holder.textbookingid.getText().toString();
-
-                        CreateAlertDialogWithRadioButtonGroup() ;
-
-                    }
-                });
-
-
-
-
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            public TextView textone,textthree,textbookingid;
-            public Button butaccept,butrejectbut;
-
-        }
-    }
-
-    public class kilomilo extends AsyncTask<String, String, List<home_accerejjobs>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.show();
-        }
-
-        @Override
-        protected List<home_accerejjobs> doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuilder buffer = new StringBuilder();
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-                String finalJson = buffer.toString();
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("result");
-                List<home_accerejjobs> milokilo = new ArrayList<>();
-                Gson gson = new Gson();
-                for (int i = 0; i < parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-                    home_accerejjobs catego = gson.fromJson(finalObject.toString(), home_accerejjobs.class);
-                    milokilo.add(catego);
-                }
-                return milokilo;
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final List<home_accerejjobs> movieMode) {
-            super.onPostExecute(movieMode);
-            dialog.dismiss();
-            if (movieMode== null)
-            {
-                Toast.makeText(getApplicationContext(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
-
-            }
-            else
-            {
-                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.home_accerejjobs, movieMode);
-                partnerhome_listview.setAdapter(adapter);
-//                partnerhome_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//    public class MovieAdap extends ArrayAdapter {
+//        private List<home_accerejjobs> movieModelList;
+//        private int resource;
+//        Context context;
+//        private LayoutInflater inflater;
+//
+//        MovieAdap(Context context, int resource, List<home_accerejjobs> objects) {
+//            super(context, resource, objects);
+//            movieModelList = objects;
+//            this.context = context;
+//            this.resource = resource;
+//            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//        }
+//
+//        @Override
+//        public int getViewTypeCount() {
+//            return 1;
+//        }
+//
+//        @Override
+//        public int getItemViewType(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(final int position, View convertView, ViewGroup parent) {
+//            final ViewHolder holder;
+//            if (convertView == null) {
+//                convertView = inflater.inflate(resource, null);
+//                holder = new ViewHolder();
+//
+//                holder.textone = (TextView) convertView.findViewById(R.id.partnerhome_username);
+//                holder.textthree = (TextView)convertView.findViewById(R.id.partnerhome_usersubcateg);
+//                holder.textbookingid=(TextView)convertView.findViewById(R.id.partner_bookingid);
+//                holder.butrejectbut=convertView.findViewById(R.id.partneraccrej_rejectbut);
+//                holder.butaccept=convertView.findViewById(R.id.partneraccrej_acceptbut);
+//
+//                convertView.setTag(holder);
+//            }//ino
+//            else {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//            home_accerejjobs ccitacc = movieModelList.get(position);
+//            holder.textone.setText(ccitacc.getService_subcateg_name());
+//            holder.textthree.setText(ccitacc.getUser_name());
+//            holder.textbookingid.setText(ccitacc.getBooking_uid());
+//                holder.butaccept.setOnClickListener(new View.OnClickListener() {
 //                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        home_accerejjobs item = movieMode.get(position);
-//                        Intent intent = new Intent(CategoryMain.this,AcceptReject.class);
-//                        intent.putExtra("partnerhome_bookingid",item.getBooking_uid());
-//                        intent.putExtra("partnerhome_subcategname",item.getService_subcateg_name());
-//                        intent.putExtra("partnerhome_username",item.getUser_name());
-//                        startActivity(intent);
+//                    public void onClick(View v) {
+//                        String getmid=holder.textbookingid.getText().toString();
+//                        acceptmeupdate(getmid);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
 //                    }
 //                });
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
+//
+//                holder.butrejectbut.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                         getmyrejectid=holder.textbookingid.getText().toString();
+//
+//                        CreateAlertDialogWithRadioButtonGroup() ;
+//
+//                    }
+//                });
+//
+//
+//
+//
+//
+//            return convertView;
+//        }
+//
+//        class ViewHolder {
+//            public TextView textone,textthree,textbookingid;
+//            public Button butaccept,butrejectbut;
+//
+//        }
+//    }
+//
+//    public class kilomilo extends AsyncTask<String, String, List<home_accerejjobs>> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            dialog.show();
+//        }
+//
+//        @Override
+//        protected List<home_accerejjobs> doInBackground(String... params) {
+//            HttpURLConnection connection = null;
+//            BufferedReader reader = null;
+//            try {
+//                URL url = new URL(params[0]);
+//                connection = (HttpURLConnection) url.openConnection();
+//                connection.connect();
+//                InputStream stream = connection.getInputStream();
+//                reader = new BufferedReader(new InputStreamReader(stream));
+//                StringBuilder buffer = new StringBuilder();
+//                String line = "";
+//                while ((line = reader.readLine()) != null) {
+//                    buffer.append(line);
+//                }
+//                String finalJson = buffer.toString();
+//                JSONObject parentObject = new JSONObject(finalJson);
+//                JSONArray parentArray = parentObject.getJSONArray("result");
+//                List<home_accerejjobs> milokilo = new ArrayList<>();
+//                Gson gson = new Gson();
+//                for (int i = 0; i < parentArray.length(); i++) {
+//                    JSONObject finalObject = parentArray.getJSONObject(i);
+//                    home_accerejjobs catego = gson.fromJson(finalObject.toString(), home_accerejjobs.class);
+//                    milokilo.add(catego);
+//                }
+//                return milokilo;
+//            } catch (JSONException | IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (connection != null) {
+//                    connection.disconnect();
+//                }
+//                try {
+//                    if (reader != null) {
+//                        reader.close();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final List<home_accerejjobs> movieMode) {
+//            super.onPostExecute(movieMode);
+//            dialog.dismiss();
+//            if (movieMode== null)
+//            {
+//                Toast.makeText(getApplicationContext(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
+//
+//            }
+//            else
+//            {
+//                MovieAdap adapter = new MovieAdap(getApplicationContext(), R.layout.home_accerejjobs, movieMode);
+//                partnerhome_listview.setAdapter(adapter);
+////                partnerhome_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////                    @Override
+////                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                        home_accerejjobs item = movieMode.get(position);
+////                        Intent intent = new Intent(CategoryMain.this,AcceptReject.class);
+////                        intent.putExtra("partnerhome_bookingid",item.getBooking_uid());
+////                        intent.putExtra("partnerhome_subcategname",item.getService_subcateg_name());
+////                        intent.putExtra("partnerhome_username",item.getUser_name());
+////                        startActivity(intent);
+////                    }
+////                });
+//                adapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -390,112 +415,112 @@ tv_toolbar=findViewById(R.id.tv_toolbar);
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
-
-    public void acceptmeupdate(final String s1) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_updateaccept, new Response.Listener<String>() {
-            public void onResponse(String response) {
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            { }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("booking_uid",s1);
-
-
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-    }
-    public void CreateAlertDialogWithRadioButtonGroup(){
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(CategoryMain.this);
-
-        builder.setTitle("Select Your Reason for Rejection");
-
-        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int item) {
-
-                switch(item)
-                {
-                    case 0:
-                        String case0="I am on other Project";
-                        Toast.makeText(CategoryMain.this, case0, Toast.LENGTH_LONG).show();
-                        rejectmeupdate(getmyrejectid,case0);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-
-                        break;
-                    case 1:
-                        String case1="I cant do the Service right now";
-                        Toast.makeText(CategoryMain.this, case1, Toast.LENGTH_LONG).show();
-                        rejectmeupdate(getmyrejectid,case1);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-
-                        break;
-                    case 2:
-
-                        Toast.makeText(CategoryMain.this, "Third Item Clicked", Toast.LENGTH_LONG).show();
-                        String case2="Its not my Requirement";
-                        rejectmeupdate(getmyrejectid,case2);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-
-                        break;
-                    case 3:
-
-                        Toast.makeText(CategoryMain.this, "FOur Item Clicked", Toast.LENGTH_LONG).show();
-                        String case3="I am out of Station";
-                        rejectmeupdate(getmyrejectid,case3);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-
-                        break;
-                    case 4:
-
-                        Toast.makeText(CategoryMain.this, "Five Item Clicked", Toast.LENGTH_LONG).show();
-                        String case4="My reason is not listed";
-                        rejectmeupdate(getmyrejectid,case4);
-                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
-
-                        break;
-                }
-                alertDialog1.dismiss();
-            }
-        });
-        alertDialog1 = builder.create();
-        alertDialog1.show();
-
-    }
-    public void rejectmeupdate(final String s1,final String s2) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.getPartner_updatereject, new Response.Listener<String>() {
-            public void onResponse(String response) {
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            { }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("booking_uid",s1);
-                params.put("service_partner_rejectedreason",s2);
-
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-    }
+//
+//    public void acceptmeupdate(final String s1) {
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_updateaccept, new Response.Listener<String>() {
+//            public void onResponse(String response) {
+//
+//            }
+//
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error)
+//            { }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("booking_uid",s1);
+//
+//
+//                return params;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(stringRequest);
+//    }
+//    public void CreateAlertDialogWithRadioButtonGroup(){
+//
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(CategoryMain.this);
+//
+//        builder.setTitle("Select Your Reason for Rejection");
+//
+//        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+//
+//            public void onClick(DialogInterface dialog, int item) {
+//
+//                switch(item)
+//                {
+//                    case 0:
+//                        String case0="I am on other Project";
+//                        Toast.makeText(CategoryMain.this, case0, Toast.LENGTH_LONG).show();
+//                        rejectmeupdate(getmyrejectid,case0);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
+//
+//                        break;
+//                    case 1:
+//                        String case1="I cant do the Service right now";
+//                        Toast.makeText(CategoryMain.this, case1, Toast.LENGTH_LONG).show();
+//                        rejectmeupdate(getmyrejectid,case1);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
+//
+//                        break;
+//                    case 2:
+//
+//                        Toast.makeText(CategoryMain.this, "Third Item Clicked", Toast.LENGTH_LONG).show();
+//                        String case2="Its not my Requirement";
+//                        rejectmeupdate(getmyrejectid,case2);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
+//
+//                        break;
+//                    case 3:
+//
+//                        Toast.makeText(CategoryMain.this, "FOur Item Clicked", Toast.LENGTH_LONG).show();
+//                        String case3="I am out of Station";
+//                        rejectmeupdate(getmyrejectid,case3);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
+//
+//                        break;
+//                    case 4:
+//
+//                        Toast.makeText(CategoryMain.this, "Five Item Clicked", Toast.LENGTH_LONG).show();
+//                        String case4="My reason is not listed";
+//                        rejectmeupdate(getmyrejectid,case4);
+//                        startActivity(new Intent(CategoryMain.this,CategoryMain.class));
+//
+//                        break;
+//                }
+//                alertDialog1.dismiss();
+//            }
+//        });
+//        alertDialog1 = builder.create();
+//        alertDialog1.show();
+//
+//    }
+//    public void rejectmeupdate(final String s1,final String s2) {
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.getPartner_updatereject, new Response.Listener<String>() {
+//            public void onResponse(String response) {
+//
+//            }
+//
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error)
+//            { }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("booking_uid",s1);
+//                params.put("service_partner_rejectedreason",s2);
+//
+//                return params;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(stringRequest);
+//    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

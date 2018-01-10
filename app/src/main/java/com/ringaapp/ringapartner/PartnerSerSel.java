@@ -153,7 +153,7 @@ public class PartnerSerSel extends AppCompatActivity  {
                     @Override
                     public void onClick(View v) {
                         Intent intent1=new Intent(PartnerSerSel.this,HomeScreen.class);
-                        //intent1.putExtra("uidimage",partneruid);
+                      intent1.putExtra("uidimagex",partneruid);
                         startActivity(intent1);
                     }
                 });

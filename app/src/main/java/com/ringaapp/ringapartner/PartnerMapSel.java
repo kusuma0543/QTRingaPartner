@@ -398,7 +398,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         JSONObject users = jObj.getJSONObject("users_detail");
 
                         String uname1 = users.getString("partner_name");
-                        String checkdoc=users.getString("messeade");
+                        String checkdoc=users.getString("partner_passess");
                         if(checkdoc.equals("0"))
                         {
                             session.setLogin(true);
