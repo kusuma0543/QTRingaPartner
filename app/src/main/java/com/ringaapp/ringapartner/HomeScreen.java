@@ -1,43 +1,28 @@
 package com.ringaapp.ringapartner;
 
-import android.*;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,18 +30,14 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.squareup.picasso.Picasso;
-
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +45,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -74,9 +54,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import static java.sql.Types.NULL;
 
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener{
 private TextView docv_imagesel;
@@ -87,7 +64,7 @@ private ImageView docv_itemsel;
     private RadioButton shome_oneradio,shom_tworadio;
 
 
-    public static final String UPLOAD_KEY = "partner_images";
+    public static final String UPLOAD_KEY = "proof_images";
     public static final String UPLOAD_KEYTWO="partner_uid";
     private int PICK_IMAGE_REQUEST = 11;
     private int PICK_PDF_REQUEST = 1;
@@ -109,61 +86,59 @@ private ImageView docv_itemsel;
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Documents Verification");
-
+        setTitle("Documents Upload");
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
-
-        dialog = new ProgressDialog(this);
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
-        Intent intent=getIntent();
-        uidimagex=intent.getStringExtra("uidimagex");
-      //  x="5a2799e95c05f9.57886214";
+        if (isConnectedToNetwork()) {
+            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            Intent intent = getIntent();
+            uidimagex = intent.getStringExtra("uidimagex");
+            //  x="5a2799e95c05f9.57886214";
 
 //        final HashMap<String, String> user = db.getUserDetails();
 //        uidimagex=user.get("uid");
 
-      Toast.makeText(this, uidimagex, Toast.LENGTH_SHORT).show();
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+            //Toast.makeText(this, uidimagex, Toast.LENGTH_SHORT).show();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
             }
-        });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-       linearLayout=findViewById(R.id.listview);
-        mEdit = findViewById(R.id.getcharge);
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            linearLayout = findViewById(R.id.listview);
+            mEdit = findViewById(R.id.getcharge);
 
-        shome_groupone=(RadioGroup) findViewById(R.id.shome_radioone);
+            shome_groupone = (RadioGroup) findViewById(R.id.shome_radioone);
 
-      // listdoc=findViewById(R.id.listviewk);
-        docv_imagesel= findViewById(R.id.docv_imagesel);
-        docv_itemsel=findViewById(R.id.docv_itemsel);
+            // listdoc=findViewById(R.id.listviewk);
+            docv_imagesel = findViewById(R.id.docv_imagesel);
+            docv_itemsel = findViewById(R.id.docv_itemsel);
 
-        butallupload=findViewById(R.id.alluploadbut);
-        shom_tworadio=findViewById(R.id.sradio_two);
-        shome_oneradio=findViewById(R.id.sradio_one);
+            butallupload = findViewById(R.id.alluploadbut);
+            shom_tworadio = findViewById(R.id.sradio_two);
+            shome_oneradio = findViewById(R.id.sradio_one);
 
-        docv_imagesel.setOnClickListener(this);
-       docv_itemsel.setOnClickListener(this);
-        butallupload.setOnClickListener(this);
+            docv_imagesel.setOnClickListener(this);
+            docv_itemsel.setOnClickListener(this);
+            butallupload.setOnClickListener(this);
 //        shome_oneradio.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -187,6 +162,20 @@ private ImageView docv_itemsel;
 //
 //            }
 //        });
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(HomeScreen.this,HomeScreen.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
 
     private void showFileChooser() {
@@ -208,7 +197,7 @@ private ImageView docv_itemsel;
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                          uploadImage();
-                            new JSONTask().execute(GlobalUrl.partner_imageret+"?"+UPLOAD_KEYTWO+"="+uidimagex);
+                            new JSONTask().execute(GlobalUrl.partner_retproofimages+"?"+UPLOAD_KEYTWO+"="+uidimagex);
 
                     } catch (IOException e) {
                             e.printStackTrace();
@@ -269,7 +258,7 @@ private ImageView docv_itemsel;
                 data.put(UPLOAD_KEY, uploadImage);
 
 
-                String result = rh.sendPostRequest(GlobalUrl.partner_imageupload,data);
+                String result = rh.sendPostRequest(GlobalUrl.partner_uploadproofimages,data);
 
                 return result;
             }
@@ -348,8 +337,8 @@ private ImageView docv_itemsel;
     public void callmetoupload()
     {
         uploadbf(uidimagex,hsleradio);
-        Toast.makeText(this, sleradio, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(HomeScreen.this,DocVerification.class));
+       // Toast.makeText(this, sleradio, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(HomeScreen.this,UploadPartnerServImages.class));
 
     }
 //    private void showFileChoosers() {
@@ -416,7 +405,7 @@ private ImageView docv_itemsel;
         finish();
     }
 
-    public class JSONTask extends AsyncTask<String,String, List<Imageret>> {
+    public class JSONTask extends AsyncTask<String,String, List<ProofImageRet>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -424,7 +413,7 @@ private ImageView docv_itemsel;
 
         }
         @Override
-        protected List<Imageret> doInBackground(String... params) {
+        protected List<ProofImageRet> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
@@ -442,12 +431,12 @@ private ImageView docv_itemsel;
                 String finalJson = buffer.toString();
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
-                List<Imageret> movieModelList = new ArrayList<>();
+                List<ProofImageRet> movieModelList = new ArrayList<>();
                 Gson gson = new Gson();
                 for(int i=0; i<parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
 
-                    Imageret categorieslist = gson.fromJson(finalObject.toString(),Imageret.class);
+                    ProofImageRet categorieslist = gson.fromJson(finalObject.toString(),ProofImageRet.class);
                     movieModelList.add(categorieslist);
 
 
@@ -470,7 +459,7 @@ private ImageView docv_itemsel;
             return  null;
         }
         @Override
-        protected void onPostExecute(final List<Imageret> movieModelList) {
+        protected void onPostExecute(final List<ProofImageRet> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
             if(movieModelList != null) {
@@ -486,11 +475,11 @@ private ImageView docv_itemsel;
         }
     }
     public class MovieAdapter extends ArrayAdapter {
-        private List<Imageret> movieModelList;
+        private List<ProofImageRet> movieModelList;
         private int resource;
         Context context;
         private LayoutInflater inflater;
-        MovieAdapter(Context context, int resource, List<Imageret> objects) {
+        MovieAdapter(Context context, int resource, List<ProofImageRet> objects) {
             super(context, resource, objects);
             movieModelList = objects;
             this.context =context;
@@ -519,8 +508,8 @@ private ImageView docv_itemsel;
             else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            Imageret categorieslist= movieModelList.get(position);
-            Picasso.with(context).load(categorieslist.getPartner_images()).fit().error(R.drawable.phone_otp).fit().into(holder.menuimage);
+            ProofImageRet categorieslist= movieModelList.get(position);
+            Picasso.with(context).load(categorieslist.getProof_images()).fit().error(R.drawable.pinns).fit().into(holder.menuimage);
 
 
             return convertView;
@@ -690,6 +679,11 @@ private ImageView docv_itemsel;
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
 

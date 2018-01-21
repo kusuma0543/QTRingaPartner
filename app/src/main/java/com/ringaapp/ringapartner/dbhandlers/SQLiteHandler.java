@@ -50,7 +50,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT UNIQUE," + KEY_UID + " TEXT,"
-                +  KEY_PNUM + " TEXT ," +KEY_ADDRESS + " TEXT ," +KEY_CITY + " TEXT ," +KEY_LOCALITY + " TEXT ," +KEY_LATITUDE + " TEXT ," +KEY_LONGITUDE + " TEXT " + ")";
+                +  KEY_PNUM + " TEXT ," +KEY_ADDRESS + " TEXT ," +KEY_CITY +
+                " TEXT ," +KEY_LOCALITY + " TEXT ," +KEY_LATITUDE + " TEXT ,"
+                +KEY_LONGITUDE + " TEXT " + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
 
         Log.d(TAG, "Database tables created");

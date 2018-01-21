@@ -1,11 +1,12 @@
 package com.ringaapp.ringapartner;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,22 +27,19 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.model.LatLng;
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import swarajsaaj.smscodereader.interfaces.OTPListener;
+import swarajsaaj.smscodereader.receivers.OtpReader;
 
 public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeListener,View.OnClickListener,View.OnKeyListener,TextWatcher, OTPListener {
     private EditText mPinFirstDigitEditText;
@@ -62,76 +60,88 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverify);
+        if (isConnectedToNetwork()) {
+
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            Intent intent = getIntent();
+
+            last_number = intent.getStringExtra("mobile_number");
+            fromforgot = intent.getStringExtra("fromforgot");
+            authsuid = intent.getStringExtra("authuid");
+            mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
+            mPinSecondDigitEditText = (EditText) findViewById(R.id.pintwo);
+            mPinThirdDigitEditText = (EditText) findViewById(R.id.pinthree);
+            mPinForthDigitEditText = (EditText) findViewById(R.id.pinfour);
+            mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
+            tvotp_mobile = (TextView) findViewById(R.id.tvotp_mobile);
+            final TextView countdown = (TextView) findViewById(R.id.countdown);
+            butotp_verify = (Button) findViewById(R.id.butotp_verify);
+            tv_otpresend = (TextView) findViewById(R.id.tvotp_resend);
+            tv_otpresend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    insertme(last_number);
+                }
+            });
+            tvotp_mobile.setText(last_number);
+            k = (TextView) findViewById(R.id.k);
+            secondk = (TextView) findViewById(R.id.secondk);
+
+            bb = new CountDownTimer(50000, 1000) { // adjust the milli seconds here
+                public void onTick(long millisUntilFinished) {
+                    countdown.setText("" + String.format(FORMAT,
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                }
 
 
-        Intent intent=getIntent();
-
-        last_number=intent.getStringExtra("mobile_number");
-        fromforgot=intent.getStringExtra("fromforgot");
-        authsuid=intent.getStringExtra("authuid");
-
-        Toast.makeText(getApplicationContext(), authsuid, Toast.LENGTH_SHORT).show();
-        mPinFirstDigitEditText = (EditText) findViewById(R.id.pinone);
-        mPinSecondDigitEditText = (EditText) findViewById(R.id.pintwo);
-        mPinThirdDigitEditText = (EditText) findViewById(R.id.pinthree);
-        mPinForthDigitEditText = (EditText) findViewById(R.id.pinfour);
-        mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
-        tvotp_mobile=(TextView) findViewById(R.id.tvotp_mobile);
-        final TextView countdown = (TextView) findViewById(R.id.countdown);
-        butotp_verify=(Button) findViewById(R.id.butotp_verify);
-        tv_otpresend=(TextView) findViewById(R.id.tvotp_resend);
-        tv_otpresend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-        insertme(last_number);
-            }
-        });
-        tvotp_mobile.setText(last_number);
-        k=(TextView) findViewById(R.id.k);
-        secondk=(TextView) findViewById(R.id.secondk);
-
-        bb= new CountDownTimer(50000,1000) { // adjust the milli seconds here
-            public void onTick(long millisUntilFinished) {
-                countdown.setText(""+String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
+                public void onFinish() {
+                    bb.cancel();
+                    Toast.makeText(OTPVerify.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
+                    bb.cancel();
+                    countdown.setVisibility(View.GONE);
+                    k.setVisibility(View.GONE);
+                    secondk.setVisibility(View.GONE);
 
 
-            public void onFinish() {
-                bb.cancel();
-                Toast.makeText(OTPVerify.this, "Please click Resend to get OTP", Toast.LENGTH_SHORT).show();
-                bb.cancel();
-                countdown.setVisibility(View.GONE);
-                k.setVisibility(View.GONE);
-                secondk.setVisibility(View.GONE);
+                }
+            }.start();
+            setPINListeners();
+
+            butotp_verify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String s1 = mPinFirstDigitEditText.getText().toString().trim();
+                    String s2 = mPinSecondDigitEditText.getText().toString().trim();
+                    String s3 = mPinThirdDigitEditText.getText().toString().trim();
+                    String s4 = mPinForthDigitEditText.getText().toString().trim();
+                    String s = s1 + s2 + s3 + s4;
+                    otp_check(last_number, s, authsuid);
 
 
-            }
-        }.start();
-        setPINListeners();
+                }
+            });
 
-        butotp_verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String s1=mPinFirstDigitEditText.getText().toString().trim();
-                String s2=mPinSecondDigitEditText.getText().toString().trim();
-                String s3=mPinThirdDigitEditText.getText().toString().trim();
-                String s4=mPinForthDigitEditText.getText().toString().trim();
-                String s=s1+s2+s3+s4;
-                otp_check(last_number,s,authsuid);
-
-
-            }
-        });
-
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(OTPVerify.this,OTPVerify.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        OtpReader.bind(this,"RINGAA");
     }
 
     @Override
@@ -246,7 +256,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         }
     }
     private void setDefaultPinBackground(EditText editText) {
-        setViewBackground(editText, getResources().getDrawable(R.drawable.ggg));
+        setViewBackground(editText, getResources().getDrawable(R.drawable.otp_bottom));
     }
 
     public static void setFocus(EditText editText) {
@@ -258,7 +268,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
         editText.requestFocus();
     }
     private void setFocusedPinBackground(EditText editText) {
-        setViewBackground(editText, getResources().getDrawable(R.drawable.ggg));
+        setViewBackground(editText, getResources().getDrawable(R.drawable.otp_bottom));
     }
 
     private void setPINListeners() {
@@ -334,11 +344,11 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                         }
                         else
                         {
-                                if(checkdoc.equals("0"))
+                                if(checkdoc.matches("")||equals("null")|| checkdoc.matches("null"))
                                 {
                                     session.setLogin(true);
 
-                                    Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
+                                    Intent intentmm=new Intent(OTPVerify.this,DocVerification.class);
                                     intentmm.putExtra("mobile_number",uname1);
                                     intentmm.putExtra("otp_identification",uname2);
                                     intentmm.putExtra("oneuid",uname3);
@@ -423,90 +433,90 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     }
     public void verifyclick(final String s1,final String s2,final String s3)
     {
-        new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Location Selection")
-                .setContentText("Are you sure to use your location?")
-                .setCancelText("No,Select New ")
-                .setConfirmText("Yes,use it!")
-                .showCancelButton(true)
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        gps = new TrackGps(OTPVerify.this);
-
-                        Double lat = gps.getLatitude();
-                        Double lng = gps.getLongitude();
-                        LatLng sydney = new LatLng(lat, lng);
-                        Geocoder geocoder = new Geocoder(OTPVerify.this, Locale.getDefault());
-                        // List<Address> addresses = null;
-                        try {
-                            List<Address> addresses = geocoder.getFromLocation(lat,lng, 1);
-                            final String addressn = addresses.get(0).getSubLocality();
-                           cityName = addresses.get(0).getLocality();
-                            final String adminArea = addresses.get(0).getAddressLine(0);
-                            final String pincode=addresses.get(0).getPostalCode();
-                            final String latitu=Double.toString(lat);
-                            final String longitu=Double.toString(lng);
-                            final String alladd=adminArea+" "+addressn+" "+cityName+" "+pincode;
-//                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+//        new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.WARNING_TYPE)
+//                .setTitleText("Location Selection")
+//                .setContentText("Are you sure to use your location?")
+//                .setCancelText("No,Select New ")
+//                .setConfirmText("Yes,use it!")
+//                .showCancelButton(true)
+//                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sDialog) {
+//                        gps = new TrackGps(OTPVerify.this);
 //
-//                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
-                            new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("Your Location").setContentText(addressn).setConfirmText("OK")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            if(checkdoc.equals("0"))
-                                            {
-                                                session.setLogin(true);
-
-                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
-
-                                                Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
-
-                                                rideme(s3,alladd,cityName,addressn,pincode,latitu,longitu);
-
-                                                intentmm.putExtra("mobile_number",s1);
-                                                intentmm.putExtra("otp_identification",s2);
-                                                intentmm.putExtra("oneuid",s3);
-                                                intentmm.putExtra("user_unamehome",partner_uname);
-                                                intentmm.putExtra("user_city", cityName);
-                                                intentmm.putExtra("user_area", addressn);
-                                              //intentmm.putExtra("updtaedimage",uname5);
-                                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
-                                                SharedPreferences.Editor editor = preferences.edit();
-                                                editor.putString("useruidentire",s3);
-                                                editor.putString("user_city", cityName);
-                                                //   editor.putString("user_area", addressn);
-                                                //   editor.putString("sharedaddress",addressn);
-                                                // editor.putString("sharedprofileimages",user_sharedimage);
-                                                editor.apply();
-                                                startActivity(intentmm);
-                                                finish();
-
-                                            }
-                                            else
-                                            {
-                                                session.setLogin(true);
-
-                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
-                                                startActivity(new Intent(OTPVerify.this,CategoryMain.class));
-                                            }
-
-                                        }
-                                    })
-                                    .show();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        //  Toast.makeText(getApplicationContext(), "Your Location was ", Toast.LENGTH_SHORT).show();
-                        sDialog.cancel();
-
-                    }
-                }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        Double lat = gps.getLatitude();
+//                        Double lng = gps.getLongitude();
+//                        LatLng sydney = new LatLng(lat, lng);
+//                        Geocoder geocoder = new Geocoder(OTPVerify.this, Locale.getDefault());
+//                        // List<Address> addresses = null;
+//                        try {
+//                            List<Address> addresses = geocoder.getFromLocation(lat,lng, 1);
+//                            final String addressn = addresses.get(0).getSubLocality();
+//                           cityName = addresses.get(0).getLocality();
+//                            final String adminArea = addresses.get(0).getAddressLine(0);
+//                            final String pincode=addresses.get(0).getPostalCode();
+//                            final String latitu=Double.toString(lat);
+//                            final String longitu=Double.toString(lng);
+//                            final String alladd=adminArea+" "+addressn+" "+cityName+" "+pincode;
+////                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+////
+////                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
+//                            new SweetAlertDialog(OTPVerify.this, SweetAlertDialog.SUCCESS_TYPE)
+//                                    .setTitleText("Your Location").setContentText(addressn).setConfirmText("OK")
+//                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                        @Override
+//                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                                            if(checkdoc.equals("0"))
+//                                            {
+//                                                session.setLogin(true);
+//
+//                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
+//
+//                                                Intent intentmm=new Intent(OTPVerify.this,PartnerSerSel.class);
+//
+//                                                rideme(s3,alladd,cityName,addressn,pincode,latitu,longitu);
+//
+//                                                intentmm.putExtra("mobile_number",s1);
+//                                                intentmm.putExtra("otp_identification",s2);
+//                                                intentmm.putExtra("oneuid",s3);
+//                                                intentmm.putExtra("user_unamehome",partner_uname);
+//                                                intentmm.putExtra("user_city", cityName);
+//                                                intentmm.putExtra("user_area", addressn);
+//                                              //intentmm.putExtra("updtaedimage",uname5);
+//                                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(OTPVerify.this);
+//                                                SharedPreferences.Editor editor = preferences.edit();
+//                                                editor.putString("useruidentire",s3);
+//                                                editor.putString("user_city", cityName);
+//                                                //   editor.putString("user_area", addressn);
+//                                                //   editor.putString("sharedaddress",addressn);
+//                                                // editor.putString("sharedprofileimages",user_sharedimage);
+//                                                editor.apply();
+//                                                startActivity(intentmm);
+//                                                finish();
+//
+//                                            }
+//                                            else
+//                                            {
+//                                                session.setLogin(true);
+//
+//                                                db.addUser(partner_uname, otpemail, s3, s1,alladd,cityName,addressn,latitu,longitu);
+//                                                startActivity(new Intent(OTPVerify.this,CategoryMain.class));
+//                                            }
+//
+//                                        }
+//                                    })
+//                                    .show();
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        //  Toast.makeText(getApplicationContext(), "Your Location was ", Toast.LENGTH_SHORT).show();
+//                        sDialog.cancel();
+//
+//                    }
+//                }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//            @Override
+//            public void onClick(SweetAlertDialog sweetAlertDialog) {
 
                 Intent intentm=new Intent(OTPVerify.this,PartnerMapSel.class);
 
@@ -517,18 +527,15 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 
                 startActivity(intentm);
                 finish();
-
-
-            }
-        })
-                .show();
-
-    }
-
-    @Override
-    public void otpReceived(String messageText) {
+//
+//
+//            }
+//        })
+//                .show();
 
     }
+
+
     public void rideme(final String uidthree, final String s1, final String s2, final String s3, final String s4, final String s5, final String s6) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_placepick, new Response.Listener<String>() {
             public void onResponse(String response) {
@@ -558,5 +565,18 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    @Override
+    public void otpReceived(String smsText) {
+        //Do whatever you want to do with the text
+        String otpnumbers=smsText.replaceAll("[^0-9]", "");
+        otp_check(last_number, otpnumbers,authsuid);
+        //  Toast.makeText(this,otpnumbers,Toast.LENGTH_LONG).show();
+        //Log.d("Otp",smsText);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

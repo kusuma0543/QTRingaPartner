@@ -3,7 +3,6 @@ package com.ringaapp.ringapartner;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
@@ -34,11 +32,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 public class FinishedPartJobs extends Fragment {
     String finishjobspartuid;
+    TextView gettext;
+    GifImageView gifImageView;
     private ProgressDialog dialog;
     private ListView partnerhome_listview;
 
@@ -59,7 +61,8 @@ public class FinishedPartJobs extends Fragment {
 
         final HashMap<String, String> user = db.getUserDetails();
         finishjobspartuid=user.get("uid");
-
+        gettext=view.findViewById(R.id.text_list);
+        gifImageView=view.findViewById(R.id.gif_list);
         dialog=new ProgressDialog(getActivity());
         dialog = new ProgressDialog(getActivity());
         dialog.setIndeterminate(true);
@@ -128,7 +131,7 @@ public class FinishedPartJobs extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.show();
+           // dialog.show();
         }
 
         @Override
@@ -180,11 +183,14 @@ public class FinishedPartJobs extends Fragment {
             dialog.dismiss();
             if (movieMode== null)
             {
-                Toast.makeText(getActivity(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
+                partnerhome_listview.setVisibility(View.INVISIBLE);
 
             }
             else
-            {
+            {gifImageView.setVisibility(View.INVISIBLE);
+                gettext.setVisibility(View.INVISIBLE);
+                partnerhome_listview.setVisibility(View.VISIBLE);
+
                MovieAdap adapter = new MovieAdap(getActivity(), R.layout.ongoingjibs, movieMode);
                 partnerhome_listview.setAdapter(adapter);
                 partnerhome_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

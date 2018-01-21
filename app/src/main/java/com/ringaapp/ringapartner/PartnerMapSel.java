@@ -9,6 +9,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +46,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
@@ -86,113 +89,125 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partner_map_sel);
-        Intent intk=getIntent();
-        uidthree=intk.getStringExtra("oneuid");
-        partmapemail=intk.getStringExtra("usrmapemail");
-        partmapmobile=intk.getStringExtra("mobile_number");
+        Intent intk = getIntent();
+        uidthree = intk.getStringExtra("oneuid");
+        partmapemail = intk.getStringExtra("usrmapemail");
+        partmapmobile = intk.getStringExtra("mobile_number");
 
-        Toast.makeText(getApplicationContext(),uidthree,Toast.LENGTH_SHORT).show();
+        if (isConnectedToNetwork()) {
+           // Toast.makeText(getApplicationContext(), uidthree, Toast.LENGTH_SHORT).show();
 
-        list29 = (ListView) findViewById(R.id.listview);
-        ridenow=(Button) findViewById(R.id.ride);
-        mylocationnav=findViewById(R.id.mylocnav);
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            list29 = (ListView) findViewById(R.id.listview);
+            ridenow = (Button) findViewById(R.id.ride);
+            mylocationnav = findViewById(R.id.mylocnav);
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-        mylocationnav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMapReady(mMap);
-            }
-        });
-        ridenow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(address==null)
-                {
-                    Toast.makeText(getApplicationContext(),"Please select one location to move further",Toast.LENGTH_SHORT).show();
+            mylocationnav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onMapReady(mMap);
                 }
+            });
+            ridenow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (address == null) {
+                        Toast.makeText(getApplicationContext(), "Please select one location to move further", Toast.LENGTH_SHORT).show();
+                    }
                     Geocoder geocoder = new Geocoder(PartnerMapSel.this, Locale.getDefault());
                     try {
                         addressess = geocoder.getFromLocation(mCenterLatLong.latitude, mCenterLatLong.longitude, 1);
                         address = addressess.get(0).getSubLocality();
                         cityName = addressess.get(0).getLocality();
                         stateName = addressess.get(0).getAdminArea();
-                        postlCode=addressess.get(0).getPostalCode();
-                         adminarea=addressess.get(0).getAddressLine(0);;
+                        postlCode = addressess.get(0).getPostalCode();
+                        adminarea = addressess.get(0).getAddressLine(0);
+                        ;
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                     alllatittude=Double.toString(mCenterLatLong.latitude);
-                     alllongitude=Double.toString(mCenterLatLong.longitude);
-                     alld=adminarea+" "+address+" "+cityName+" "+postlCode ;
+                    alllatittude = Double.toString(mCenterLatLong.latitude);
+                    alllongitude = Double.toString(mCenterLatLong.longitude);
+                    alld = adminarea + " " + address + " " + cityName + " " + postlCode;
 
 
-                    rideme(uidthree,alld,cityName,address,postlCode,alllatittude,alllongitude);
+                    rideme(uidthree, alld, cityName, address, postlCode, alllatittude, alllongitude);
 
 
+                }
+            });
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync((OnMapReadyCallback) PartnerMapSel.this);
+            picka = (Button) findViewById(R.id.pick);
+            picka.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    Intent inkl;
+                    try {
+                        inkl = builder.build(PartnerMapSel.this);
+                        startActivityForResult(inkl, PLACE_PICKER_REQUEST);
 
-            }
-        });
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync((OnMapReadyCallback) PartnerMapSel.this);
-        picka = (Button) findViewById(R.id.pick);
-        picka.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                Intent inkl;
-                try {
-                    inkl = builder.build(PartnerMapSel.this);
-                    startActivityForResult(inkl, PLACE_PICKER_REQUEST);
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
 
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    }
 
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
+
+                }
+            });
+
+
+            PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                    getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                    .setCountry("IN")
+                    .build();
+
+            autocompleteFragment.setFilter(typeFilter);
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+
+                    // Toast.makeText(getApplicationContext(), "Place: " + place.getName(), Toast.LENGTH_SHORT).show();
+
+                    // Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
+                    mMap.clear();
+                    LatLng sydneys = place.getLatLng();
+
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
+                    mMap.setMaxZoomPreference(15.5f);
+                    mMap.setMinZoomPreference(6.5f);
+
                 }
 
+                @Override
+                public void onError(Status status) {
 
-            }
-        });
+                    Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
 
+                }
+            });
 
-
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setCountry("IN")
-                .build();
-
-        autocompleteFragment.setFilter(typeFilter);
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-
-               // Toast.makeText(getApplicationContext(), "Place: " + place.getName(), Toast.LENGTH_SHORT).show();
-
-               // Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
-                mMap.clear();
-                LatLng sydneys = place.getLatLng();
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
-                mMap.setMaxZoomPreference(15.5f);
-                mMap.setMinZoomPreference(6.5f);
-
-            }
-
-            @Override
-            public void onError(Status status) {
-
-                Toast.makeText(getApplicationContext(), "An error occurred: " + status, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(PartnerMapSel.this,PartnerMapSel.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -242,9 +257,9 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         address = addresses.get(0).getSubLocality();
                         cityName = addresses.get(0).getLocality();
                         stateName = addresses.get(0).getAdminArea();
-                        Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
 
 
                     } catch (IOException e) {
@@ -344,7 +359,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
             e.printStackTrace();
         }
 
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.mop
+        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.pinns
         ))
                 .position(new LatLng(lat,lng)));
 
@@ -403,7 +418,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         {
                             session.setLogin(true);
 
-                            db.addUser(uname1, partmapemail, s3, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
+                            db.addUser(uname1, partmapemail, uidthree, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
 
                             Intent intentmm=new Intent(PartnerMapSel.this,PartnerSerSel.class);
                             intentmm.putExtra("oneuid",uidthree);
@@ -417,6 +432,9 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
 
                             editor.putString("user_city", cityName);
 
+
+
+
                             editor.apply();
                             startActivity(intentmm);
 
@@ -424,7 +442,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         else {
                             session.setLogin(true);
 
-                            db.addUser(uname1, partmapemail, s3, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
+                            db.addUser(uname1, partmapemail, uidthree, partmapmobile,alld,cityName,address,alllatittude,alllongitude);
 
                             startActivity(new Intent(PartnerMapSel.this,CategoryMain.class));
 
@@ -464,5 +482,10 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

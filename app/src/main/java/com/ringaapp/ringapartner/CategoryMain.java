@@ -1,24 +1,17 @@
 package com.ringaapp.ringapartner;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,11 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,29 +30,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.github.clans.fab.FloatingActionMenu;
-import com.google.gson.Gson;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CategoryMain extends AppCompatActivity
@@ -75,6 +53,7 @@ public class CategoryMain extends AppCompatActivity
     private Button partneraccreject_but,partneraccaccept_but;
     AlertDialog alertDialog1;
     TextView tv_toolbar;
+    String URL_CHECKPASSESS;
     CharSequence[] values = {" I am on other Project "," I cant do the Service right now",
             " Its not my Requirement "," I am out of Station "," My reason is not listed "};
 
@@ -85,73 +64,86 @@ public class CategoryMain extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        if (isConnectedToNetwork()) {
+            setContentView(R.layout.activity_category_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
+            final HashMap<String, String> user = db.getUserDetails();
+            partnerhome_partneruid = user.get("uid");
+           // Toast.makeText(this, partnerhome_partneruid, Toast.LENGTH_SHORT).show();
 
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
-        final HashMap<String, String> user = db.getUserDetails();
-        partnerhome_partneruid=user.get("uid");
+             URL_CHECKPASSESS=GlobalUrl.partner_checkpassess+"?partner_uid="+partnerhome_partneruid;
+            getCheckPassess(partnerhome_partneruid);
+
 //        getSupportFragmentManager().beginTransaction()
 //                .add(R.id.fragments, new com.ringaapp.ringapartner.MenusFragment()).commit();
 
-         URLCOUNT=GlobalUrl.partner_getmyjobscount+"?partner_uid="+partnerhome_partneruid;
-        getJobsMyCount(partnerhome_partneruid);
-        tv_toolbar=findViewById(R.id.tv_toolbar);
+            tv_toolbar = findViewById(R.id.tv_toolbar);
 
 
-
-
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                android.support.v4.app.Fragment selectedFragment = null;
-                if (tabId == R.id.tab_new) {
-                    selectedFragment = NewJobs.newInstance();
-               }
-                 else if (tabId == R.id.tab_ongoing) {
-                    selectedFragment = OnGoingPartJobs.newInstance();
-                                }
-                else if (tabId == R.id.tab_finished) {
-                    selectedFragment = FinishedPartJobs.newInstance();
+            BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelected(@IdRes int tabId) {
+                    android.support.v4.app.Fragment selectedFragment = null;
+                    if (tabId == R.id.tab_new) {
+                        selectedFragment = NewJobs.newInstance();
+                    } else if (tabId == R.id.tab_ongoing) {
+                        selectedFragment = OnGoingPartJobs.newInstance();
+                    } else if (tabId == R.id.tab_finished) {
+                        selectedFragment = FinishedPartJobs.newInstance();
+                    }
+                    else if (tabId == R.id.tab_sell) {
+                    selectedFragment = SellProdutsFrag.newInstance();
+                }else if (tabId == R.id.tab_recharge) {
+                    selectedFragment = RechargeFrag.newInstance();
                 }
-                //else if (tabId == R.id.tab_sckell) {
-//                    selectedFragment = OnGoing.newInstance();
-//                }else if (tabId == R.id.tab_recharge) {
-//                    selectedFragment = OnGoing.newInstance();
-//                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentContainer, selectedFragment);
-                transaction.commit();
-            }
-        });
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentContainer, selectedFragment);
+                    transaction.commit();
+                }
+            });
 
-        Toast.makeText(this, partnerhome_partneruid, Toast.LENGTH_SHORT).show();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        partneraccreject_but=findViewById(R.id.partneraccrej_rejectbut);
-        partneraccaccept_but=findViewById(R.id.partneraccrej_acceptbut);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+          //  Toast.makeText(this, "ji"+partnerhome_partneruid, Toast.LENGTH_SHORT).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            partneraccreject_but = findViewById(R.id.partneraccrej_rejectbut);
+            partneraccaccept_but = findViewById(R.id.partneraccrej_acceptbut);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        dialog=new ProgressDialog(this);
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
-       // partnerhome_listview=findViewById(R.id.partnerhome_listview);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            // partnerhome_listview=findViewById(R.id.partnerhome_listview);
 
 //        String URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
 //        new kilomilo().execute(URLL);
-        updatelastseen(partnerhome_partneruid);
+            updatelastseen(partnerhome_partneruid);
 
+        }
+        else {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(CategoryMain.this,CategoryMain.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
+
 //    public class MovieAdap extends ArrayAdapter {
 //        private List<home_accerejjobs> movieModelList;
 //        private int resource;
@@ -336,7 +328,9 @@ public class CategoryMain extends AppCompatActivity
 
         if (id == R.id.nav_dashboard) {
         } else if (id == R.id.nav_profile) {
+
             Intent intent1=new Intent(CategoryMain.this,ProfilePage.class);
+
             startActivity(intent1);
 
 
@@ -549,7 +543,7 @@ public class CategoryMain extends AppCompatActivity
         }
     }
     public void getJobsMyCount(final String sphone1) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLCOUNT, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_getmyjobscount, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -559,9 +553,13 @@ public class CategoryMain extends AppCompatActivity
                     {
                         JSONObject users = jObj.getJSONObject("lead");
                         jobcounttool = users.getString("lead_partner_uid");
-                      //  Toast.makeText(CategoryMain.this, jobcounttool, Toast.LENGTH_SHORT).show();
                         tv_toolbar.setTextColor(Color.WHITE);
                         tv_toolbar.setText(jobcounttool+" Jobs left");
+                        if(jobcounttool.matches("0")|| jobcounttool.equals("0"))
+                        {
+                            Toast.makeText(CategoryMain.this, jobcounttool, Toast.LENGTH_SHORT).show();
+
+                        }
 
                     }
                     else
@@ -591,6 +589,62 @@ public class CategoryMain extends AppCompatActivity
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    public void getCheckPassess(final String sphone1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,GlobalUrl.partner_checkpassess , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("user_details");
+                       String getpartner_passes = users.getString("partner_passess");
 
+                       if(getpartner_passes.matches("0") ||getpartner_passes.equals("0"))
+                       {
+                           startActivity(new Intent(CategoryMain.this,DocVerification.class));
+
+                       }
+                       else
+                       { URLCOUNT = GlobalUrl.partner_getmyjobscount + "?partner_uid=" + partnerhome_partneruid;
+                           getJobsMyCount(partnerhome_partneruid);
+
+                       }
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"No Jobs",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("partner_uid", sphone1);
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

@@ -6,20 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
-import com.thomashaertel.widget.MultiSpinner;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
@@ -42,7 +41,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PartnerSerSel extends AppCompatActivity  {
@@ -72,98 +70,112 @@ public class PartnerSerSel extends AppCompatActivity  {
         final String partnerslelocation=intent.getStringExtra("user_city");
         final String partneruid=intent.getStringExtra("oneuid");
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+        if (isConnectedToNetwork()) {
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-      //  Toast.makeText(this, partnerslelocation, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, partneruid, Toast.LENGTH_SHORT).show();
-        myLayout = findViewById(R.id.GridLayout1);
-        partnercatsel_spinner =  findViewById(R.id.partnercatsel_spinner);
-        partnersubcatsel_spinner =  findViewById(R.id.mySpinner);
-        bcategseladd=findViewById(R.id.categseladd);
-        selectedcateg=findViewById(R.id.textnone);
-        addmore_srvsel=findViewById(R.id.addmore_srvsel);
-        partnercatsel_spinner.setTitle("Select Category Item");
+            //  Toast.makeText(this, partnerslelocation, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, partneruid, Toast.LENGTH_SHORT).show();
+            myLayout = findViewById(R.id.GridLayout1);
+            partnercatsel_spinner = findViewById(R.id.partnercatsel_spinner);
+            partnersubcatsel_spinner = findViewById(R.id.mySpinner);
+            bcategseladd = findViewById(R.id.categseladd);
+            selectedcateg = findViewById(R.id.textnone);
+            addmore_srvsel = findViewById(R.id.addmore_srvsel);
+            partnercatsel_spinner.setTitle("Select Category Item");
 
-        partnercatsel_spinner.setPositiveButton("OK");
-        students = new ArrayList<String>();
-        studentss = new ArrayList<String>();
-        int initialposition=partnercatsel_spinner.getSelectedItemPosition();
-        partnercatsel_spinner.setSelection(initialposition, false);//clear selection
-        addmore_srvsel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PartnerSerSel.this, "Please Select Categories", Toast.LENGTH_SHORT).show();
-            }
-        });
-        getData();
+            partnercatsel_spinner.setPositiveButton("OK");
+            students = new ArrayList<String>();
+            studentss = new ArrayList<String>();
+            int initialposition = partnercatsel_spinner.getSelectedItemPosition();
+            partnercatsel_spinner.setSelection(initialposition, false);//clear selection
+            addmore_srvsel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(PartnerSerSel.this, "Please Select Categories", Toast.LENGTH_SHORT).show();
+                }
+            });
+            getData();
 
 
-        partnercatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            partnercatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                     selec = parent.getItemAtPosition(position).toString();
-                 categget=getCategNamez(position);
+                    categget = getCategNamez(position);
                     getsData(categget);
 
-            } // to close the onItemSelected
+                } // to close the onItemSelected
 
-            public void onNothingSelected(AdapterView<?> parent) {
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-        partnersubcatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedcateg.setVisibility(View.INVISIBLE);
-                bcategseladd.setVisibility(View.VISIBLE);
-                selecteds = parent.getItemAtPosition(position).toString();
-                 myserviceid=getsuubcategNamez(position);
-                 //Toast.makeText(PartnerSerSel.this, myserviceid, Toast.LENGTH_SHORT).show();
+                }
+            });
+            partnersubcatsel_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedcateg.setVisibility(View.INVISIBLE);
+                    bcategseladd.setVisibility(View.VISIBLE);
+                    selecteds = parent.getItemAtPosition(position).toString();
+                    myserviceid = getsuubcategNamez(position);
+                    //Toast.makeText(PartnerSerSel.this, myserviceid, Toast.LENGTH_SHORT).show();
 
-                final Button myEditText = new Button(PartnerSerSel.this); // Pass it an Activity or Context
-                myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)); // Pass two args; must be LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, or an integer pixel value.
-                myLayout.addView(myEditText);
-                myEditText.setText("  "+selecteds);
-                myEditText.setTextColor(Color.WHITE);
-                myEditText.setPadding(30,16,30,6);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(5, 4, 0, 12);
-                myEditText.setLayoutParams(params);
-                Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.ic_cancel_black_24dp );
-                myEditText.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
-                myEditText.setBackground(getDrawable(R.drawable.rounded_editsecond));
-                myEditText.setCompoundDrawablesWithIntrinsicBounds( null, null, img, null);
+                    final Button myEditText = new Button(PartnerSerSel.this); // Pass it an Activity or Context
+                    myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)); // Pass two args; must be LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, or an integer pixel value.
+                    myLayout.addView(myEditText);
+                    myEditText.setText("  " + selecteds);
+                    myEditText.setTextColor(Color.WHITE);
+                    myEditText.setPadding(30, 16, 30, 6);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(5, 4, 0, 12);
+                    myEditText.setLayoutParams(params);
+                    Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.ic_cancel_black_24dp);
+                    myEditText.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                    myEditText.setBackground(getDrawable(R.drawable.rounded_editsecond));
+                    myEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, img, null);
 
 
+                    addmyservices(partneruid, myserviceid, partnerslelocation, categget);
 
-                 addmyservices(partneruid,myserviceid,partnerslelocation,categget);
+                    //  Toast.makeText(PartnerSerSel.this, "my selected service is was"+myserviceid, Toast.LENGTH_SHORT).show();
+                    myEditText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.GONE);
+                            delmyservices(partneruid, myserviceid, partnerslelocation);
 
-              //  Toast.makeText(PartnerSerSel.this, "my selected service is was"+myserviceid, Toast.LENGTH_SHORT).show();
-                myEditText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        v.setVisibility(View.GONE);
-                        delmyservices(partneruid,myserviceid,partnerslelocation);
+                        }
+                    });
+                    bcategseladd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent1 = new Intent(PartnerSerSel.this, HomeScreen.class);
+                            intent1.putExtra("uidimagex", partneruid);
+                            startActivity(intent1);
+                        }
+                    });
+                }
 
-                    }
-                });
-                bcategseladd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent1=new Intent(PartnerSerSel.this,HomeScreen.class);
-                      intent1.putExtra("uidimagex",partneruid);
-                        startActivity(intent1);
-                    }
-                });
-            }
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            public void onNothingSelected(AdapterView<?> parent) {
+                }
 
-            }
+            });
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(PartnerSerSel.this,PartnerSerSel.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
-        });
 
     }
     private void getData() {
@@ -249,7 +261,7 @@ public class PartnerSerSel extends AppCompatActivity  {
         try {
             JSONObject json = result.getJSONObject(position);
             serviceuid = json.getString("service_categ_uid");
-            Toast.makeText(PartnerSerSel.this,serviceuid , Toast.LENGTH_SHORT).show();
+           // Toast.makeText(PartnerSerSel.this,serviceuid , Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -260,7 +272,7 @@ public class PartnerSerSel extends AppCompatActivity  {
         try {
             JSONObject json = results.getJSONObject(position);
             serviceuid = json.getString("service_subcateg_uid");
-            Toast.makeText(PartnerSerSel.this,serviceuid , Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(PartnerSerSel.this,serviceuid , Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -311,6 +323,11 @@ public class PartnerSerSel extends AppCompatActivity  {
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
 

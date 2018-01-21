@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     CatLoadingView mView;
     private SessionManager session;
     private SQLiteHandler db;
+    private  TextView show_pass;
+    private Boolean isClicked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,23 @@ public class LoginActivity extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
+        show_pass= findViewById(R.id.show_password);
 
+        show_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isClicked = isClicked ? false : true;
+                if (isClicked) {
+                    show_pass.setText("Hide");
+                    sedlogin_pswd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                } else {
+                    show_pass.setText("Show");
+                    sedlogin_pswd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                }
+            }
+        });
         if (session.isLoggedIn()) {
             Intent intent = new Intent(LoginActivity.this, CategoryMain.class);
             startActivity(intent);

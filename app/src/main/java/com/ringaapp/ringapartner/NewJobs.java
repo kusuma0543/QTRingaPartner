@@ -1,19 +1,27 @@
 package com.ringaapp.ringapartner;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,21 +50,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.droidsonroids.gif.GifImageView;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class NewJobs extends Fragment {
-
+TextView gettext;
     String partnerhome_partneruid;
     private ListView partnerhome_listview;
     private ProgressDialog dialog;
     String getmyrejectid;
-    String URLCOUNT,jobcounttool;
-    private Button partneraccreject_but,partneraccaccept_but;
+    String URLL;
+    private final int  FIVE_SECONDS=5000;
+    GifImageView gifImageView;
     AlertDialog alertDialog1;
-    TextView tv_toolbar;
+    FrameLayout fragmentContainer;
     CharSequence[] values = {" I am on other Project "," I cant do the Service right now",
             " Its not my Requirement "," I am out of Station "," My reason is not listed "};
-
+final Handler handler=new Handler();
     private SessionManager session;
     private SQLiteHandler db;
     public static NewJobs newInstance() {
@@ -68,20 +79,35 @@ public class NewJobs extends Fragment {
                              Bundle savedInstanceState) {
 
        View view= inflater.inflate(R.layout.fragment_new_jobs, container, false);
-
+        fragmentContainer = view. findViewById(R.id.contentContainer);
         session = new SessionManager(getActivity());
         db = new SQLiteHandler(getActivity());
         final HashMap<String, String> user = db.getUserDetails();
         partnerhome_partneruid=user.get("uid");
          partnerhome_listview=view.findViewById(R.id.partnerhome_listview);
+         gifImageView=view.findViewById(R.id.gif_list);
         dialog=new ProgressDialog(getActivity());
         dialog = new ProgressDialog(getActivity());
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
-        String URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
+        gettext=view.findViewById(R.id.text_list);
+        URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
+
         new kilomilo().execute(URLL);
+        scheduleSendLocation();
        return view;
+    }
+    public void scheduleSendLocation() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
+
+                new kilomilo().execute(URLL);
+                handler.postDelayed(this, FIVE_SECONDS);
+            }
+        }, FIVE_SECONDS);
     }
     public class MovieAdap extends ArrayAdapter {
         private List<home_accerejjobs> movieModelList;
@@ -129,12 +155,55 @@ public class NewJobs extends Fragment {
             holder.textone.setText(ccitacc.getService_subcateg_name());
             holder.textthree.setText(ccitacc.getUser_name());
             holder.textbookingid.setText(ccitacc.getBooking_uid());
+
+            Intent notificationIntent = new Intent(getContext(), CategoryMain.class);
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(getActivity(), 0, notificationIntent, 0);
+            Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            long[] v = {500,1000};
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity())
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("RingaApp User Request!")
+                    .setSound(uri)
+                    .setColor(Color.RED)
+                    .setContentIntent(pendingIntent)
+                    .setContentText("You got a service request from "+ccitacc.getUser_name()+" on "+ccitacc.getService_subcateg_name()+"\nPlease check RingaApp Partner Dashboard"
+                    );
+
+            NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+
+
+            builder.setStyle(bigText);
+            builder.setVibrate(v);
+            Notification notification = builder.build();
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+            notificationManager.notify(0, notification);
+
+
                 holder.butaccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String getmid=holder.textbookingid.getText().toString();
                         acceptmeupdate(getmid);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                        handler.removeCallbacksAndMessages(null);
+//
+//                        OnGoingPartJobs fragment2 = new OnGoingPartJobs();
+//                        FragmentManager fragmentManager = getFragmentManager();
+//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.contentContainer, fragment2);
+//                        fragmentTransaction.commit();
+                        Intent intent = new Intent(getActivity(),AppreciationAccept.class);
+
+                        String intentm="fromaccept";
+                        intent.putExtra("check",intentm);
+
+                        startActivity(intent);
+
+
                     }
                 });
 
@@ -142,8 +211,14 @@ public class NewJobs extends Fragment {
                     @Override
                     public void onClick(View v) {
                          getmyrejectid=holder.textbookingid.getText().toString();
+                        handler.removeCallbacksAndMessages(null);
 
-                        CreateAlertDialogWithRadioButtonGroup() ;
+                        Intent intent = new Intent(getActivity(),AppreciationAccept.class);
+
+                        String intentm="fromreject";
+                        intent.putExtra("check",intentm);
+
+                        startActivity(intent);
 
                     }
                 });
@@ -162,7 +237,7 @@ public class NewJobs extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.show();
+            //dialog.show();
         }
 
         @Override
@@ -190,6 +265,7 @@ public class NewJobs extends Fragment {
                     home_accerejjobs catego = gson.fromJson(finalObject.toString(), home_accerejjobs.class);
                     milokilo.add(catego);
                 }
+                handler.removeCallbacksAndMessages(null);
                 return milokilo;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -214,11 +290,16 @@ public class NewJobs extends Fragment {
             dialog.dismiss();
             if (movieMode== null)
             {
-                Toast.makeText(getActivity(),"No Services available for your selection", Toast.LENGTH_SHORT).show();
+                partnerhome_listview.setVisibility(View.INVISIBLE);
+
 
             }
             else
             {
+                gifImageView.setVisibility(View.INVISIBLE);
+                gettext.setVisibility(View.INVISIBLE);
+                partnerhome_listview.setVisibility(View.VISIBLE);
+
                 MovieAdap adapter = new MovieAdap(getActivity(), R.layout.home_accerejjobs, movieMode);
                 partnerhome_listview.setAdapter(adapter);
 //                partnerhome_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -232,6 +313,7 @@ public class NewJobs extends Fragment {
 //                        startActivity(intent);
 //                    }
 //                });
+
                 adapter.notifyDataSetChanged();
             }
         }
@@ -278,14 +360,14 @@ public class NewJobs extends Fragment {
                         String case0="I am on other Project";
                         Toast.makeText(getActivity(), case0, Toast.LENGTH_LONG).show();
                         rejectmeupdate(getmyrejectid,case0);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                      //  startActivity(new Intent(getActivity(),CategoryMain.class));
 
                         break;
                     case 1:
                         String case1="I cant do the Service right now";
                         Toast.makeText(getActivity(), case1, Toast.LENGTH_LONG).show();
                         rejectmeupdate(getmyrejectid,case1);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                       // startActivity(new Intent(getActivity(),CategoryMain.class));
 
                         break;
                     case 2:
@@ -293,7 +375,7 @@ public class NewJobs extends Fragment {
                         Toast.makeText(getActivity(), "Third Item Clicked", Toast.LENGTH_LONG).show();
                         String case2="Its not my Requirement";
                         rejectmeupdate(getmyrejectid,case2);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                       // startActivity(new Intent(getActivity(),CategoryMain.class));
 
                         break;
                     case 3:
@@ -301,7 +383,7 @@ public class NewJobs extends Fragment {
                         Toast.makeText(getActivity(), "FOur Item Clicked", Toast.LENGTH_LONG).show();
                         String case3="I am out of Station";
                         rejectmeupdate(getmyrejectid,case3);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                        //startActivity(new Intent(getActivity(),CategoryMain.class));
 
                         break;
                     case 4:
@@ -309,7 +391,7 @@ public class NewJobs extends Fragment {
                         Toast.makeText(getActivity(), "Five Item Clicked", Toast.LENGTH_LONG).show();
                         String case4="My reason is not listed";
                         rejectmeupdate(getmyrejectid,case4);
-                        startActivity(new Intent(getActivity(),CategoryMain.class));
+                      //  startActivity(new Intent(getActivity(),CategoryMain.class));
 
                         break;
                 }
@@ -343,4 +425,5 @@ public class NewJobs extends Fragment {
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
+
 }

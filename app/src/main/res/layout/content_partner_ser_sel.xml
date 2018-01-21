@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:textColor="@color/colorPrimary"
         android:layout_below="@+id/mySpinner"
         android:text="Your Selected Sub Categories are:" />
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="None of the Category has been selected"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:textStyle="bold"/>
         <Button
      android:id="@+id/addmore_srvsel"
@@ -66,7 +66,7 @@
 
             android:layout_marginTop="10dp"
 
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Add More"
             android:textColor="@color/colorAccent"
             android:textSize="13sp"
@@ -104,7 +104,7 @@ android:layout_alignParentBottom="true"
 
         android:layout_marginTop="10dp"
         android:background="@drawable/edittext_afterseslect"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Next"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"

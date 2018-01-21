@@ -23,7 +23,7 @@
             android:textColor="#000"
             android:textSize="19sp"
             android:textStyle="bold"
-            android:fontFamily="@font/nunito"/>
+            android:fontFamily="@font/nunito_semibold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,14 +31,14 @@
             android:textSize="17sp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/nunito"/>
+            android:fontFamily="@font/nunito_semibold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Verified Successfully!"
             android:textSize="17sp"
             android:layout_gravity="center"
-            android:fontFamily="@font/nunito"/>
+            android:fontFamily="@font/nunito_semibold"/>
 
         <Button
             android:id="@+id/verify_proceed"

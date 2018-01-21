@@ -2,7 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <Button
+        android:id="@+id/mylocnav"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+android:layout_alignParentEnd="true"
+        android:layout_above="@+id/ride"
+        android:background="@drawable/location_user"/>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -41,13 +47,7 @@
         android:text="pick a plce"
         android:visibility="gone"
         android:layout_marginTop="400dp"/>
-    <Button
-        android:id="@+id/mylocnav"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/location_user"/>
+
     <Button
         android:id="@+id/ride"
         android:layout_width="match_parent"

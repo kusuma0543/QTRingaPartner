@@ -33,7 +33,7 @@
                 android:text="Name"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/partnerhome_usersubcateg"
@@ -42,7 +42,7 @@
                 android:layout_gravity="start"
                 android:textColor="#000"
 
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="18sp" />
             <TextView
                 android:id="@+id/partner_bookingid"
@@ -51,7 +51,7 @@
                 android:layout_gravity="start"
                 android:textColor="#000"
                 android:visibility="invisible"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="6sp" />
             <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
 
                 android:textSize="15sp"
                 android:layout_marginLeft="10dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:textColor="@color/colorAccent"
                 android:background="@drawable/shape_users"/>
 
@@ -82,7 +82,7 @@
                 android:layout_height="40dp"
 
                 android:background="@drawable/filter_shape"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Accept"
                 android:layout_marginLeft="60dp"
 

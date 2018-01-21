@@ -37,7 +37,7 @@ android:weightSum="2">
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1.6"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
 
         android:paddingLeft="15dp"
         android:textSize="20sp" />

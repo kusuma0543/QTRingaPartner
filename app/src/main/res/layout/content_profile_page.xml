@@ -64,7 +64,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/userbackcode"
-                    android:src="@drawable/ic_person_black_24dp" />
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,41 +74,48 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/colorBlack"
                         android:id="@+id/partner_profname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Name Of the Provider"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:id="@+id/partner_profaddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Address Of the Provider" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
+                android:textColor="@color/colorBlack"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Introduction"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:textColor="@color/colorBlack"
+
                 android:id="@+id/partner_profintro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="I a here to provide you like a saloon experience in comfort at ur home"
                 android:textSize="14sp" />
 
@@ -119,11 +126,13 @@
                 android:background="#848282" />
 
             <TextView
+                android:textColor="@color/colorBlack"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Ratings"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -141,21 +150,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Over all Rating" />
 
                     <TextView
                         android:layout_width="wrap_content"
+
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="4.0"
+                        android:textColor="@color/colorBlack"
                         android:textSize="23sp" />
 
                     <RatingBar
+
                         android:id="@+id/ratingBar"
                         style="?android:attr/ratingBarStyleIndicator"
                         android:layout_width="wrap_content"
@@ -168,10 +182,12 @@
                         android:transformPivotX="0dp"
                         android:transformPivotY="0dp" />
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Over all Rating" />
                 </LinearLayout>
 
@@ -186,11 +202,13 @@
             </LinearLayout>
 
             <TextView
+                android:textColor="@color/colorBlack"
+
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Reviews"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -207,7 +225,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/userbackcode"
-                    android:src="@drawable/ic_person_black_24dp" />
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -217,18 +235,22 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Name Of the Provider"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Address Of the Provider" />
                 </LinearLayout>
             </LinearLayout>
@@ -244,7 +266,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/userbackcode"
-                    android:src="@drawable/ic_person_black_24dp" />
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -253,18 +275,23 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Name Of the Provider"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textColor="@color/colorBlack"
+
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/nunito"
+                        android:fontFamily="@font/nunito_semibold"
                         android:text="Address Of the Provider" />
                 </LinearLayout>
             </LinearLayout>
@@ -276,7 +303,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="Edit Profile"
-                android:fontFamily="@font/nunito"
+                android:fontFamily="@font/nunito_semibold"
                 android:layout_marginTop="20dp"
                 android:textColor="#FFF"
                 android:textStyle="bold"

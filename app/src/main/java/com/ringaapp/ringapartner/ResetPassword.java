@@ -1,7 +1,10 @@
 package com.ringaapp.ringapartner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -16,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
@@ -36,84 +40,92 @@ public class ResetPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+        if (isConnectedToNetwork()) {
+            edresetpswd = (EditText) findViewById(R.id.edresetpswd);
+            edconfirmpswd = (EditText) findViewById(R.id.edconfirnpswd);
+            butreset_otp = (Button) findViewById(R.id.butreset_otp);
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-        edresetpswd=(EditText) findViewById(R.id.edresetpswd);
-        edconfirmpswd=(EditText) findViewById(R.id.edconfirnpswd);
-        butreset_otp=(Button ) findViewById(R.id.butreset_otp);
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                sreset_mobile = extras.getString("mobile_number");
+            } else {
+                Toast.makeText(getApplicationContext(), "no dta", Toast.LENGTH_SHORT).show();
+            }
+            edresetpswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            sreset_mobile = extras.getString("mobile_number");
+                public void onFocusChange(View view, boolean hasfocus) {
+                    if (hasfocus) {
+                        edresetpswd.setTextColor(Color.RED);
+
+                        edresetpswd.setBackgroundResource(R.drawable.edittext_afterseslect);
+                        edconfirmpswd.setTextColor(Color.BLACK);
+
+                    }
+
+                }
+            });
+            edconfirmpswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                public void onFocusChange(View view, boolean hasfocus) {
+                    if (hasfocus) {
+                        edconfirmpswd.setTextColor(Color.RED);
+
+                        edconfirmpswd.setBackgroundResource(R.drawable.edittext_afterseslect);
+                        edresetpswd.setTextColor(Color.BLACK);
+                    }
+                }
+            });
+            edconfirmpswd.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String passwrd = edresetpswd.getText().toString();
+                    String cpasswrd = edconfirmpswd.getText().toString();
+                    if (editable.length() > 0 && passwrd.length() > 0) {
+                        if (!cpasswrd.equals(passwrd)) {
+                            Toast.makeText(ResetPassword.this, "Please match your passwords", Toast.LENGTH_SHORT).show();
+                        } else {
+                            butreset_otp.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    sreset_password = edconfirmpswd.getText().toString();
+                                    Toast.makeText(getApplicationContext(), sreset_mobile, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), sreset_password, Toast.LENGTH_SHORT).show();
+                                    resetpassword(sreset_mobile, sreset_password);
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+            });
+
         }
         else
         {
-            Toast.makeText(getApplicationContext(),"no dta",Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ResetPassword.this,ResetPassword.class);
+                    startActivity(intent);
+                }
+            });
         }
-        edresetpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
-
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
-                    edresetpswd.setTextColor(Color.RED);
-
-                    edresetpswd.setBackgroundResource( R.drawable.edittext_afterseslect);
-                    edconfirmpswd.setTextColor(Color.BLACK);
-
-                }
-
-            }
-        });
-        edconfirmpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
-
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
-                    edconfirmpswd.setTextColor(Color.RED);
-
-                    edconfirmpswd.setBackgroundResource( R.drawable.edittext_afterseslect);
-                    edresetpswd.setTextColor(Color.BLACK);
-                }
-            }
-        });
-        edconfirmpswd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String passwrd = edresetpswd.getText().toString();
-                String cpasswrd = edconfirmpswd.getText().toString();
-                if (editable.length() > 0 && passwrd.length() > 0) {
-                    if(!cpasswrd .equals(passwrd )){
-                        Toast.makeText(ResetPassword.this,"Please match your passwords",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        butreset_otp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                sreset_password=edconfirmpswd.getText().toString();
-                                Toast.makeText(getApplicationContext(), sreset_mobile, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getApplicationContext(), sreset_password, Toast.LENGTH_SHORT).show();
-                                resetpassword(sreset_mobile,sreset_password);
-
-                            }
-                        });
-                    }
-
-                }
-            }
-        });
-
     }
     public void resetpassword(final String s1, final String s2) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_resetpas, new Response.Listener<String>() {
@@ -164,5 +176,10 @@ public class ResetPassword extends AppCompatActivity {
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

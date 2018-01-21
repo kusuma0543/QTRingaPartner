@@ -1,7 +1,10 @@
 package com.ringaapp.ringapartner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 
@@ -31,46 +35,56 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        if (isConnectedToNetwork()) {
+            edforgotpswd = (EditText) findViewById(R.id.edforgotpswd);
+            butforgotpswd_otp = (Button) findViewById(R.id.butforgorpswd_otp);
 
-        edforgotpswd=(EditText) findViewById(R.id.edforgotpswd);
-        butforgotpswd_otp=(Button) findViewById(R.id.butforgorpswd_otp);
+            session = new SessionManager(getApplicationContext());
+            db = new SQLiteHandler(getApplicationContext());
 
-        session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+            edforgotpswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-        edforgotpswd.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+                public void onFocusChange(View view, boolean hasfocus) {
+                    if (hasfocus) {
+                        edforgotpswd.setTextColor(Color.RED);
 
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
-                    edforgotpswd.setTextColor(Color.RED);
-
-                    edforgotpswd.setBackgroundResource( R.drawable.edittext_afterseslect);
+                        edforgotpswd.setBackgroundResource(R.drawable.edittext_afterseslect);
+                    }
                 }
-            }
-        });
-        butforgotpswd_otp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(edforgotpswd.getText().toString().equals(""))
-                {
-                    Toast.makeText(getApplicationContext(), "Please enter Number", Toast.LENGTH_LONG).show();
+            });
+            butforgotpswd_otp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (edforgotpswd.getText().toString().equals("")) {
+                        Toast.makeText(getApplicationContext(), "Please enter Number", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        sforgot_mobile = edforgotpswd.getText().toString();
+                        forgot_updateotp(sforgot_mobile);
+                        Intent intent = new Intent(ForgotPassword.this, OTPVerifys.class);
+                        String fromforgot = "fromforgot";
+                        intent.putExtra("fromforgot", fromforgot);
+                        intent.putExtra("mobile_number", sforgot_mobile);
+
+                        startActivity(intent);
+                    }
 
                 }
-                else
-                {
-                    sforgot_mobile=edforgotpswd.getText().toString();
-                    forgot_updateotp(sforgot_mobile);
-                    Intent intent=new Intent(ForgotPassword.this,OTPVerifys.class);
-                    String fromforgot="fromforgot";
-                    intent.putExtra("fromforgot",fromforgot);
-                    intent.putExtra("mobile_number",sforgot_mobile);
+            });
 
+        }
+        else
+        {
+            setContentView(R.layout.content_ifnointernet);
+            DesertPlaceholder desertPlaceholder = (DesertPlaceholder) findViewById(R.id.placeholder_fornointernet);
+            desertPlaceholder.setOnButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ForgotPassword.this,ForgotPassword.class);
                     startActivity(intent);
                 }
-
-            }
-        });
-
+            });
+        }
     }
     public void forgot_updateotp(final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_forgorpass, new Response.Listener<String>() {
@@ -94,6 +108,11 @@ public class ForgotPassword extends AppCompatActivity {
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private boolean isConnectedToNetwork() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

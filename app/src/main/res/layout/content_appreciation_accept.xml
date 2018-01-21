@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ringaapp.ringapartner.AppreciationAccept"
+    tools:showIn="@layout/activity_appreciation_accept">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_accept"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="114dp"
+        android:src="@drawable/accepjob" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_reject"
+        android:layout_width="200dp"
+        android:visibility="invisible"
+
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="114dp"
+        android:src="@drawable/rejectjob" />
+
+    <TextView
+        android:id="@+id/textgif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gif_accept"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="@color/colorAccent"
+        android:text="jfcexd" />
+
+    <Button
+        android:id="@+id/button2"
+        android:background="@drawable/rounded_editsecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Check My OnGoing Jobs" />
+</RelativeLayout>

@@ -161,33 +161,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".AcceptReject"
-            android:label="@string/title_activity_accept_reject"
-            android:parentActivityName=".CategoryMain"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
             android:name=".ProfilePage"
             android:label="@string/title_activity_profile_page"
-            android:parentActivityName=".CategoryMain"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
-        </activity>
-        <activity
-            android:name=".OnGoingJobs"
-            android:label="@string/title_activity_on_going_jobs"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -204,8 +179,17 @@
                 android:value="com.ringaapp.ringapartner.CategoryMain" />
         </activity>
         <activity
-            android:name=".FinishedJobs"
-            android:label="@string/title_activity_finished_jobs"
+            android:name=".UploadPartnerServImages"
+            android:label="@string/title_activity_upload_partner_serv_images"
+            android:parentActivityName=".HomeScreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.HomeScreen" />
+        </activity>
+        <activity
+            android:name=".AppreciationAccept"
+            android:label="@string/title_activity_appreciation_accept"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

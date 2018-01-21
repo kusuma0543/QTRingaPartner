@@ -2,13 +2,13 @@ package com.ringaapp.ringapartner;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -47,6 +47,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private String emailInput,emailPattern;
     private String sname,semail,smobile,spassword,sradio_one,sradio_two;
     String signupuid;
+    private  TextView show_pass;
+    private Boolean isClicked = false;
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -72,7 +74,23 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
+        show_pass= findViewById(R.id.show_password);
 
+        show_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isClicked = isClicked ? false : true;
+                if (isClicked) {
+                    show_pass.setText("Hide");
+                    sedsignup_pswd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                } else {
+                    show_pass.setText("Show");
+                    sedsignup_pswd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                }
+            }
+        });
         sedsignup_name.setOnFocusChangeListener( new View.OnFocusChangeListener(){
 
             public void onFocusChange( View view, boolean hasfocus){

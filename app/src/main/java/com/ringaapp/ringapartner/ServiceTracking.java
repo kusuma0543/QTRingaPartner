@@ -2,8 +2,6 @@ package com.ringaapp.ringapartner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,8 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +72,7 @@ public class ServiceTracking extends AppCompatActivity {
         {
             tracking_butstart.setVisibility(View.VISIBLE);
             tracking_butcompleted.setVisibility(View.VISIBLE);
+
         }
         else if(checkintent.equals("checkintentfromfinish"))
         {
