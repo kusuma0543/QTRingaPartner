@@ -94,6 +94,7 @@ public class CategoryMain extends AppCompatActivity
                         selectedFragment = NewJobs.newInstance();
                     } else if (tabId == R.id.tab_ongoing) {
                         selectedFragment = OnGoingPartJobs.newInstance();
+
                     } else if (tabId == R.id.tab_finished) {
                         selectedFragment = FinishedPartJobs.newInstance();
                     }

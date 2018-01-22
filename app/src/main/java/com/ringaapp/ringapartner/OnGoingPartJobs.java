@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
@@ -28,7 +30,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,10 +49,10 @@ public class OnGoingPartJobs extends Fragment {
     String ongoingjobspartuid;
     private ListView partnerhome_listview;
     private ProgressDialog dialog;
-
+    Date date1;
     private SessionManager session;
     private SQLiteHandler db;
-
+    long diffDays;
     public static OnGoingPartJobs newInstance() {
         OnGoingPartJobs fragment= new OnGoingPartJobs();
         return fragment;
@@ -106,7 +112,13 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
 
                 holder.textone = (TextView) convertView.findViewById(R.id.partnerhome_usernames);
                 holder.textthree = (TextView)convertView.findViewById(R.id.partnerhome_usersubcategs);
-                holder.textfour = (TextView)convertView.findViewById(R.id.partnerhome_useraddresss);
+                holder.textfour = (TextView)convertView.findViewById(R.id.partnerhome_usercateg);
+                holder.text_gettingnumber = (TextView)convertView.findViewById(R.id.geting_number);
+                holder.text_getingdate = (TextView)convertView.findViewById(R.id.gettingdate);
+                holder.text_dispdate = (TextView)convertView.findViewById(R.id.partnerhome_whenaccepted);
+
+                holder.ongoingbut_msg = convertView.findViewById(R.id.partneraccrej_chatbut);
+                holder.ongoingbut_call = convertView.findViewById(R.id.partneraccrej_callbut);
 
                 convertView.setTag(holder);
             }//ino
@@ -114,14 +126,61 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
                 holder = (MovieAdap.ViewHolder) convertView.getTag();
             }
             home_accerejjobss ccitacc = movieModelList.get(position);
-            holder.textthree.setText(ccitacc.getUser_name());
-            holder.textone.setText(ccitacc.getService_subcateg_name());
-            holder.textfour.setText(ccitacc.getService_booking_address());
+            holder.textthree.setText(ccitacc.getService_subcateg_name());
+            holder.textone.setText(ccitacc.getUser_name());
+            holder.textfour.setText(ccitacc.getService_categ_name());
+            holder.text_gettingnumber.setText(ccitacc.getUser_mobile_number());
+            holder.text_getingdate.setText(ccitacc.getService_booking_createddate());
+            String date_2=ccitacc.getService_booking_createddate();
+            holder.text_dispdate.setText("accepted before"+ccitacc.getService_booking_createddate());
+
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(date_2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+
+          //  Calendar cal1 = Calendar.getInstance();
+           // cal1.set(2018, Calendar.JANUARY, 1);
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate = df.format(c.getTime());
+
+
+            long millis1 = cal.getTimeInMillis();
+            long millis2 = c.getTimeInMillis();
+
+            long diff = millis2 - millis1;
+             diffDays = diff / (24 * 60 * 60 * 1000);
+
+//            holder.ongoingbut_msg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    String take_number=holder.text_gettingnumber.getText().toString();
+//                    Toast.makeText(context, "Mesage number"+diffDays, Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+            holder.ongoingbut_call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String take_number=holder.text_gettingnumber.getText().toString();
+                    Toast.makeText(context, "Call Number"+take_number, Toast.LENGTH_SHORT).show();
+
+                }
+            });
             return convertView;
         }
 
         class ViewHolder {
-            public TextView textone,textthree,textfour;
+            public TextView textone,textthree,textfour,text_dispdate,text_gettingnumber,text_getingdate;
+            public Button ongoingbut_msg,ongoingbut_call;
 
         }
     }
@@ -205,6 +264,8 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
                         intent.putExtra("partnerhome_usermobile",item.getUser_mobile_number());
                         intent.putExtra("partnerhome_usermail",item.getUser_email());
                         intent.putExtra("partnerhome_address",item.getService_booking_address());
+                        intent.putExtra("partnerhome_sendcateg",item.getService_categ_name());
+
                         String intentm="checkintentfromgoing";
                         intent.putExtra("check",intentm);
 

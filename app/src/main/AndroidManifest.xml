@@ -196,6 +196,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.CategoryMain" />
         </activity>
+        <activity
+            android:name=".JobsListCount"
+            android:label="@string/title_activity_jobs_list_count"
+            android:parentActivityName=".CategoryMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.CategoryMain" />
+        </activity>
     </application>
 
 </manifest>

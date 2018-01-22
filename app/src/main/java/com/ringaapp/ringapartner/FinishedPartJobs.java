@@ -107,7 +107,7 @@ public class FinishedPartJobs extends Fragment {
 
                 holder.textone = (TextView) convertView.findViewById(R.id.partnerhome_usernames);
                 holder.textthree = (TextView)convertView.findViewById(R.id.partnerhome_usersubcategs);
-                holder.textfour = (TextView)convertView.findViewById(R.id.partnerhome_useraddresss);
+                holder.textfour = (TextView)convertView.findViewById(R.id.partnerhome_usercateg);
 
                 convertView.setTag(holder);
             }//ino
@@ -115,9 +115,9 @@ public class FinishedPartJobs extends Fragment {
                 holder = (MovieAdap.ViewHolder) convertView.getTag();
             }
             home_accerejjobs ccitacc = movieModelList.get(position);
-            holder.textthree.setText(ccitacc.getUser_name());
-            holder.textone.setText(ccitacc.getService_subcateg_name());
-            holder.textfour.setText(ccitacc.getService_booking_address());
+            holder.textthree.setText(ccitacc.getService_subcateg_name());
+            holder.textone.setText(ccitacc.getUser_name());
+            holder.textfour.setText(ccitacc.getService_categ_name());
             return convertView;
         }
 
@@ -204,6 +204,7 @@ public class FinishedPartJobs extends Fragment {
                         intent.putExtra("partnerhome_usermobile",item.getUser_mobile_number());
                         intent.putExtra("partnerhome_usermail",item.getUser_email());
                         intent.putExtra("partnerhome_address",item.getService_booking_address());
+                        intent.putExtra("partnerhome_sendcateg",item.getService_categ_name());
                         String intentm="checkintentfromfinish";
                         intent.putExtra("check",intentm);
 

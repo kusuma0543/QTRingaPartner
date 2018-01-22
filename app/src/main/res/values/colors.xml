@@ -10,4 +10,7 @@
     <color name="light_grey">#00000000</color>
     <color name="white_transparent">#00000000</color>
     <color name="black">#ce3838</color>
+
+    <color name="blue_btn_bg_color">#D32F2F</color>
+    <color name="blue_btn_bg_pressed_color">#ca7676</color>
 </resources>

@@ -4,6 +4,16 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/geting_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/gettingdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <android.support.v7.widget.CardView
         android:id="@+id/cardviewcateg"
         android:layout_width="match_parent"
@@ -34,7 +44,7 @@
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:fontFamily="@font/nunito_semibold"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/partnerhome_usersubcategs"
                 android:layout_width="wrap_content"
@@ -43,9 +53,9 @@
                 android:textColor="#000"
 
                 android:fontFamily="@font/nunito_semibold"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
             <TextView
-                android:id="@+id/partnerhome_useraddresss"
+                android:id="@+id/partnerhome_usercateg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -53,10 +63,60 @@
                 android:text="jblk"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/nunito_semibold"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorHint"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="horizontal"
+                android:layout_weight="3">
+                <TextView
+                    android:id="@+id/partnerhome_whenaccepted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="accepted before"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorBlack"
+android:textSize="12sp"
+                    android:layout_weight="2"
+                    android:gravity="start"/>
+                <Button
+                    android:id="@+id/partneraccrej_chatbut"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/nav_chat"
+                    android:textStyle="bold"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <Button
+                    android:id="@+id/partneraccrej_callbut"
+
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+
+                    android:background="@drawable/nav_contact"
+                    android:layout_marginLeft="60dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"
+
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
+
 </RelativeLayout>

@@ -17,6 +17,8 @@ public class home_accerejjobs implements Parcelable{
     String 	service_booking_address;
     String user_email;
     String user_mobile_number;
+String service_categ_name;
+String user_address_cityname;
 
     protected home_accerejjobs(Parcel in) {
         booking_uid = in.readString();
@@ -28,6 +30,8 @@ public class home_accerejjobs implements Parcelable{
         service_booking_address = in.readString();
         user_email = in.readString();
         user_mobile_number = in.readString();
+        service_categ_name = in.readString();
+        user_address_cityname = in.readString();
     }
 
     @Override
@@ -41,6 +45,8 @@ public class home_accerejjobs implements Parcelable{
         dest.writeString(service_booking_address);
         dest.writeString(user_email);
         dest.writeString(user_mobile_number);
+        dest.writeString(service_categ_name);
+        dest.writeString(user_address_cityname);
     }
 
     @Override
@@ -130,5 +136,21 @@ public class home_accerejjobs implements Parcelable{
 
     public void setUser_mobile_number(String user_mobile_number) {
         this.user_mobile_number = user_mobile_number;
+    }
+
+    public String getService_categ_name() {
+        return service_categ_name;
+    }
+
+    public void setService_categ_name(String service_categ_name) {
+        this.service_categ_name = service_categ_name;
+    }
+
+    public String getUser_address_cityname() {
+        return user_address_cityname;
+    }
+
+    public void setUser_address_cityname(String user_address_cityname) {
+        this.user_address_cityname = user_address_cityname;
     }
 }

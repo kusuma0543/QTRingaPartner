@@ -7,12 +7,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -61,6 +63,8 @@ TextView gettext;
     private ProgressDialog dialog;
     String getmyrejectid;
     String URLL;
+    String URLCOUNT,jobcounttool;
+    String getmid;
     private final int  FIVE_SECONDS=5000;
     GifImageView gifImageView;
     AlertDialog alertDialog1;
@@ -105,6 +109,7 @@ final Handler handler=new Handler();
                 URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
 
                 new kilomilo().execute(URLL);
+                Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show();
                 handler.postDelayed(this, FIVE_SECONDS);
             }
         }, FIVE_SECONDS);
@@ -140,8 +145,11 @@ final Handler handler=new Handler();
                 convertView = inflater.inflate(resource, null);
                 holder = new ViewHolder();
 
-                holder.textone = (TextView) convertView.findViewById(R.id.partnerhome_username);
-                holder.textthree = (TextView)convertView.findViewById(R.id.partnerhome_usersubcateg);
+                holder.textname = (TextView) convertView.findViewById(R.id.partnerhome_username);
+                holder.text_categname = (TextView)convertView.findViewById(R.id.partnerhome_usercategname);
+                holder.textsubcategname = (TextView)convertView.findViewById(R.id.partnerhome_usersubcateg);
+                holder.text_locality = (TextView)convertView.findViewById(R.id.partnerhome_userlocality);
+
                 holder.textbookingid=(TextView)convertView.findViewById(R.id.partner_bookingid);
                 holder.butrejectbut=convertView.findViewById(R.id.partneraccrej_rejectbut);
                 holder.butaccept=convertView.findViewById(R.id.partneraccrej_acceptbut);
@@ -152,20 +160,23 @@ final Handler handler=new Handler();
                 holder = (ViewHolder) convertView.getTag();
             }
             home_accerejjobs ccitacc = movieModelList.get(position);
-            holder.textone.setText(ccitacc.getService_subcateg_name());
-            holder.textthree.setText(ccitacc.getUser_name());
+            holder.textname.setText(ccitacc.getUser_name());
+            holder.text_categname.setText(ccitacc.getService_subcateg_name());
+            holder.textsubcategname.setText(ccitacc.getService_categ_name());
+            holder.text_locality.setText(ccitacc.getUser_address_cityname());
             holder.textbookingid.setText(ccitacc.getBooking_uid());
 
             Intent notificationIntent = new Intent(getContext(), CategoryMain.class);
             PendingIntent pendingIntent =
                     PendingIntent.getActivity(getActivity(), 0, notificationIntent, 0);
-            Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             long[] v = {500,1000};
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity())
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("RingaApp User Request!")
-                    .setSound(uri)
+                   // .setSound(Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.sweety))
+                  .setSound(uri)
                     .setColor(Color.RED)
                     .setContentIntent(pendingIntent)
                     .setContentText("You got a service request from "+ccitacc.getUser_name()+" on "+ccitacc.getService_subcateg_name()+"\nPlease check RingaApp Partner Dashboard"
@@ -187,8 +198,16 @@ final Handler handler=new Handler();
                 holder.butaccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String getmid=holder.textbookingid.getText().toString();
-                        acceptmeupdate(getmid);
+                         getmid=holder.textbookingid.getText().toString();
+
+                       // acceptmeupdate(getmid);
+                      //  updatestartedjobs(getmid);
+getJobsMyCount(partnerhome_partneruid);
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("storingbookingid",getmid);
+                        editor.apply();
+
                         handler.removeCallbacksAndMessages(null);
 //
 //                        OnGoingPartJobs fragment2 = new OnGoingPartJobs();
@@ -227,7 +246,7 @@ final Handler handler=new Handler();
         }
 
         class ViewHolder {
-            public TextView textone,textthree,textbookingid;
+            public TextView textname,text_categname,textsubcategname,text_locality,textthree,textbookingid;
             public Button butaccept,butrejectbut;
 
         }
@@ -265,7 +284,6 @@ final Handler handler=new Handler();
                     home_accerejjobs catego = gson.fromJson(finalObject.toString(), home_accerejjobs.class);
                     milokilo.add(catego);
                 }
-                handler.removeCallbacksAndMessages(null);
                 return milokilo;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -288,6 +306,7 @@ final Handler handler=new Handler();
         protected void onPostExecute(final List<home_accerejjobs> movieMode) {
             super.onPostExecute(movieMode);
             dialog.dismiss();
+handler.removeCallbacksAndMessages(null);
             if (movieMode== null)
             {
                 partnerhome_listview.setVisibility(View.INVISIBLE);
@@ -319,7 +338,59 @@ final Handler handler=new Handler();
         }
     }
 
+    public void getJobsMyCount(final String sphone1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_getmyjobscount, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean abc = jObj.getBoolean("exits");
+                    if (abc)
+                    {
+                        JSONObject users = jObj.getJSONObject("lead");
+                        jobcounttool = users.getString("lead_partner_uid");
 
+                        if(jobcounttool.matches("0")|| jobcounttool.equals("0"))
+                        {
+                            startActivity(new Intent(getContext(),JobsListCount.class));
+                            Toast.makeText(getContext(), jobcounttool, Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                            String ki= preferences.getString("storingbookingid", "");
+
+                           // String ki=pref.getString("storingbookingid", null); // getting String
+                            Toast.makeText(getContext(), "ko"+ki, Toast.LENGTH_SHORT).show();
+
+                            acceptmeupdate(ki);
+                            updatestartedjobs(ki);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("partner_uid", sphone1);
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
     public void acceptmeupdate(final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_updateaccept, new Response.Listener<String>() {
             public void onResponse(String response) {
@@ -337,6 +408,28 @@ final Handler handler=new Handler();
 
                 params.put("booking_uid",s1);
 
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    public void updatestartedjobs(final String s1) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_startedjobs, new Response.Listener<String>() {
+            public void onResponse(String response) {
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            { }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("booking_uid",s1);
 
                 return params;
             }

@@ -17,6 +17,7 @@ public class home_accerejjobss implements Parcelable {
     String 	service_booking_address;
     String user_email;
     String user_mobile_number;
+    String service_booking_createddate;
 
     protected home_accerejjobss(Parcel in) {
         booking_uid = in.readString();
@@ -28,6 +29,8 @@ public class home_accerejjobss implements Parcelable {
         service_booking_address = in.readString();
         user_email = in.readString();
         user_mobile_number = in.readString();
+        service_booking_createddate = in.readString();
+        service_categ_name = in.readString();
     }
 
     @Override
@@ -41,6 +44,8 @@ public class home_accerejjobss implements Parcelable {
         dest.writeString(service_booking_address);
         dest.writeString(user_email);
         dest.writeString(user_mobile_number);
+        dest.writeString(service_booking_createddate);
+        dest.writeString(service_categ_name);
     }
 
     @Override
@@ -48,15 +53,15 @@ public class home_accerejjobss implements Parcelable {
         return 0;
     }
 
-    public static final Creator<home_accerejjobs> CREATOR = new Creator<home_accerejjobs>() {
+    public static final Creator<home_accerejjobss> CREATOR = new Creator<home_accerejjobss>() {
         @Override
-        public home_accerejjobs createFromParcel(Parcel in) {
-            return new home_accerejjobs(in);
+        public home_accerejjobss createFromParcel(Parcel in) {
+            return new home_accerejjobss(in);
         }
 
         @Override
-        public home_accerejjobs[] newArray(int size) {
-            return new home_accerejjobs[size];
+        public home_accerejjobss[] newArray(int size) {
+            return new home_accerejjobss[size];
         }
     };
 
@@ -131,4 +136,24 @@ public class home_accerejjobss implements Parcelable {
     public void setUser_mobile_number(String user_mobile_number) {
         this.user_mobile_number = user_mobile_number;
     }
+
+    public String getService_booking_createddate() {
+        return service_booking_createddate;
+    }
+
+    public void setService_booking_createddate(String service_booking_createddate) {
+        this.service_booking_createddate = service_booking_createddate;
+    }
+
+    public String getService_categ_name() {
+        return service_categ_name;
+    }
+
+    public void setService_categ_name(String service_categ_name) {
+        this.service_categ_name = service_categ_name;
+    }
+
+    String service_categ_name;
+
+
 }

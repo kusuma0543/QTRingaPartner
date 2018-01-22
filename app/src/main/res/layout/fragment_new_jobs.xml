@@ -18,7 +18,7 @@
         android:id="@+id/gif_list"
         android:layout_width="200dp"
         android:layout_height="200dp"
-
+android:visibility="invisible"
         android:layout_gravity="top|center"
         android:layout_margin="10dp"
         android:src="@drawable/clipboard_new"
@@ -28,7 +28,7 @@
         android:id="@+id/text_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+android:visibility="invisible"
         android:text="Getting You Better Jobs! Stay Notified!"
         android:textColor="@color/colorPrimary"
         android:layout_gravity="center"

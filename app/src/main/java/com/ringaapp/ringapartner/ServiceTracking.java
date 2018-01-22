@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -21,10 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceTracking extends AppCompatActivity {
-    String tracking_bookingid,tracking_username,tracking_servicename,tracking_usermobile,tracking_usermail,tracking_useraddress;
-    private ImageView tracking_imgongoing,tracking_imgstart,tracking_imgdone;
-     TextView tracking_tvusername,tracking_tv_servicename,tracking_tvusermobile,tracking_tvusermail,tracking_tvuser_address;
-     Button tracking_butstart,tracking_butcompleted;
+    String tracking_bookingid,tracking_username,tracking_servicename,tracking_categ,
+            tracking_usermobile,tracking_usermail,tracking_useraddress;
+
+
+
+    TextView tracking_main_username,tracking_tvusername,tracking_tv_email,tracking_tv_usermobile,
+    tracking_tv_categ,tracking_tv_subcateg,tracking_tvuser_address;
+
+     Button tracking_finished,tracking_butcompleted;
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -47,84 +51,55 @@ public class ServiceTracking extends AppCompatActivity {
         tracking_usermobile=intent.getStringExtra("partnerhome_usermobile");
         tracking_usermail=intent.getStringExtra("partnerhome_usermail");
         tracking_useraddress=intent.getStringExtra("partnerhome_address");
+        tracking_categ=intent.getStringExtra("partnerhome_sendcateg");
         String checkintent=intent.getStringExtra("check");
+
         tracking_tvusername=findViewById(R.id.partnertrack_username);
-        tracking_tv_servicename=findViewById(R.id.partnertrack_servicename);
-        tracking_tvusermobile=findViewById(R.id.partnertrack_mobile);
-        tracking_tvusermail=findViewById(R.id.partnertrack_mail);
-        tracking_tvuser_address=findViewById(R.id.partnertrack_address);
+        tracking_main_username=findViewById(R.id.parttrack_username);
+        tracking_tv_email=findViewById(R.id.parttrack_email);
+        tracking_tv_usermobile=findViewById(R.id.parttrack_mobile);
+        tracking_tv_categ=findViewById(R.id.parttrack_categname);
+        tracking_tv_subcateg=findViewById(R.id.parttrack_subcategname);
+        tracking_tvuser_address=findViewById(R.id.parttrack_address);
 
-        tracking_imgongoing=findViewById(R.id.tracking_ongoing);
-        tracking_imgstart=findViewById(R.id.tracking_start);
-        tracking_imgdone=findViewById(R.id.tracking_done);
-
-        tracking_butstart=findViewById(R.id.partnertrack_start);
+        tracking_finished=findViewById(R.id.finishedjob);
         tracking_butcompleted=findViewById(R.id.partnertrack_completed);
 
 
-        tracking_tvusername.setText(tracking_username);
-        tracking_tv_servicename.setText(tracking_servicename);
-        tracking_tvusermobile.setText(tracking_usermobile);
-        tracking_tvusermail.setText(tracking_usermail);
+tracking_tvusername.setText(tracking_username);
+tracking_tv_email.setText(tracking_usermail);
+tracking_tv_usermobile.setText(tracking_usermobile);
+tracking_tv_categ.setText(tracking_categ);
+tracking_tv_subcateg.setText(tracking_servicename);
         tracking_tvuser_address.setText(tracking_useraddress);
+        tracking_main_username.setText(tracking_username);
 
         if(checkintent.equals("checkintentfromgoing"))
         {
-            tracking_butstart.setVisibility(View.VISIBLE);
+            tracking_finished.setVisibility(View.INVISIBLE);
             tracking_butcompleted.setVisibility(View.VISIBLE);
 
         }
         else if(checkintent.equals("checkintentfromfinish"))
         {
-            tracking_butstart.setVisibility(View.INVISIBLE);
+            tracking_finished.setVisibility(View.VISIBLE);
             tracking_butcompleted.setVisibility(View.INVISIBLE);
-            tracking_imgongoing.setVisibility(View.INVISIBLE);
-            tracking_imgstart.setVisibility(View.INVISIBLE);
-            tracking_imgdone.setVisibility(View.VISIBLE);
+
         }
 
-        tracking_butstart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tracking_imgongoing.setVisibility(View.INVISIBLE);
-                tracking_imgstart.setVisibility(View.VISIBLE);
-                updatestartedjobs(tracking_bookingid);
 
-            }
-        });
         tracking_butcompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tracking_imgstart.setVisibility(View.INVISIBLE);
-                tracking_imgdone.setVisibility(View.VISIBLE);
+//                tracking_imgstart.setVisibility(View.INVISIBLE);
+//                tracking_imgdone.setVisibility(View.VISIBLE);
                 donejobs(tracking_bookingid);
                 startActivity(new Intent(ServiceTracking.this,CategoryMain.class));
                 finish();
             }
         });
     }
-    public void updatestartedjobs(final String s1) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_startedjobs, new Response.Listener<String>() {
-            public void onResponse(String response) {
 
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            { }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("booking_uid",s1);
-
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-    }
     public void donejobs(final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_donejobs, new Response.Listener<String>() {
             public void onResponse(String response) {

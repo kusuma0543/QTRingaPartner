@@ -34,8 +34,8 @@ class GlobalUrl {
     public static String partner_finishedjobs="http://quaticstech.in/projecti1andro/android_partner_finishedjobs.php";
     public static String partner_getmyjobscount="http://quaticstech.in/projecti1andro/android_partner_getmyjobscount.php";
     public static String partner_checkpassess="http://quaticstech.in/projecti1andro/android_partner_checkpasses.php";
-public static String partner_uploadproofimages="http://quaticstech.in/projecti1andro/android_partner_proofimage_upload.php";
+    public static String partner_uploadproofimages="http://quaticstech.in/projecti1andro/android_partner_proofimage_upload.php";
     public static String partner_retproofimages="http://quaticstech.in/projecti1andro/android_partner_proofimage_ret.php";
-
+public static String partner_buyjobslist_ret="http://quaticstech.in/projecti1andro/android_partner_buyjobsret.php";
 }
 
