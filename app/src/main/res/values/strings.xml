@@ -132,4 +132,8 @@
     <string name="title_activity_upload_partner_serv_images">UploadPartnerServImages</string>
     <string name="title_activity_appreciation_accept">AppreciationAccept</string>
     <string name="title_activity_jobs_list_count">JobsListCount</string>
+    <string name="message">Message</string>
+    <string name="call">Call</string>
+    <string name="title_activity_about_scroll">About RingaApp</string>
+
 </resources>

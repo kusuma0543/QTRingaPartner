@@ -2,11 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
         android:id="@+id/docv_imagedissi"
-        android:src="@drawable/verify_doc"
+        android:src="@drawable/userback"
         android:background="@drawable/imagebutton_border"
-        android:layout_width="30dp"
-        android:layout_height="40dp"
+        android:layout_width="110dp"
+        android:layout_height="120dp"
         />
+      <TextView
+    android:id="@+id/getcount"
+    android:visibility="invisible"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView" />
 </LinearLayout>

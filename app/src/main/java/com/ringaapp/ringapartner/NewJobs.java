@@ -52,6 +52,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 import pl.droidsonroids.gif.GifImageView;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -65,6 +68,8 @@ TextView gettext;
     String URLL;
     String URLCOUNT,jobcounttool;
     String getmid;
+
+     KonfettiView konfettiView;
     private final int  FIVE_SECONDS=5000;
     GifImageView gifImageView;
     AlertDialog alertDialog1;
@@ -96,6 +101,7 @@ final Handler handler=new Handler();
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
         gettext=view.findViewById(R.id.text_list);
+        konfettiView=view.findViewById(R.id.viewKonfetti);
         URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
 
         new kilomilo().execute(URLL);
@@ -202,7 +208,7 @@ final Handler handler=new Handler();
 
                        // acceptmeupdate(getmid);
                       //  updatestartedjobs(getmid);
-getJobsMyCount(partnerhome_partneruid);
+                        getJobsMyCount(partnerhome_partneruid);
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("storingbookingid",getmid);
@@ -231,13 +237,8 @@ getJobsMyCount(partnerhome_partneruid);
                     public void onClick(View v) {
                          getmyrejectid=holder.textbookingid.getText().toString();
                         handler.removeCallbacksAndMessages(null);
+                        CreateAlertDialogWithRadioButtonGroup();
 
-                        Intent intent = new Intent(getActivity(),AppreciationAccept.class);
-
-                        String intentm="fromreject";
-                        intent.putExtra("check",intentm);
-
-                        startActivity(intent);
 
                     }
                 });
@@ -306,15 +307,28 @@ getJobsMyCount(partnerhome_partneruid);
         protected void onPostExecute(final List<home_accerejjobs> movieMode) {
             super.onPostExecute(movieMode);
             dialog.dismiss();
-handler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
             if (movieMode== null)
             {
                 partnerhome_listview.setVisibility(View.INVISIBLE);
+                gifImageView.setVisibility(View.VISIBLE);
 
 
             }
             else
             {
+
+                        konfettiView.build()
+                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.RED)
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 5f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(4000L)
+                                .addShapes(Shape.RECT, Shape.CIRCLE)
+                                .addSizes(new Size(12, 5f))
+                                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                                .stream(40, 5000L);
+
                 gifImageView.setVisibility(View.INVISIBLE);
                 gettext.setVisibility(View.INVISIBLE);
                 partnerhome_listview.setVisibility(View.VISIBLE);
@@ -453,39 +467,58 @@ handler.removeCallbacksAndMessages(null);
                         String case0="I am on other Project";
                         Toast.makeText(getActivity(), case0, Toast.LENGTH_LONG).show();
                         rejectmeupdate(getmyrejectid,case0);
-                      //  startActivity(new Intent(getActivity(),CategoryMain.class));
+                        Intent intent1 = new Intent(getActivity(),AppreciationAccept.class);
 
+                        String intents1="fromreject";
+                        intent1.putExtra("check",intents1);
+
+                        startActivity(intent1);
                         break;
                     case 1:
                         String case1="I cant do the Service right now";
                         Toast.makeText(getActivity(), case1, Toast.LENGTH_LONG).show();
                         rejectmeupdate(getmyrejectid,case1);
-                       // startActivity(new Intent(getActivity(),CategoryMain.class));
+                        Intent intent2 = new Intent(getActivity(),AppreciationAccept.class);
+                        String intents2="fromreject";
+                        intent2.putExtra("check",intents2);
 
+                        startActivity(intent2);
                         break;
                     case 2:
 
                         Toast.makeText(getActivity(), "Third Item Clicked", Toast.LENGTH_LONG).show();
                         String case2="Its not my Requirement";
                         rejectmeupdate(getmyrejectid,case2);
-                       // startActivity(new Intent(getActivity(),CategoryMain.class));
+                        Intent intent3 = new Intent(getActivity(),AppreciationAccept.class);
 
+                        String intents3="fromreject";
+                        intent3.putExtra("check",intents3);
+
+                        startActivity(intent3);
                         break;
                     case 3:
 
                         Toast.makeText(getActivity(), "FOur Item Clicked", Toast.LENGTH_LONG).show();
                         String case3="I am out of Station";
                         rejectmeupdate(getmyrejectid,case3);
-                        //startActivity(new Intent(getActivity(),CategoryMain.class));
+                        Intent intent4 = new Intent(getActivity(),AppreciationAccept.class);
 
+                        String intents4="fromreject";
+                        intent4.putExtra("check",intents4);
+
+                        startActivity(intent4);
                         break;
                     case 4:
 
                         Toast.makeText(getActivity(), "Five Item Clicked", Toast.LENGTH_LONG).show();
                         String case4="My reason is not listed";
                         rejectmeupdate(getmyrejectid,case4);
-                      //  startActivity(new Intent(getActivity(),CategoryMain.class));
+                        Intent intent5 = new Intent(getActivity(),AppreciationAccept.class);
 
+                        String intents5="fromreject";
+                        intent5.putExtra("check",intents5);
+
+                        startActivity(intent5);
                         break;
                 }
                 alertDialog1.dismiss();

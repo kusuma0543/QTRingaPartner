@@ -8,18 +8,20 @@ import android.os.Parcelable;
  */
 
 public class ProofImageRet implements Parcelable{
-String partner_uid;
-String proof_images;
+    String partner_uid;
+    String proof_images;
 
     protected ProofImageRet(Parcel in) {
         partner_uid = in.readString();
         proof_images = in.readString();
+        row_count = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(partner_uid);
         dest.writeString(proof_images);
+        dest.writeString(row_count);
     }
 
     @Override
@@ -54,5 +56,16 @@ String proof_images;
     public void setProof_images(String proof_images) {
         this.proof_images = proof_images;
     }
+
+    public String getRow_count() {
+        return row_count;
+    }
+
+    public void setRow_count(String row_count) {
+        this.row_count = row_count;
+    }
+
+    String row_count;
+
 }
 

@@ -1,6 +1,7 @@
 package com.ringaapp.ringapartner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +45,8 @@ public class JobsListCount extends AppCompatActivity {
 String jobbuy_partner_uid;
     private SessionManager session;
     private SQLiteHandler db;
-    TextView jobstotal_tv;
+    TextView jobstotal_tv; String jobcounttool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +54,6 @@ String jobbuy_partner_uid;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
@@ -123,18 +123,18 @@ String jobbuy_partner_uid;
                 home_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        buyjobs categorieslist = movieModelList.get(position);
+                       final buyjobs  categorieslist = movieModelList.get(position);
 
 
-                        new SweetAlertDialog(JobsListCount.this).
-                                setTitleText("Confirm Recharge").
-                                setContentText("Your Recharge Amount is\n "+categorieslist.getJobs_value()+"\n"
-                                +"for "+categorieslist.getJobs_count()).showCancelButton(true)
+                        new SweetAlertDialog(JobsListCount.this)
+                                .setTitleText("Confirm Recharge")
+                                .setContentText("Your Recharge Amount is\n "+categorieslist.getJobs_value()+"\n"
+                                    +"for "+categorieslist.getJobs_count()).showCancelButton(true)
                                 .setConfirmText("Buy Jobs").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
-
+                                updatemypurchasedet(jobbuy_partner_uid,categorieslist.getJobs_count(),categorieslist.getJobs_value(),jobcounttool);
+                            startActivity(new Intent(JobsListCount.this,CategoryMain.class));
                             }
                         }).show();
                     }
@@ -186,7 +186,7 @@ String jobbuy_partner_uid;
             buyjobs categorieslist= movieModelList.get(position);
 
             holder.menuname.setText(categorieslist.getJobs_value());
-            holder.menuname2.setText(categorieslist.getJobs_count());
+            holder.menuname2.setText(categorieslist.getJobs_count()+" Jobs");
 
 
 
@@ -207,7 +207,7 @@ String jobbuy_partner_uid;
                     if (abc)
                     {
                         JSONObject users = jObj.getJSONObject("lead");
-                        String jobcounttool = users.getString("lead_partner_uid");
+                         jobcounttool = users.getString("lead_partner_uid");
                         jobstotal_tv.setText(jobcounttool);
 
                     }
@@ -233,6 +233,33 @@ String jobbuy_partner_uid;
 
                 Map<String, String> insert = new HashMap<String, String>();
                 insert.put("partner_uid", sphone1);
+                return insert;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    public void updatemypurchasedet(final String sphone1,final String sphone2,final String sphone3,final String sphone4) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_update_purchase_set, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> insert = new HashMap<String, String>();
+                insert.put("partner_uid", sphone1);
+                insert.put("purchased_jobs", sphone2);
+                insert.put("purchased_value", sphone3);
+                insert.put("jobs_added", sphone4);
                 return insert;
 
             }

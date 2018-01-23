@@ -16,8 +16,10 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarz"
             android:layout_width="match_parent"
+            app:titleTextAppearance="@style/TextAppearance.TabsFont"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:title="Service Images Upload"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -32,12 +34,12 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
-        android:background="@drawable/edittext_afterseslect"
-
+        android:background="@drawable/filter_shape"
+        android:textAllCaps="false"
         android:fontFamily="@font/nunito_semibold"
         android:gravity="center"
         android:text="Submit"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:textStyle="bold" />
 </RelativeLayout>

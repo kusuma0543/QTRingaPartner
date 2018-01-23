@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +53,8 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
     CountDownTimer bb;
     private SessionManager session;
     private SQLiteHandler db;
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,11 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             k = (TextView) findViewById(R.id.k);
             secondk = (TextView) findViewById(R.id.secondk);
             tvotp_mobile.setText(last_number);
-
+            dialog = new ProgressDialog(OTPVerifys.this);
+            dialog = new ProgressDialog(OTPVerifys.this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
             session = new SessionManager(getApplicationContext());
             db = new SQLiteHandler(getApplicationContext());
 
@@ -116,8 +123,17 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
                     String s3 = mPinThirdDigitEditText.getText().toString().trim();
                     String s4 = mPinForthDigitEditText.getText().toString().trim();
                     String s = s1 + s2 + s3 + s4;
-                    otp_check(last_number, s);
 
+                    if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals(""))
+                    {
+                        Toast.makeText(OTPVerifys.this, "Please enter valid OTP", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        dialog.show();
+
+                        otp_check(last_number, s);
+
+                    }
 
                 }
             });

@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,11 +37,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvlogin_forgot,tvlogin_singnup;
     private Button sbutlogin_login;
     private String sphone,spassword;
-    CatLoadingView mView;
     private SessionManager session;
     private SQLiteHandler db;
     private  TextView show_pass;
     private Boolean isClicked = false;
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,10 +125,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (isConnectedToNetwork()) {
                         sphone = sedlogin_mobile.getText().toString();
                         spassword = sedlogin_pswd.getText().toString();
-                        mView = new CatLoadingView();
-
-                        mView.show(getSupportFragmentManager(), "");
-
+                        dialog = new ProgressDialog(LoginActivity.this);
+                        dialog = new ProgressDialog(LoginActivity.this);
+                        dialog.setIndeterminate(true);
+                        dialog.setCancelable(false);
+                        dialog.setMessage("Loading. Please wait...");
+                        dialog.show();
                         logininto(sphone,spassword);
 
                     }
@@ -164,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean abc = jObj.getBoolean("exits");
                     if (abc)
-                    { mView.dismiss();
+                    { dialog.dismiss();
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("partner_mobilenumber");
                         String loginuid=users.getString("partner_uid");
@@ -176,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else
                     {
+                        dialog.cancel();
+
                         Toast.makeText(getApplicationContext(),"Please check number and Password",Toast.LENGTH_SHORT).show();
 
                     }

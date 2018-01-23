@@ -184,6 +184,7 @@ public class FinishedPartJobs extends Fragment {
             if (movieMode== null)
             {
                 partnerhome_listview.setVisibility(View.INVISIBLE);
+                gifImageView.setVisibility(View.VISIBLE);
 
             }
             else

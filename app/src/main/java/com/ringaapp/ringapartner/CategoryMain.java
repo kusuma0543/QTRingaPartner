@@ -1,12 +1,12 @@
 package com.ringaapp.ringapartner;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
@@ -45,15 +45,15 @@ import java.util.Map;
 
 public class CategoryMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    String partnerhome_partneruid;
+    String partnerhome_partneruid,partnerhome_partnername;
     private ListView partnerhome_listview;
     private ProgressDialog dialog;
     String getmyrejectid;
     String URLCOUNT,jobcounttool;
     private Button partneraccreject_but,partneraccaccept_but;
-    AlertDialog alertDialog1;
-    TextView tv_toolbar;
+    TextView nav_toolbar;
     String URL_CHECKPASSESS;
+TextView tv_toolbar;
     CharSequence[] values = {" I am on other Project "," I cant do the Service right now",
             " Its not my Requirement "," I am out of Station "," My reason is not listed "};
 
@@ -73,43 +73,45 @@ public class CategoryMain extends AppCompatActivity
             db = new SQLiteHandler(getApplicationContext());
             final HashMap<String, String> user = db.getUserDetails();
             partnerhome_partneruid = user.get("uid");
-           // Toast.makeText(this, partnerhome_partneruid, Toast.LENGTH_SHORT).show();
+            partnerhome_partnername = user.get("name");
 
-
-             URL_CHECKPASSESS=GlobalUrl.partner_checkpassess+"?partner_uid="+partnerhome_partneruid;
+            URL_CHECKPASSESS=GlobalUrl.partner_checkpassess+"?partner_uid="+partnerhome_partneruid;
             getCheckPassess(partnerhome_partneruid);
 
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.fragments, new com.ringaapp.ringapartner.MenusFragment()).commit();
-
             tv_toolbar = findViewById(R.id.tv_toolbar);
+            tv_toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    startActivity(new Intent(CategoryMain.this,JobsListCount.class));
 
+                }
+            });
             BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
             bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
                 @Override
-                public void onTabSelected(@IdRes int tabId) {
-                    android.support.v4.app.Fragment selectedFragment = null;
+                public void onTabSelected(@IdRes int tabId) {android.support.v4.app.Fragment selectedFragment = null;
                     if (tabId == R.id.tab_new) {
                         selectedFragment = NewJobs.newInstance();
-                    } else if (tabId == R.id.tab_ongoing) {
+                    }
+                    else if (tabId == R.id.tab_ongoing) {
                         selectedFragment = OnGoingPartJobs.newInstance();
-
-                    } else if (tabId == R.id.tab_finished) {
+                    }
+                    else if (tabId == R.id.tab_finished) {
                         selectedFragment = FinishedPartJobs.newInstance();
                     }
                     else if (tabId == R.id.tab_sell) {
-                    selectedFragment = SellProdutsFrag.newInstance();
-                }else if (tabId == R.id.tab_recharge) {
-                    selectedFragment = RechargeFrag.newInstance();
-                }
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentContainer, selectedFragment);
-                    transaction.commit();
+                        selectedFragment = SellProdutsFrag.newInstance();
+                    }
+                    else if (tabId == R.id.tab_recharge) {
+                        selectedFragment = RechargeFrag.newInstance();
+                     }
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.contentContainer, selectedFragment);
+                        transaction.commit();
                 }
             });
 
-          //  Toast.makeText(this, "ji"+partnerhome_partneruid, Toast.LENGTH_SHORT).show();
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             partneraccreject_but = findViewById(R.id.partneraccrej_rejectbut);
             partneraccaccept_but = findViewById(R.id.partneraccrej_acceptbut);
@@ -120,11 +122,10 @@ public class CategoryMain extends AppCompatActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
-            dialog = new ProgressDialog(this);
-            dialog = new ProgressDialog(this);
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(false);
-            dialog.setMessage("Loading. Please wait...");
+            View header=navigationView.getHeaderView(0);
+            nav_toolbar = (TextView)header.findViewById(R.id.nav_username);
+            nav_toolbar.setText(partnerhome_partnername);
+
             // partnerhome_listview=findViewById(R.id.partnerhome_listview);
 
 //        String URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
@@ -327,31 +328,42 @@ public class CategoryMain extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_dashboard) {
-        } else if (id == R.id.nav_profile) {
-
+        if (id == R.id.nav_profile)
+        {
             Intent intent1=new Intent(CategoryMain.this,ProfilePage.class);
-
             startActivity(intent1);
-
-
-        } else if (id == R.id.nav_refer) {
-
-        } else if (id == R.id.nav_chat) {
-
-        } else if (id == R.id.nav_rate) {
-
-        } else if (id == R.id.nav_share) {
+        }
+        else if (id == R.id.nav_refer)
+        {
 
         }
-        else if (id == R.id.nav_about) {
+        else if (id == R.id.nav_rate)
+        {
 
         }
-        else if (id == R.id.nav_contact) {
+        else if (id == R.id.nav_share)
+        {
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "I am happy with this app.Please click the link to download \n https://play.google.com/store/apps/details?id=com.askchitvish.activity.prem&hl=en";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"RINGAAPP PARTNER");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, " This is about service"));
+        }
+        else if (id == R.id.nav_about)
+        {
+            startActivity( new Intent(CategoryMain.this,AboutScroll.class));
 
+        }
+        else if (id == R.id.nav_contact)
+        {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto","ringaapp@gmail.com", null));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Support");
+            intent.putExtra(Intent.EXTRA_TEXT, "How can we help you... ");
+            startActivity(Intent.createChooser(intent, "Choose an Email client :"));
         }
         else if (id == R.id.nav_tc) {
-
         }
         else if (id == R.id.nav_logout) {
             Intent intent=new Intent(CategoryMain.this,LoginActivity.class);
@@ -601,7 +613,7 @@ public class CategoryMain extends AppCompatActivity
                     if (abc)
                     {
                         JSONObject users = jObj.getJSONObject("user_details");
-                       String getpartner_passes = users.getString("partner_passess");
+                        String getpartner_passes = users.getString("partner_passess");
 
                        if(getpartner_passes.matches("0") ||getpartner_passes.equals("0"))
                        {
@@ -609,7 +621,8 @@ public class CategoryMain extends AppCompatActivity
 
                        }
                        else
-                       { URLCOUNT = GlobalUrl.partner_getmyjobscount + "?partner_uid=" + partnerhome_partneruid;
+                       {
+                           URLCOUNT = GlobalUrl.partner_getmyjobscount + "?partner_uid=" + partnerhome_partneruid;
                            getJobsMyCount(partnerhome_partneruid);
 
                        }

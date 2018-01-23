@@ -4,10 +4,7 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_dashboard"
-            android:icon="@drawable/nav_mydashboard"
-          android:title="@string/my_dashboard" />
+
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/nav_myprofile"
@@ -16,10 +13,7 @@
             android:id="@+id/nav_refer"
             android:icon="@drawable/nav_refer"
             android:title="@string/refer_a_friend" />
-        <item
-           android:id="@+id/nav_chat"
-            android:icon="@drawable/nav_chat"
-            android:title="@string/chat_us" />
+
         <item
             android:id="@+id/nav_rate"
             android:icon="@drawable/nav_star"
@@ -34,8 +28,8 @@
             android:title="@string/about_us" />
         <item
             android:id="@+id/nav_contact"
-            android:icon="@drawable/nav_contact"
-            android:title="Contact Us" />
+            android:icon="@drawable/nav_support"
+            android:title="Support Us" />
         <item
             android:id="@+id/nav_tc"
             android:icon="@drawable/nav_terms"

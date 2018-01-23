@@ -28,6 +28,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
@@ -43,8 +44,15 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <receiver android:name="swarajsaaj.smscodereader.receivers.OtpReader"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".Splash"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,18 +63,14 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -76,6 +80,7 @@
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -85,6 +90,7 @@
         <activity
             android:name=".ForgotPassword"
             android:label="@string/title_activity_forgot_password"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -94,10 +100,12 @@
         <activity
             android:name=".OTPVerify"
             android:label="@string/title_activity_otpverify"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ResetPassword"
             android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -106,38 +114,32 @@
         </activity>
         <activity
             android:name=".OTPVerifys"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_otpverifys"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeScreen"
             android:label="@string/title_activity_home_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".PartnerMapSel"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_partner_map_sel" />
         <activity
             android:name=".PartnerSerSel"
             android:label="@string/title_activity_partner_ser_sel"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".DocVerification"
             android:label="@string/title_activity_doc_verification"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -147,22 +149,18 @@
         <activity
             android:name=".CategoryMain"
             android:label="@string/title_activity_category_main"
+            android:screenOrientation="portrait"
             android:parentActivityName=".DocVerification"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.DocVerification" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ProfilePage"
             android:label="@string/title_activity_profile_page"
+            android:screenOrientation="portrait"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -172,6 +170,7 @@
         <activity
             android:name=".ServiceTracking"
             android:label="@string/title_activity_service_tracking"
+            android:screenOrientation="portrait"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -181,6 +180,7 @@
         <activity
             android:name=".UploadPartnerServImages"
             android:label="@string/title_activity_upload_partner_serv_images"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -190,6 +190,7 @@
         <activity
             android:name=".AppreciationAccept"
             android:label="@string/title_activity_appreciation_accept"
+            android:screenOrientation="portrait"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -198,12 +199,22 @@
         </activity>
         <activity
             android:name=".JobsListCount"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_jobs_list_count"
             android:parentActivityName=".CategoryMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.CategoryMain" />
+        </activity>
+        <activity
+            android:name=".AboutScroll"
+            android:label="@string/title_activity_about_scroll"
+            android:parentActivityName=".AboutScroll"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ringaapp.ringapartner.AboutScroll" />
         </activity>
     </application>
 

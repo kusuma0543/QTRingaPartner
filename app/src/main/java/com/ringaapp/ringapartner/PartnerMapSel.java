@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -82,6 +83,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
     private AddressResultReceiver mResultReceiver;
      String uidthree,partmapemail,partmapmobile,alllatittude,alllongitude,alld;
     List<Address> addressess;
+    private ProgressDialog dialog;
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -96,7 +98,12 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
 
         if (isConnectedToNetwork()) {
            // Toast.makeText(getApplicationContext(), uidthree, Toast.LENGTH_SHORT).show();
-
+            dialog = new ProgressDialog(PartnerMapSel.this);
+            dialog = new ProgressDialog(PartnerMapSel.this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
+            dialog.show();
             list29 = (ListView) findViewById(R.id.listview);
             ridenow = (Button) findViewById(R.id.ride);
             mylocationnav = findViewById(R.id.mylocnav);
@@ -249,7 +256,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                     Location mLocation = new Location("");
                     mLocation.setLatitude(mCenterLatLong.latitude);
                     mLocation.setLongitude(mCenterLatLong.longitude);
-
+dialog.cancel();
                     startIntentService(mLocation);
                     Geocoder geocoder = new Geocoder(PartnerMapSel.this, Locale.getDefault());
                     try {
@@ -364,7 +371,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                 .position(new LatLng(lat,lng)));
 
 
-
+dialog.cancel();
 
         mMap.addCircle(new CircleOptions()
                 .center(new LatLng(lat,lng))

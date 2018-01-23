@@ -243,6 +243,7 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
             if (movieMode== null)
             {
                 partnerhome_listview.setVisibility(View.INVISIBLE);
+                gifImageView.setVisibility(View.VISIBLE);
 
 
             }

@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     String signupuid;
     private  TextView show_pass;
     private Boolean isClicked = false;
+    private ProgressDialog dialog;
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -194,10 +196,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sbutsignup_signup:
+                dialog = new ProgressDialog(this);
+                dialog = new ProgressDialog(this);
+                dialog.setIndeterminate(true);
+                dialog.setCancelable(false);
+                dialog.setMessage("Loading. Please wait...");
                 nsignin();
-               // mView = new CatLoadingView();
 
-               // mView.show(getSupportFragmentManager(), "");
 
                 break;
         }
@@ -216,8 +221,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
         else {
             if (emailInput.matches(emailPattern)) {
-
-
 
                 if (isConnectedToNetwork()) {
                     if (sedsignup_mobile.length() == 10) {
@@ -240,6 +243,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                     spassword = sedsignup_pswd.getText().toString();
                                     sradio_one=shome_oneradio.getText().toString();
                                     sradio_two=shom_tworadio.getText().toString();
+                                    dialog.show();
                                     insertme(sname, semail, smobile, spassword, sradio_one, sradio_two);
                                     Toast.makeText(SignupActivity.this, "THANK YOU!!!", Toast.LENGTH_SHORT).show();
 
@@ -254,9 +258,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
+
                     Toast.makeText(SignupActivity.this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                 }
             } else {
+                dialog.cancel();
                 Toast.makeText(getApplicationContext(), "Invalid email address",
                         Toast.LENGTH_SHORT).show();
             }
@@ -277,6 +283,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                     if (abc)
                     {
+                        dialog.cancel();
                         JSONObject users = jObj.getJSONObject("users_detail");
                         signupuid=users.getString("partner_uid");
                         Intent intent = new Intent(SignupActivity.this, OTPVerify.class);
@@ -286,8 +293,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                     }
                     else
-                    {
-                        Toast.makeText(getApplicationContext(),"Please enter correct otp",Toast.LENGTH_SHORT).show();
+                    {                        dialog.cancel();
+
+                        Toast.makeText(getApplicationContext(),"Please enter correct details",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

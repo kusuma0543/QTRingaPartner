@@ -79,6 +79,7 @@ private ImageView docv_itemsel;
     private Button butallupload;
     private SessionManager session;
     private SQLiteHandler db;
+    TextView front;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +129,9 @@ private ImageView docv_itemsel;
 
             shome_groupone = (RadioGroup) findViewById(R.id.shome_radioone);
 
-            // listdoc=findViewById(R.id.listviewk);
+
+            front=findViewById(R.id.front);
+
             docv_imagesel = findViewById(R.id.docv_imagesel);
             docv_itemsel = findViewById(R.id.docv_itemsel);
 
@@ -501,6 +504,7 @@ private ImageView docv_itemsel;
                 convertView = inflater.inflate(resource,null);
                 holder = new ViewHolder();
                 holder.menuimage = (ImageView)convertView.findViewById(R.id.docv_imagedissi);
+                holder.get_rowcount = convertView.findViewById(R.id.getcount);
 
 
                 convertView.setTag(holder);
@@ -510,12 +514,24 @@ private ImageView docv_itemsel;
             }
             ProofImageRet categorieslist= movieModelList.get(position);
             Picasso.with(context).load(categorieslist.getProof_images()).fit().error(R.drawable.pinns).fit().into(holder.menuimage);
+            holder.get_rowcount.setText(categorieslist.getRow_count());
+                String s_rowacount=holder.get_rowcount.getText().toString();
+                if(s_rowacount.matches("2")||s_rowacount.equals("2"))
+                {
+                    docv_imagesel.setVisibility(View.INVISIBLE);
+                    docv_itemsel.setVisibility(View.INVISIBLE);
+                    front.setVisibility(View.INVISIBLE);
+                    Toast.makeText(context, "You Can able to select onl two Images", Toast.LENGTH_SHORT).show();
 
-
+                }else if(s_rowacount.matches("1")||s_rowacount.equals("1"))
+                {
+                    front.setText("(front and back images - "+ s_rowacount+")");
+                }
             return convertView;
         }
         class ViewHolder{
             private ImageView menuimage;
+            private TextView get_rowcount;
 
         }
     }

@@ -38,7 +38,6 @@ public class ServiceTracking extends AppCompatActivity {
         setContentView(R.layout.activity_service_tracking);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Service Update");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         session = new SessionManager(getApplicationContext());
@@ -53,6 +52,7 @@ public class ServiceTracking extends AppCompatActivity {
         tracking_useraddress=intent.getStringExtra("partnerhome_address");
         tracking_categ=intent.getStringExtra("partnerhome_sendcateg");
         String checkintent=intent.getStringExtra("check");
+        toolbar.setTitle(tracking_username);
 
         tracking_tvusername=findViewById(R.id.partnertrack_username);
         tracking_main_username=findViewById(R.id.parttrack_username);

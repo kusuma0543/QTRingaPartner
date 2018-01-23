@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -52,8 +53,8 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
     private static final String FORMAT = "%02d:%02d";
     CountDownTimer bb;
     String fromforgot,last_number,authsuid,partner_uname,checkdoc,cityName,otpemail,otpfulladress;
+    private ProgressDialog dialog;
 
-    private TrackGps gps;
     private SessionManager session;
     private SQLiteHandler db;
     @Override
@@ -89,7 +90,11 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             tvotp_mobile.setText(last_number);
             k = (TextView) findViewById(R.id.k);
             secondk = (TextView) findViewById(R.id.secondk);
-
+            dialog = new ProgressDialog(OTPVerify.this);
+            dialog = new ProgressDialog(OTPVerify.this);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage("Loading. Please wait...");
             bb = new CountDownTimer(50000, 1000) { // adjust the milli seconds here
                 public void onTick(long millisUntilFinished) {
                     countdown.setText("" + String.format(FORMAT,
@@ -122,7 +127,17 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                     String s3 = mPinThirdDigitEditText.getText().toString().trim();
                     String s4 = mPinForthDigitEditText.getText().toString().trim();
                     String s = s1 + s2 + s3 + s4;
-                    otp_check(last_number, s, authsuid);
+
+                    if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals(""))
+                    {
+                        Toast.makeText(OTPVerify.this, "Please enter valid OTP", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        dialog.show();
+
+                        otp_check(last_number, s, authsuid);
+
+                    }
 
 
                 }
@@ -325,6 +340,7 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
 
                     if (abc)
                     {
+                        dialog.cancel();
                         JSONObject users = jObj.getJSONObject("user_det");
                         String uname1 = users.getString("partner_mobilenumber");
                         String uname2=users.getString("partner_otp_identification");
@@ -383,6 +399,8 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
                     }
                     else
                     {
+                        dialog.cancel();
+
                         Toast.makeText(getApplicationContext(),"Please enter correct otp",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
