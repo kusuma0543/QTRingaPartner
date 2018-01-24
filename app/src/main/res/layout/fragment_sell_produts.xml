@@ -11,20 +11,34 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
-        <android.support.v7.widget.CardView
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--app:cardCornerRadius="5dp"-->
+            <!--app:cardPreventCornerOverlap="true"-->
+            <!--app:cardElevation="8dp"-->
+            <!--android:padding="10dp"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:layout_height="wrap_content" >-->
+            <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+                <!--android:id="@+id/partnerproductsel_spinner"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--app:hintText="Select Your Product"/>-->
+        <!--</android.support.v7.widget.CardView>-->
+        <EditText
+            android:id="@+id/product_title"
             android:layout_width="match_parent"
-            app:cardCornerRadius="5dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardElevation="8dp"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content" >
-            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                android:id="@+id/partnerproductsel_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:hintText="Select Your Product"/>
-        </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:hint="Give Product Title"
+            android:textColorHint="@color/colorHint"
+            android:gravity="center"
+            android:textCursorDrawable="@color/colorAccent"
+            android:textSize="18sp"
+            android:fontFamily="@font/nunito_semibold"
+            android:drawableLeft="@drawable/sell_title"
+            android:padding="14dp"
+            android:layout_marginTop="20dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,72 +46,61 @@
             android:text="Product Description"
             android:textColor="@color/colorBlack"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="5dp"
             android:fontFamily="@font/nunito_semibold"/>
                 <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     app:cardCornerRadius="5dp"
                     app:cardPreventCornerOverlap="true"
-                    app:cardElevation="10dp"
                     android:padding="10dp"
                     android:layout_margin="10dp"
-                    android:layout_height="140dp">
-                    <EditText
+                    android:layout_height="130dp">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:hint="please give details about your product"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:gravity="start"
-                        android:padding="5dp"/>
+                        android:background="@drawable/home_cardborder">
+                        <EditText
+                            android:id="@+id/product_desc"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:hint="please give details about your product"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:gravity="start"
+                            android:padding="5dp"/>
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
-        <LinearLayout
+        <EditText
+            android:id="@+id/product_cost"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="10dp"
-                android:text="Product Price"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="5dp"
-                android:fontFamily="@font/nunito_semibold"/>
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    app:cardCornerRadius="5dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardElevation="10dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="mention your product cost"
-                        android:textSize="15sp"
-                        android:maxLines="1"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:gravity="start"
-                        android:padding="5dp"/>
-                </android.support.v7.widget.CardView>
-        </LinearLayout>
-
+            android:backgroundTint="@color/colorAccent"
+            android:hint="Give Product Price"
+            android:textColorHint="@color/colorHint"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:inputType="number"
+            android:textCursorDrawable="@color/colorAccent"
+            android:fontFamily="@font/nunito_semibold"
+            android:drawableLeft="@drawable/sell_rupee"
+            android:padding="14dp"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
     <Button
+        android:id="@+id/product_upload"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/filter_shape"
         android:fontFamily="@font/nunito_semibold"
         android:text="Upload"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="5dp"
         android:textColor="@color/colorWhite" />
