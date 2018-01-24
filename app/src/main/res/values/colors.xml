@@ -11,6 +11,9 @@
     <color name="white_transparent">#00000000</color>
     <color name="black">#ce3838</color>
 
+    <color name="facebook_secondary_color">#A92626</color>
+    <color name="facebook_primary_color">#e78082</color>
     <color name="blue_btn_bg_color">#D32F2F</color>
+
     <color name="blue_btn_bg_pressed_color">#ca7676</color>
 </resources>

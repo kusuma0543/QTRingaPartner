@@ -70,6 +70,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.3.1'//Bottom navigationbar
     compile 'com.github.jetradarmobile.desertplaceholder:desertplaceholder:1.2.4'//deserplaceholder if no internet
     compile 'nl.dionsegijn:konfetti:1.1.0'//blasting
+    compile 'com.github.varunest:sparkbutton:1.0.5'//sparkling
 }
 apply plugin: 'com.google.gms.google-services'
 

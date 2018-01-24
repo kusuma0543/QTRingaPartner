@@ -1,27 +1,104 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFF5F5"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ringaapp.ringapartner.SellProdutsFrag">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="5dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardElevation="8dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content" >
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/partnerproductsel_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:hintText="Select Your Product"/>
+        </android.support.v7.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:text="Product Description"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/nunito_semibold"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    app:cardCornerRadius="5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardElevation="10dp"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="140dp">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="please give details about your product"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:gravity="start"
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:text="Product Price"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:fontFamily="@font/nunito_semibold"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    app:cardCornerRadius="5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardElevation="10dp"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="mention your product cost"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:gravity="start"
+                        android:padding="5dp"/>
+                </android.support.v7.widget.CardView>
+        </LinearLayout>
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gif_list"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+    </LinearLayout>
 
-        android:layout_gravity="top|center"
-        android:layout_margin="10dp"
-        android:src="@drawable/clipboard_new"
-
-        />
-    <TextView
-        android:id="@+id/text_list"
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="Getting You Better Jobs! Stay Notified!"
-        android:textColor="@color/colorPrimary"
-        android:layout_gravity="center"
-        android:textSize="18sp" />
-
+        android:background="@drawable/filter_shape"
+        android:fontFamily="@font/nunito_semibold"
+        android:text="Upload"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/colorWhite" />
 </FrameLayout>

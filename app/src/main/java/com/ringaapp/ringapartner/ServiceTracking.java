@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
+import com.varunest.sparkbutton.SparkButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,8 @@ public class ServiceTracking extends AppCompatActivity {
     TextView tracking_main_username,tracking_tvusername,tracking_tv_email,tracking_tv_usermobile,
     tracking_tv_categ,tracking_tv_subcateg,tracking_tvuser_address;
 
-     Button tracking_finished,tracking_butcompleted;
+     Button tracking_finished;
+    SparkButton tracking_butcompleted;
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -76,6 +78,7 @@ tracking_tv_subcateg.setText(tracking_servicename);
 
         if(checkintent.equals("checkintentfromgoing"))
         {
+            playFacebookAnimation();
             tracking_finished.setVisibility(View.INVISIBLE);
             tracking_butcompleted.setVisibility(View.VISIBLE);
 
@@ -122,5 +125,6 @@ tracking_tv_subcateg.setText(tracking_servicename);
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
-
-}
+    private void playFacebookAnimation() {
+        ((SparkButton) findViewById(R.id.partnertrack_completed)).playAnimation();
+    }}
