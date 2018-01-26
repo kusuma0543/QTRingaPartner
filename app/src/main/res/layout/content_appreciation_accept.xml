@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringapartner.AppreciationAccept"
+    tools:context="com.ringaapp.ringapartner.activities.AppreciationAccept"
     tools:showIn="@layout/activity_appreciation_accept">
 
     <pl.droidsonroids.gif.GifImageView
@@ -46,11 +46,11 @@ android:visibility="invisible"
 
     <Button
         android:id="@+id/button2"
-        android:background="@drawable/rounded_editsecond"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FFF"
-
+android:background="@color/colorAccent"
+        android:layout_margin="24dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Check My OnGoing Jobs" />

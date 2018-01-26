@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringapartner.SignupActivity"
+    tools:context="com.ringaapp.ringapartner.activities.SignupActivity"
     tools:showIn="@layout/activity_signup">
     <ImageView
         android:layout_width="match_parent"
@@ -240,9 +240,9 @@ android:fontFamily="@font/nunito_semibold"
                         android:id="@+id/tvsignup_signin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SIGN IN"
-                     android:fontFamily="@font/nunito_semibold"
-
+                        android:text="Sign In"
+                          android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="false"
                         android:textStyle="bold"
                         android:textColor="@color/colorAccent"
                         android:gravity="center"

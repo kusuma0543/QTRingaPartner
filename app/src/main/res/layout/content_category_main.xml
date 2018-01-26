@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringapartner.CategoryMain"
+    tools:context="com.ringaapp.ringapartner.activities.CategoryMain"
        tools:showIn="@layout/app_bar_category_main">
 
     <FrameLayout
@@ -22,7 +22,6 @@
 
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         app:layout_constraintBottom_toBottomOf="parent"
-android:paddingBottom="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent" />

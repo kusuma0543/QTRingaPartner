@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringapartner.LoginActivity"
+    tools:context="com.ringaapp.ringapartner.activities.LoginActivity"
     tools:showIn="@layout/activity_login">
     <LinearLayout
         android:id="@+id/prof_section"
@@ -76,7 +76,7 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="FORGOT PASSWORD?"
+                android:text="Forgot Password?"
                 android:textColor="@color/colorHint"
                 android:textSize="12sp" />
 
@@ -121,7 +121,7 @@
                     android:layout_weight="0.5"
                     android:fontFamily="@font/nunito_semibold"
                     android:gravity="center"
-                    android:text="SIGN UP"
+                    android:text="Sign up"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
 

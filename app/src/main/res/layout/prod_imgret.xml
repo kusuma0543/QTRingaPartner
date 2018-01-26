@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/docv_imagedissi"
+        android:src="@drawable/userback"
+        android:background="@drawable/imagebutton_border"
+        android:layout_width="90dp"
+        android:layout_height="80dp"/>
+    <TextView
+        android:id="@+id/getcount"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</LinearLayout>

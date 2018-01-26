@@ -2,16 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ringaapp.ringapartner.NewJobs">
+    tools:context="com.ringaapp.ringapartner.fragments.NewJobs">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="New Leads"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorAccent"/>
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"
         android:elevation="10dp"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/partnerhome_listview"
+        android:layout_marginTop="45dp"
         android:divider="@null"
         android:visibility="invisible"
         android:dividerHeight="0dp"
@@ -22,9 +35,12 @@
         android:id="@+id/gif_list"
         android:layout_width="200dp"
         android:layout_height="200dp"
-android:visibility="invisible"
         android:layout_gravity="top|center"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="70dp"
+        android:visibility="invisible"
+
         android:src="@drawable/clipboard_new"
 
         />
@@ -32,7 +48,8 @@ android:visibility="invisible"
         android:id="@+id/text_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-android:visibility="invisible"
+        android:visibility="invisible"
+        android:layout_marginTop="45dp"
         android:text="Getting You Better Jobs! Stay Notified!"
         android:textColor="@color/colorPrimary"
         android:layout_gravity="center"

@@ -2,12 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ringaapp.ringapartner.OnGoingPartJobs">
+    tools:context="com.ringaapp.ringapartner.fragments.OnGoingPartJobs">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="OnGoing Leads"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorAccent"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/partnerongoingjobs_listview"
         android:divider="@null"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         android:dividerHeight="0dp"
         />
@@ -19,7 +30,9 @@
         android:visibility="invisible"
 
         android:layout_gravity="top|center"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="70dp"
         android:src="@drawable/clipboard_new"
 
         />
@@ -27,7 +40,7 @@
         android:id="@+id/text_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:layout_marginTop="45dp"
 
         android:text="Getting You Better Jobs! Stay Notified!"
         android:textColor="@color/colorPrimary"

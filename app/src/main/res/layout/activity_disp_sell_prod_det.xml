@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ringaapp.ringapartner.DispSellProdDet">
+    tools:context="com.ringaapp.ringapartner.activities.DispSellProdDet">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/sellp_appbar"
@@ -25,22 +25,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_disp_sell_prod_det" />
-    <Button
-        android:id="@+id/publish_prod_but"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/filter_shape"
-        android:textAllCaps="false"
-        android:fontFamily="@font/nunito_semibold"
-        android:gravity="center"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="1dp"
-        android:text="Publish Product"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp" />
 
 </RelativeLayout>

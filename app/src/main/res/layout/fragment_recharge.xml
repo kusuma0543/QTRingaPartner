@@ -2,27 +2,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ringaapp.ringapartner.RechargeFrag">
+    tools:context="com.ringaapp.ringapartner.fragments.RechargeFrag">
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:text="Recharge Leads"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:fontFamily="@font/nunito_semibold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Jobs Remaining"
+                android:textColor="@color/colorHint"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nunito_semibold"/>
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gif_list"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+            <TextView
+                android:id="@+id/getjobs_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="06"
+                android:textColor="@color/colorBlack"
+                android:textSize="26sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recharge Pack"
+                android:textColor="@color/colorHint"
+                android:textSize="18sp"
+                android:layout_gravity="start"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:fontFamily="@font/nunito_semibold"/>
 
-        android:layout_gravity="top|center"
-        android:layout_margin="10dp"
-        android:src="@drawable/clipboard_new"
+            <GridView android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/home_gridview"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
 
-        />
-    <TextView
-        android:id="@+id/text_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Getting You Better Jobs! Stay Notified!"
-        android:textColor="@color/colorPrimary"
-        android:layout_gravity="center"
-        android:textSize="18sp" />
+                android:verticalSpacing="20dp"
+                android:horizontalSpacing="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:numColumns="3"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

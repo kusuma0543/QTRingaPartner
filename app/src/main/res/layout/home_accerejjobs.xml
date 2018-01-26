@@ -52,16 +52,16 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/f"
+                    android:id="@+id/booking_created_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:fontFamily="@font/nunito_semibold"
                     android:gravity="end"
-android:layout_weight="1.5"
-                    android:text="Name"
+                    android:layout_weight="1.5"
+                    android:text="accepted before 3 days"
                     android:textColor="#000"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                   />
             </LinearLayout>
 

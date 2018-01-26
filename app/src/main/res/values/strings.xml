@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RingaApp Partner</string>
+    <string name="app_name">Ringa Partner</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>

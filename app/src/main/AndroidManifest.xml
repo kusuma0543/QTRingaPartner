@@ -20,9 +20,16 @@
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <application
-        android:name=".AppController"
+        android:name=".javaclasses.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -53,7 +60,7 @@
         </receiver>
 
         <activity
-            android:name=".Splash"
+            android:name=".activities.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -63,155 +70,145 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.MainActivity" />
+                android:value="com.ringaapp.ringapartner.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".SignupActivity"
+            android:name=".activities.SignupActivity"
             android:label="@string/title_activity_signup"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.MainActivity" />
+                android:value="com.ringaapp.ringapartner.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ForgotPassword"
+            android:name=".activities.ForgotPassword"
             android:label="@string/title_activity_forgot_password"
-            android:parentActivityName=".LoginActivity"
+            android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.LoginActivity" />
+                android:value="com.ringaapp.ringapartner.activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".OTPVerify"
+            android:name=".activities.OTPVerify"
             android:label="@string/title_activity_otpverify"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ResetPassword"
+            android:name=".activities.ResetPassword"
             android:label="@string/title_activity_reset_password"
-            android:parentActivityName=".LoginActivity"
+            android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.LoginActivity" />
+                android:value="com.ringaapp.ringapartner.activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".OTPVerifys"
+            android:name=".activities.OTPVerifys"
             android:label="@string/title_activity_otpverifys"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HomeScreen"
+            android:name=".activities.HomeScreen"
             android:label="@string/title_activity_home_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".PartnerMapSel"
+            android:name=".activities.PartnerMapSel"
             android:label="@string/title_activity_partner_map_sel"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PartnerSerSel"
+            android:name=".activities.PartnerSerSel"
             android:label="@string/title_activity_partner_ser_sel"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".DocVerification"
+            android:name=".activities.DocVerification"
             android:label="@string/title_activity_doc_verification"
-            android:parentActivityName=".HomeScreen"
+            android:parentActivityName=".activities.HomeScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.HomeScreen" />
+                android:value="com.ringaapp.ringapartner.activities.HomeScreen" />
         </activity>
         <activity
-            android:name=".CategoryMain"
+            android:name=".activities.CategoryMain"
             android:label="@string/title_activity_category_main"
-            android:parentActivityName=".DocVerification"
+            android:parentActivityName=".activities.DocVerification"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.DocVerification" />
+                android:value="com.ringaapp.ringapartner.activities.DocVerification" />
         </activity>
         <activity
-            android:name=".ProfilePage"
+            android:name=".activities.ProfilePage"
             android:label="@string/title_activity_profile_page"
-            android:parentActivityName=".CategoryMain"
+            android:parentActivityName=".activities.CategoryMain"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
+                android:value="com.ringaapp.ringapartner.activities.CategoryMain" />
         </activity>
         <activity
-            android:name=".ServiceTracking"
+            android:name=".activities.ServiceTracking"
             android:label="@string/title_activity_service_tracking"
-            android:parentActivityName=".CategoryMain"
+            android:parentActivityName=".activities.CategoryMain"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
+                android:value="com.ringaapp.ringapartner.activities.CategoryMain" />
         </activity>
         <activity
-            android:name=".UploadPartnerServImages"
+            android:name=".activities.UploadPartnerServImages"
             android:label="@string/title_activity_upload_partner_serv_images"
-            android:parentActivityName=".HomeScreen"
+            android:parentActivityName=".activities.HomeScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.HomeScreen" />
+                android:value="com.ringaapp.ringapartner.activities.HomeScreen" />
         </activity>
         <activity
-            android:name=".AppreciationAccept"
+            android:name=".activities.AppreciationAccept"
             android:label="@string/title_activity_appreciation_accept"
-            android:parentActivityName=".CategoryMain"
+            android:parentActivityName=".activities.CategoryMain"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
+                android:value="com.ringaapp.ringapartner.activities.CategoryMain" />
         </activity>
         <activity
-            android:name=".JobsListCount"
-            android:label="@string/title_activity_jobs_list_count"
-            android:parentActivityName=".CategoryMain"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.CategoryMain" />
-        </activity>
-        <activity
-            android:name=".AboutScroll"
+            android:name=".activities.AboutScroll"
             android:label="@string/title_activity_about_scroll"
-            android:parentActivityName=".AboutScroll"
+            android:parentActivityName=".activities.AboutScroll"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ringaapp.ringapartner.AboutScroll" />
+                android:value="com.ringaapp.ringapartner.activities.AboutScroll" />
         </activity>
         <activity
-            android:name=".DispSellProdDet"
+            android:name=".activities.DispSellProdDet"
             android:label="@string/title_activity_disp_sell_prod_det"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

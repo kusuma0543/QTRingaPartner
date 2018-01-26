@@ -7,7 +7,7 @@
     android:layout_below="@+id/appbar"
     android:layout_marginBottom="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ringaapp.ringapartner.HomeScreen"
+    tools:context="com.ringaapp.ringapartner.activities.HomeScreen"
     tools:showIn="@layout/activity_home_screen">
 
 

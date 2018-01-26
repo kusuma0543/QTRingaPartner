@@ -72,6 +72,8 @@ dependencies {
 //deserplaceholder if no internet
     compile 'nl.dionsegijn:konfetti:1.1.0'//blasting
     compile 'com.github.varunest:sparkbutton:1.0.5'//sparkling
+    compile 'de.hdodenhof:circleimageview:2.2.0'//circleimageview
+
 }
 apply plugin: 'com.google.gms.google-services'
 

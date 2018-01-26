@@ -1,51 +1,62 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FFF5F5"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.ringaapp.ringapartner.SellProdutsFrag">
-    <LinearLayout
+    tools:context="com.ringaapp.ringapartner.fragments.SellProdutsFrag">
+
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:layout_width="match_parent"-->
-            <!--app:cardCornerRadius="5dp"-->
-            <!--app:cardPreventCornerOverlap="true"-->
-            <!--app:cardElevation="8dp"-->
-            <!--android:padding="10dp"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:layout_height="wrap_content" >-->
-            <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
-                <!--android:id="@+id/partnerproductsel_spinner"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="60dp"-->
-                <!--app:hintText="Select Your Product"/>-->
-        <!--</android.support.v7.widget.CardView>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:text="Post your Ad"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/nunito_semibold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:text="Product Title"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/nunito_semibold"/>
         <EditText
             android:id="@+id/product_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:hint="Give Product Title"
-            android:textColorHint="@color/colorHint"
-            android:gravity="center"
+            android:maxLength="20"
+            android:hint="Eg:Samsung galaxy s3 (Min 20 Words)"
+            android:textColorHint="@color/colorHints"
+            android:gravity="start"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+
             android:textCursorDrawable="@color/colorAccent"
-            android:textSize="18sp"
+            android:textSize="15sp"
+
             android:fontFamily="@font/nunito_semibold"
-            android:drawableLeft="@drawable/sell_title"
-            android:padding="14dp"
-            android:layout_marginTop="20dp"/>
+            android:padding="14dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="10dp"
             android:text="Product Description"
             android:textColor="@color/colorBlack"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_marginTop="20dp"
             android:paddingLeft="5dp"
             android:fontFamily="@font/nunito_semibold"/>
@@ -66,42 +77,62 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
-                            android:hint="please give details about your product"
+                            android:hint="Write something about your product (Min 200 words)"
                             android:textSize="15sp"
+                            android:maxLength="200"
+                            android:imeOptions="actionNext"
+
                             android:fontFamily="@font/nunito_semibold"
                             android:gravity="start"
                             android:padding="5dp"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:text="Product Price"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/nunito_semibold"/>
         <EditText
             android:id="@+id/product_cost"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:hint="Give Product Price"
-            android:textColorHint="@color/colorHint"
-            android:gravity="center"
-            android:textSize="18sp"
+            android:hint="Eg:10,000"
+            android:textColorHint="@color/colorHints"
+            android:gravity="start"
+            android:textSize="15sp"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+
             android:inputType="number"
             android:textCursorDrawable="@color/colorAccent"
             android:fontFamily="@font/nunito_semibold"
-            android:drawableLeft="@drawable/sell_rupee"
-            android:padding="14dp"
-            android:layout_marginTop="20dp"/>
+            android:padding="14dp" />
+
+
+
+
+        <Button
+            android:id="@+id/product_upload"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_shape"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Next"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/product_upload"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/filter_shape"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Upload"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/colorWhite" />
 </FrameLayout>
