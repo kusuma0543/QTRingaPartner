@@ -1,7 +1,10 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -9,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +32,7 @@ import com.google.gson.Gson;
 import com.jetradar.desertplaceholder.DesertPlaceholder;
 import com.ringaapp.ringapartner.GlobalUrl.GlobalUrl;
 import com.ringaapp.ringapartner.R;
+import com.ringaapp.ringapartner.javaclasses.Utility;
 import com.ringaapp.ringapartner.db_javaclasses.Imageret;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
@@ -40,6 +45,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -62,7 +70,9 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
     private Uri filePath;
     private String uidimagex;
     private GridView linearLayout;
-
+    Bitmap thumbnail;
+    private String userChoosenTask;
+    private int REQUEST_CAMERA = 1, SELECT_FILE = 1;
     private ProgressDialog dialog;
     private Button butallupload;
     private SessionManager session;
@@ -134,6 +144,40 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
         }
 
     }
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(UploadPartnerServImages.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(UploadPartnerServImages.this);
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        showFileChooser();
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+
 
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -159,9 +203,37 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
                     e.printStackTrace();
                 }
             }
+            if (resultCode == Activity.RESULT_OK) {
 
+                if (requestCode == REQUEST_CAMERA)
+                    onCaptureImageResult(data);
+            }
         }
     }
+    private void onCaptureImageResult(Intent data) {
+        thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+            uploadImages();
+            new JSONTask().execute(GlobalUrl.partner_imageret+"?"+UPLOAD_KEYTWO+"="+uidimagex);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -169,7 +241,46 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
+    private void uploadImages(){
+        class UploadImage extends AsyncTask<Bitmap,Void,String> {
 
+            ProgressDialog loading;
+            RequestHandler rh = new RequestHandler();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(UploadPartnerServImages.this, "Uploading Image", "Please wait...",true,true);
+
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Bitmap... params) {
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(thumbnail);
+
+                HashMap<String,String> data = new HashMap<>();
+                data.put(UPLOAD_KEYTWO,uidimagex);
+                data.put(UPLOAD_KEY, uploadImage);
+
+
+                String result = rh.sendPostRequest(GlobalUrl.partner_imageupload,data);
+
+                return result;
+            }
+        }
+
+        UploadImage ui = new UploadImage();
+        ui.execute(bitmap);
+    }
 
     private void uploadImage(){
         class UploadImage extends AsyncTask<Bitmap,Void,String> {
@@ -215,11 +326,11 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         if (v == docv_imagesel) {
-            showFileChooser();
+            selectImage();
         }
         if(v==docv_itemsel)
         {
-            showFileChooser();
+            selectImage();
         }
 
         if(v==butallupload)

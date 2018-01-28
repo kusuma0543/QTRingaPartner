@@ -20,13 +20,13 @@
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
+        android:name="android.hardware.camera.any"
+        android:required="true" />
     <uses-feature
-        android:name="android.hardware.camera"
+        android:name="android.hardware.camera.autofocus"
         android:required="false" />
     <application
         android:name=".javaclasses.AppController"
@@ -50,7 +50,18 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
+        <service
+            android:name=".firebase.FireBaseJavaClass">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".firebase.FireBaseServiceClass">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <receiver
             android:name="swarajsaaj.smscodereader.receivers.OtpReader"
             android:permission="android.permission.BROADCAST_SMS">
@@ -151,8 +162,10 @@
         <activity
             android:name=".activities.CategoryMain"
             android:label="@string/title_activity_category_main"
+            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".activities.DocVerification"
             android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

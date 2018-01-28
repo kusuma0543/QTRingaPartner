@@ -54,4 +54,25 @@
         android:textColor="@color/colorPrimary"
         android:layout_gravity="center"
         android:textSize="18sp" />
+    <FrameLayout
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end">
+
+
+        <pl.droidsonroids.gif.GifImageView
+
+            android:id="@+id/postad_partner"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="top|center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:elevation="10dp"
+            android:src="@drawable/postad"
+
+            />
+    </FrameLayout>
 </FrameLayout>

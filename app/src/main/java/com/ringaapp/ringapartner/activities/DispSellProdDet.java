@@ -1,12 +1,16 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,10 +29,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.ringaapp.ringapartner.GlobalUrl.GlobalUrl;
 import com.ringaapp.ringapartner.R;
-import com.ringaapp.ringapartner.javaclasses.RequestHandler;
+import com.ringaapp.ringapartner.javaclasses.Utility;
+import com.ringaapp.ringapartner.db_javaclasses.prod_imagesret;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
-import com.ringaapp.ringapartner.db_javaclasses.prod_imagesret;
+import com.ringaapp.ringapartner.javaclasses.RequestHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,6 +42,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -61,8 +69,9 @@ public class DispSellProdDet extends AppCompatActivity {
     private Bitmap bitmap;
     private Uri filePath;
     private SessionManager session;
-    private SQLiteHandler db;
-
+    private SQLiteHandler db;Bitmap thumbnail;
+    private String userChoosenTask;
+    private int REQUEST_CAMERA = 1, SELECT_FILE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,19 +89,12 @@ public class DispSellProdDet extends AppCompatActivity {
         s_prod_cost = intent.getStringExtra("send_prod_cost");
         s_dispprod_produid = intent.getStringExtra("send_prod_uid");
 
-//        tv_prod_title = findViewById(R.id.sell_dis_title);
-//        tv_prod_desc = findViewById(R.id.sell_dis_desc);
-//        tv_prod_cost = findViewById(R.id.sell_dis_cost);
         but_publish_prod = findViewById(R.id.publish_prod_but);
         sell_dis_add_images = findViewById(R.id.sell_dis_add_images);
         sell_dis_add_images_tv = findViewById(R.id.sell_dis_add_images_tv);
         sell_dis_remimages = findViewById(R.id.sell_dis_remimages);
         sell_dis_upload_imgpreview = findViewById(R.id.sell_dis_upload_imgpreview);
         sell_dis_gridview = findViewById(R.id.sell_dis_gridview);
-
-//        tv_prod_title.setText(s_prod_title);
-//        tv_prod_desc.setText(s_prod_desc);
-//        tv_prod_cost.setText(s_prod_cost);
 
         but_publish_prod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,17 +105,50 @@ public class DispSellProdDet extends AppCompatActivity {
         sell_dis_add_images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser();
+                selectImage();
             }
         });
         sell_dis_add_images_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser();
+                selectImage();
 
             }
         });
     }
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DispSellProdDet.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result=Utility.checkPermission(DispSellProdDet.this);
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        showFileChooser();
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
 
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -140,9 +175,37 @@ public class DispSellProdDet extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            if (resultCode == Activity.RESULT_OK) {
 
+                if (requestCode == REQUEST_CAMERA)
+                    onCaptureImageResult(data);
+        }
         }
     }
+    private void onCaptureImageResult(Intent data) {
+         thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+            uploadImages();
+            new JSONTask().execute(GlobalUrl.partner_ret_sellproduct_imgges+"?"+UPLOAD_KEY_PRODUID+"="+s_dispprod_produid);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -153,7 +216,47 @@ public class DispSellProdDet extends AppCompatActivity {
     }
 
 
-    private void uploadImage(){
+    private void uploadImages(){
+        class UploadImage extends AsyncTask<Bitmap,Void,String> {
+
+            ProgressDialog loading;
+            RequestHandler rh = new RequestHandler();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(DispSellProdDet.this, "Uploading Image", "Please wait...",true,true);
+
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Bitmap... params) {
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(thumbnail);
+
+                HashMap<String,String> data = new HashMap<>();
+                data.put(UPLOAD_KEYTWO,s_dispprod_partner_uid);
+                data.put(UPLOAD_KEY_PRODUID,s_dispprod_produid);
+                data.put(UPLOAD_KEY, uploadImage);
+
+
+                String result = rh.sendPostRequest(GlobalUrl.partner_insert_sellproduct_images,data);
+
+                return result;
+            }
+        }
+
+        UploadImage ui = new UploadImage();
+        ui.execute(bitmap);
+    }  private void uploadImage(){
         class UploadImage extends AsyncTask<Bitmap,Void,String> {
 
             ProgressDialog loading;

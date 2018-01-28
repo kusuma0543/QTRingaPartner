@@ -526,7 +526,7 @@ private ImageView docv_itemsel;
                     docv_imagesel.setVisibility(View.INVISIBLE);
                     docv_itemsel.setVisibility(View.INVISIBLE);
                     front.setVisibility(View.INVISIBLE);
-                    Toast.makeText(context, "You Can able to select onl two Images", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "You Can able to select only two Images", Toast.LENGTH_SHORT).show();
 
                 }else if(s_rowacount.matches("1")||s_rowacount.equals("1"))
                 {

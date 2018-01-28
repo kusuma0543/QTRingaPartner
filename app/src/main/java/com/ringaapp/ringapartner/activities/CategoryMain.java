@@ -51,6 +51,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class CategoryMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String partnerhome_partneruid,partnerhome_partnername;
@@ -67,6 +69,8 @@ TextView tv_toolbar;
 
     private SessionManager session;
     private SQLiteHandler db;
+    GifImageView homebut_buy;
+
 
 
     @Override
@@ -88,6 +92,7 @@ TextView tv_toolbar;
 
             tv_toolbar = findViewById(R.id.tv_toolbar);
              bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+          //  homebut_buy = findViewById(R.id.postad_partner);
 
             tv_toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,6 +103,14 @@ TextView tv_toolbar;
 
                 }
             });
+//            homebut_buy.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    bottomBar.selectTabAtPosition(3);
+//
+//
+//                }
+//            });
             bottomBar.setDefaultTab(R.id.tab_ongoing);
             bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
                 @Override
@@ -367,6 +380,12 @@ TextView tv_toolbar;
             startActivity( new Intent(CategoryMain.this,AboutScroll.class));
 
         }
+        else if (id == R.id.nav_postad)
+        {
+            bottomBar.selectTabAtPosition(3);
+
+        }
+
         else if (id == R.id.nav_contact)
         {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
@@ -558,10 +577,10 @@ TextView tv_toolbar;
             }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    session.setLogin(false);
-                    db.deleteUsers();
-                    Intent intent=new Intent(CategoryMain.this,LoginActivity.class);
-                    startActivity(intent);
+//                    session.setLogin(false);
+//                    db.deleteUsers();
+//                    Intent intent=new Intent(CategoryMain.this,LoginActivity.class);
+//                    startActivity(intent);
                 }
             }).show();
 

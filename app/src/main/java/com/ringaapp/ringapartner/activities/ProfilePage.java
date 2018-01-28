@@ -266,7 +266,7 @@ public class ProfilePage extends AppCompatActivity {
                         partner_ratingbar.setRating(ratemap);
                         partner_rating.setText(spartner_rating+"/"+spartner_ratingtotral);
                         partner_ratingtwo.setText(spartner_rating+"/"+spartner_ratingtotral);
-                        servpdet_visitingcharge.setText(spartner_visitingcharge);
+                        servpdet_visitingcharge.setText("\u20B9."+spartner_visitingcharge);
                         partner_activesince.setText(spartner_activesince);
 
 

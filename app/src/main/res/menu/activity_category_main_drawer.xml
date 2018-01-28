@@ -13,6 +13,10 @@
             android:id="@+id/nav_refer"
             android:icon="@drawable/nav_refer"
             android:title="@string/refer_a_friend" />
+        <item
+            android:id="@+id/nav_postad"
+            android:icon="@drawable/nav_postad"
+            android:title="@string/post_ad" />
 
         <item
             android:id="@+id/nav_rate"

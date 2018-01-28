@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
@@ -78,6 +79,7 @@ TextView gettext;
     String URLL;
     String URLCOUNT,jobcounttool;
     String getmid;
+    GifImageView homebut_buy;
 
      KonfettiView konfettiView;
     private final int  FIVE_SECONDS=5000;
@@ -111,6 +113,26 @@ final Handler handler=new Handler();
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
         gettext=view.findViewById(R.id.text_list);
+          homebut_buy =view. findViewById(R.id.postad_partner);
+
+        homebut_buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(), "szmx", Toast.LENGTH_SHORT).show();
+//                    Fragment fragment = new SellProdutsFrag();
+//                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.tab_new, fragment);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
+                    android.support.v4.app.Fragment selectedFragment = SellProdutsFrag.newInstance();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentContainer, selectedFragment);
+                    transaction.commit();
+                }
+            });
+
+
         konfettiView=view.findViewById(R.id.viewKonfetti);
         URLL = GlobalUrl.partner_homeaccrejjobs+"?partner_uid="+partnerhome_partneruid;
         new kilomilo().execute(URLL);

@@ -1,33 +1,35 @@
 {
   "project_info": {
-    "project_number": "777908087113",
-    "project_id": "instagsigniin"
+    "project_number": "879881108435",
+    "firebase_url": "https://ringaapp-partner-android.firebaseio.com",
+    "project_id": "ringaapp-partner-android",
+    "storage_bucket": "ringaapp-partner-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:777908087113:android:1a584836c078d420",
+        "mobilesdk_app_id": "1:879881108435:android:f02d228ebbb4a2c2",
         "android_client_info": {
           "package_name": "com.ringaapp.ringapartner"
         }
       },
       "oauth_client": [
         {
-          "client_id": "777908087113-erhhrka2uai3mppoqkdrdvi8ugm4o42p.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "777908087113-ldfdat1an5ol5fs92a2pt3pt6vnmb5bk.apps.googleusercontent.com",
+          "client_id": "879881108435-8h6rgfkm7g8j04tl66n3lqqccg3r6kki.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ringaapp.ringapartner",
-            "certificate_hash": "9a6c6a5f43ca808fce07f1dc754407be5f161539"
+            "certificate_hash": "3d432a589fc2095cde77ebd8b90a53392aa14f71"
           }
+        },
+        {
+          "client_id": "879881108435-5v69a69d9827i9mb0qgk2dk0ss1sv1qq.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDn4W_B2fovaf7nta5wSXGbnSb8z5FzIsY"
+          "current_key": "AIzaSyD8865a8y6ZukLuifTztDNZUx7LnCKsFe4"
         }
       ],
       "services": {
@@ -35,11 +37,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879881108435-5v69a69d9827i9mb0qgk2dk0ss1sv1qq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

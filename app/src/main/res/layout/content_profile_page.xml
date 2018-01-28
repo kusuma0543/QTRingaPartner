@@ -52,6 +52,8 @@
                 android:text="Chennai"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:layout_gravity="center"
@@ -108,7 +110,7 @@
                     android:layout_margin="2dp"
                     android:textColor="@color/colorWhite"
                     android:background="@drawable/filter_shape"
-                    android:text="Visiting Charge"/>
+                    android:text="Rs.100"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -233,7 +235,7 @@
 
 
             <TextView
-                android:layout_width="110dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
 
@@ -267,7 +269,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorHint"/>
             <TextView
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Photos"
                 android:textColor="@color/colorBlack"
@@ -317,7 +319,7 @@
                 android:background="@color/colorHint"/>
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reviews"
                 android:textColor="@color/colorBlack"
