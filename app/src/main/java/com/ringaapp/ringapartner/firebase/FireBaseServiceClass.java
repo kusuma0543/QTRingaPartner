@@ -38,8 +38,7 @@ public class FireBaseServiceClass extends FirebaseMessagingService {
         notifica.setAutoCancel(true);
         notifica.setColor(getColor(R.color.colorAccent));
         notifica.setOnlyAlertOnce(true);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
+        Uri alarmSound =RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);

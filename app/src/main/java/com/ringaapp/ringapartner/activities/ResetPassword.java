@@ -104,8 +104,8 @@ public class ResetPassword extends AppCompatActivity {
                                 public void onClick(View v) {
 
                                     sreset_password = edconfirmpswd.getText().toString();
-                                    Toast.makeText(getApplicationContext(), sreset_mobile, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getApplicationContext(), sreset_password, Toast.LENGTH_SHORT).show();
+                           //         Toast.makeText(getApplicationContext(), sreset_mobile, Toast.LENGTH_SHORT).show();
+                             //       Toast.makeText(getApplicationContext(), sreset_password, Toast.LENGTH_SHORT).show();
                                     resetpassword(sreset_mobile, sreset_password);
 
                                 }

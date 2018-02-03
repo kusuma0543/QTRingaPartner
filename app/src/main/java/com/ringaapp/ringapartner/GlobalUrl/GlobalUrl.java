@@ -39,6 +39,6 @@ public class GlobalUrl {
     public static String partner_insert_sellproduct="http://quaticstech.in/projecti1andro/android_partner_insertpartner_sellproduct.php";
     public static String partner_insert_sellproduct_images="http://quaticstech.in/projecti1andro/android_partner_upload_sellproduct_images.php";
     public static String partner_ret_sellproduct_imgges="http://quaticstech.in/projecti1andro/android_partner_ret_sellproduct_images.php";
-
+    public static String partner_showprod="http://quaticstech.in/projecti1andro/android_users_categoriesret.php";
 }
 

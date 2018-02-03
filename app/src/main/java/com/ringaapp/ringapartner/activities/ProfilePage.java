@@ -1,6 +1,8 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -57,7 +59,7 @@ public class ProfilePage extends AppCompatActivity {
     String profilpageuid;
     private ImageView partner_image;
     private TextView partner_name,partner_address,partner_about,partner_rating,partner_ratingtwo,
-            partner_activesince;
+            partner_activesince,partner_rating_count;
     Float ratemap;
     private RatingBar partner_ratingbar;
     private Button partner_profeditbut,servpdet_visitingcharge;
@@ -67,7 +69,7 @@ public class ProfilePage extends AppCompatActivity {
     private SessionManager session;
     private SQLiteHandler db;
 
-
+ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,29 +82,37 @@ public class ProfilePage extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
 
-//        final Intent intent=getIntent();
-//        profilpageuid=intent.getStringExtra("uidtoprofile");
-
         final HashMap<String, String> user = db.getUserDetails();
         profilpageuid=user.get("uid");
+
         flipperLayout_service = findViewById(R.id.flipper_layout_service);
         listview_service =  findViewById(R.id.s_service);
+
         partner_image=findViewById(R.id.partner_profimage);
         partner_name=findViewById(R.id.servpdet_name);
         partner_address=findViewById(R.id.servpdet_localityname);
         partner_about=findViewById(R.id.servpdet_desc);
         partner_ratingbar=findViewById(R.id.servpdet_ratingbar);
-        partner_rating=findViewById(R.id.servpdet_rating);
         partner_ratingtwo=findViewById(R.id.servpdet_totalreview);
         servpdet_visitingcharge=findViewById(R.id.servpdet_visitingcharge);
         partner_activesince=findViewById(R.id.servpdet_lastupdated);
         review_list=findViewById(R.id.review_part_list);
+        partner_rating_count=findViewById(R.id.servpdet_ratingcount);
+      //  webView = (WebView)findViewById(R.id.webView);
        // partner_profeditbut=findViewById(R.id.partner_profbut);
 
 
 
         String URLL = "http://quaticstech.in/projecti1andro/android_partner_servprovimagesslider.php?partner_uid="+profilpageuid;
-        new kilomilo().execute(URLL);
+    new kilomilo().execute(URLL);
+//        WebView webView = (WebView) findViewById(R.id.webView);
+//
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.getSettings().setDomStorageEnabled(true);
+//        webView.getSettings().setAppCacheEnabled(true);
+//        webView.getSettings().setLoadsImagesAutomatically(true);
+//        webView.getSettings().setUseWideViewPort(true);
+//        webView.loadUrl("http://quaticstech.in/projecti1/ringa/service_profile_lightbox.php?partnerxid="+profilpageuid);
         getmyprofiledetails(profilpageuid);
 
         String review_partner = "http://quaticstech.in/projecti1andro/android_users_partner_review.php?partner_uid=" + profilpageuid;
@@ -162,6 +172,15 @@ public class ProfilePage extends AppCompatActivity {
             FlipperView view = new FlipperView(getBaseContext());
             //Picasso.with(context).load(ccitacc.getPromotion_fullimage()).fit().error(R.drawable.load).fit().into(flipperLayout);
             view.setImageUrl(ccitacc.getPartner_images());
+     view.setOnFlipperClickListener(new FlipperView.OnFlipperClickListener() {
+         @Override
+         public void onFlipperClick(FlipperView flipperView) {
+            Intent ing=new Intent(ProfilePage.this,ImageExtend.class);
+            ing.putExtra("imagesuid",profilpageuid);
+            startActivity(ing);
+         }
+     });
+
             flipperLayout_service.addFlipperView(view);
 
 
@@ -239,6 +258,8 @@ public class ProfilePage extends AppCompatActivity {
             }
         }
     }
+
+
     public void getmyprofiledetails(final String s1) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrl.partner_profiledet, new Response.Listener<String>() {
             public void onResponse(String response) {
@@ -264,8 +285,9 @@ public class ProfilePage extends AppCompatActivity {
                         partner_about.setText(spartner_about);
                         ratemap = Float.parseFloat(spartner_rating);
                         partner_ratingbar.setRating(ratemap);
-                        partner_rating.setText(spartner_rating+"/"+spartner_ratingtotral);
-                        partner_ratingtwo.setText(spartner_rating+"/"+spartner_ratingtotral);
+///                        partner_rating.setText(spartner_rating+"/5");
+                        partner_ratingtwo.setText(spartner_rating+"/5");
+                        partner_rating_count.setText("Based on number of Reviews :"+spartner_ratingtotral);
                         servpdet_visitingcharge.setText("\u20B9."+spartner_visitingcharge);
                         partner_activesince.setText(spartner_activesince);
 

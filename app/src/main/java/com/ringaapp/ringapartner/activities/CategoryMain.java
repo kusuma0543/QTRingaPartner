@@ -40,7 +40,7 @@ import com.ringaapp.ringapartner.fragments.FinishedPartJobs;
 import com.ringaapp.ringapartner.fragments.NewJobs;
 import com.ringaapp.ringapartner.fragments.OnGoingPartJobs;
 import com.ringaapp.ringapartner.fragments.RechargeFrag;
-import com.ringaapp.ringapartner.fragments.SellProdutsFrag;
+import com.ringaapp.ringapartner.fragments.showprod;
 import com.ringaapp.ringapartner.javaclasses.AppController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -97,7 +97,7 @@ TextView tv_toolbar;
             tv_toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    bottomBar.selectTabAtPosition(4);
+                    bottomBar.selectTabAtPosition(3);
 
                     //  startActivity(new Intent(CategoryMain.this,JobsListCount.class));
 
@@ -111,7 +111,10 @@ TextView tv_toolbar;
 //
 //                }
 //            });
+
+
             bottomBar.setDefaultTab(R.id.tab_ongoing);
+
             bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
                 @Override
                 public void onTabSelected(@IdRes int tabId) {
@@ -125,9 +128,7 @@ TextView tv_toolbar;
                     else if (tabId == R.id.tab_finished) {
                         selectedFragment = FinishedPartJobs.newInstance();
                     }
-                    else if (tabId == R.id.tab_sell) {
-                        selectedFragment = SellProdutsFrag.newInstance();
-                    }
+
                     else if (tabId == R.id.tab_recharge) {
                         selectedFragment = RechargeFrag.newInstance();
                      }
@@ -382,8 +383,11 @@ TextView tv_toolbar;
         }
         else if (id == R.id.nav_postad)
         {
-            bottomBar.selectTabAtPosition(3);
+            android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
 
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.contentContainer, selectedFragment);
+            transaction.commit();
         }
 
         else if (id == R.id.nav_contact)
@@ -577,10 +581,11 @@ TextView tv_toolbar;
             }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                    session.setLogin(false);
-//                    db.deleteUsers();
-//                    Intent intent=new Intent(CategoryMain.this,LoginActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 }
             }).show();
 

@@ -88,7 +88,8 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/rounded_editsecond"
                 android:fontFamily="@font/nunito_semibold"
-                android:hint="SIGN IN"
+                android:hint="Sign In"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 android:textColorHint="#fff"
                 android:textSize="18sp" />
@@ -121,7 +122,7 @@
                     android:layout_weight="0.5"
                     android:fontFamily="@font/nunito_semibold"
                     android:gravity="center"
-                    android:text="Sign up"
+                    android:text="Sign Up"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
 

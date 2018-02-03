@@ -136,7 +136,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                         stateName = addressess.get(0).getAdminArea();
                         postlCode = addressess.get(0).getPostalCode();
                         adminarea = addressess.get(0).getAddressLine(0);
-                        ;
+
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -186,13 +186,8 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
                 public void onPlaceSelected(Place place) {
-
-                    // Toast.makeText(getApplicationContext(), "Place: " + place.getName(), Toast.LENGTH_SHORT).show();
-
-                    // Toast.makeText(getApplicationContext(), "Place: " + place.getLatLng(), Toast.LENGTH_SHORT).show();
                     mMap.clear();
                     LatLng sydneys = place.getLatLng();
-
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
                     mMap.setMaxZoomPreference(15.5f);
@@ -256,13 +251,12 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
 
 
                 mMap.clear();
-               // getmygps();
                 try {
 
                     Location mLocation = new Location("");
                     mLocation.setLatitude(mCenterLatLong.latitude);
                     mLocation.setLongitude(mCenterLatLong.longitude);
-dialog.cancel();
+                    dialog.cancel();
                     startIntentService(mLocation);
                     Geocoder geocoder = new Geocoder(PartnerMapSel.this, Locale.getDefault());
                     try {
@@ -270,9 +264,6 @@ dialog.cancel();
                         address = addresses.get(0).getSubLocality();
                         cityName = addresses.get(0).getLocality();
                         stateName = addresses.get(0).getAdminArea();
-                      //  Toast.makeText(getApplicationContext(), "Your selected area : " + address, Toast.LENGTH_SHORT).show();
-
-                       // Toast.makeText(getApplicationContext(), "Your selected city: " + cityName, Toast.LENGTH_SHORT).show();
 
 
                     } catch (IOException e) {
@@ -284,7 +275,7 @@ dialog.cancel();
                 }
             }
         });
-        getmygpsd();
+            getmygpsd();
 
 
     }
@@ -292,7 +283,6 @@ dialog.cancel();
 
     protected void startIntentService(Location mLocation) {
 
-        //getmygps();
 
         Intent intent = new Intent(this, FetchAddressIntentService.class);
 
@@ -377,7 +367,7 @@ dialog.cancel();
                 .position(new LatLng(lat,lng)));
 
 
-dialog.cancel();
+        dialog.cancel();
 
         mMap.addCircle(new CircleOptions()
                 .center(new LatLng(lat,lng))

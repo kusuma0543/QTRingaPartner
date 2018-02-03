@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,14 +45,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import pl.droidsonroids.gif.GifImageView;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 public class OnGoingPartJobs extends Fragment {
     TextView gettext;
-    GifImageView gifImageView;
+    ImageView gifImageView;
     String ongoingjobspartuid;
     private ListView partnerhome_listview;
     private ProgressDialog dialog;
@@ -57,6 +58,7 @@ public class OnGoingPartJobs extends Fragment {
     private SQLiteHandler db;
     long days;
     private String take_user_number;
+    FloatingActionButton homebut_buy;
 
     public static OnGoingPartJobs newInstance() {
         OnGoingPartJobs fragment= new OnGoingPartJobs();
@@ -78,6 +80,17 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
         dialog = new ProgressDialog(getActivity());
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
+        homebut_buy =view. findViewById(R.id.postad_partner);
+
+        homebut_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentContainer, selectedFragment);
+                transaction.commit();
+            }
+        });
         dialog.setMessage("Loading. Please wait...");
         partnerhome_listview=view.findViewById(R.id.partnerongoingjobs_listview);
         String URLL = GlobalUrl.partner_ongoingjobs+"?partner_uid="+ongoingjobspartuid;
@@ -156,16 +169,16 @@ View view=inflater.inflate(R.layout.fragment_on_going_part_jobs, container, fals
             holder.text_dispdate.setText("accepted before "+days+" days");
 
 
-            holder.ongoingbut_call.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                     take_user_number=holder.text_gettingnumber.getText().toString();
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:"+take_user_number));
-                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(callIntent);
-                }
-            });
+                holder.ongoingbut_call.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                         take_user_number=holder.text_gettingnumber.getText().toString();
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+take_user_number));
+                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(callIntent);
+                    }
+                });
             return convertView;
         }
 

@@ -145,7 +145,7 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
 
     }
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
+        final CharSequence[] items = {  "Choose from Gallery","Take Photo",
                 "Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UploadPartnerServImages.this);
@@ -160,8 +160,8 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
                     if(result)
                         cameraIntent();
 
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask ="Choose from Library";
+                } else if (items[item].equals("Choose from Gallery")) {
+                    userChoosenTask ="Choose from Gallery";
                     if(result)
                         showFileChooser();
                 } else if (items[item].equals("Cancel")) {

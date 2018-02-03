@@ -28,4 +28,10 @@
         <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="TextAppearance.BotFont" parent="android:TextAppearance">
+
+        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

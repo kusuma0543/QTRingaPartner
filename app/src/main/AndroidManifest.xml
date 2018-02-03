@@ -21,13 +21,13 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
     <application
         android:name=".javaclasses.AppController"
         android:allowBackup="true"
@@ -40,28 +40,24 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="@string/google_maps_key" -->
-        <!-- /> -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <service
-            android:name=".firebase.FireBaseJavaClass">
+
+        <service android:name=".firebase.FireBaseJavaClass">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".firebase.FireBaseServiceClass">
+        <service android:name=".firebase.FireBaseServiceClass">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <receiver
             android:name="swarajsaaj.smscodereader.receivers.OtpReader"
             android:permission="android.permission.BROADCAST_SMS">
@@ -79,6 +75,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activities.MainActivity"
@@ -162,11 +159,10 @@
         <activity
             android:name=".activities.CategoryMain"
             android:label="@string/title_activity_category_main"
-            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".activities.DocVerification"
             android:screenOrientation="portrait"
-
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.activities.DocVerification" />
@@ -223,6 +219,10 @@
         <activity
             android:name=".activities.DispSellProdDet"
             android:label="@string/title_activity_disp_sell_prod_det"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.ImageExtend"
+            android:label="@string/title_activity_image_extend"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

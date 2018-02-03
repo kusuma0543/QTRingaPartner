@@ -52,41 +52,46 @@
                 android:text="Chennai"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:layout_gravity="center"
                 android:gravity="center" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content">
+
                 <RatingBar
                     android:id="@+id/servpdet_ratingbar"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="82dp"
                     android:clickable="false"
                     android:focusable="false"
                     android:max="5"
+                    android:paddingLeft="5dp"
                     android:scaleX=".5"
                     android:scaleY=".5"
                     android:transformPivotX="0dp"
-                    android:transformPivotY="10dp"
-                    android:paddingLeft="5dp"
-                    android:layout_marginTop="5dp"/>
-                <TextView
-                    android:id="@+id/servpdet_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="8/10"
-                    android:layout_alignEnd="@+id/servpdet_ratingbar"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp"/>
-            </RelativeLayout>
+                    android:transformPivotY="10dp" />
 
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/servpdet_ratingcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Based on number of Reviews: 1"
+                android:layout_gravity="center"
+
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,6 +191,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="8/10"
+                        android:maxLength="5"
                         android:textColor="@color/colorAccent"
                         android:fontFamily="@font/nunito_semibold" />
                 </LinearLayout>
@@ -286,12 +292,19 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_add"
                 android:focusable="true"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:cardCornerRadius="1dp"
                 app:cardElevation="4dp"
+                android:layout_margin="10dp"
                 app:cardUseCompatPadding="true">
+                <!--<WebView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/webView"-->
+          <!--&gt;-->
+                <!--</WebView>-->
+
 
                 <ListView
                     android:id="@+id/s_service"

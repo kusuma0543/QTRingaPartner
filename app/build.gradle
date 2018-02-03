@@ -73,7 +73,7 @@ dependencies {
     compile 'nl.dionsegijn:konfetti:1.1.0'//blasting
     compile 'com.github.varunest:sparkbutton:1.0.5'//sparkling
     compile 'de.hdodenhof:circleimageview:2.2.0'//circleimageview
-
+    compile 'com.jsibbold:zoomage:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 

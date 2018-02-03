@@ -298,7 +298,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     else
                     {                        dialog.cancel();
 
-                        Toast.makeText(getApplicationContext(),"Please enter correct details",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Account Already exists!",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

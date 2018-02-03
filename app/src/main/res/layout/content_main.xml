@@ -23,7 +23,7 @@
                 android:layout_height="110dp"
                 android:paddingTop="5dp"
                 android:layout_marginLeft="35dp"
-                android:src="@drawable/logis_ap"/>
+                android:src="@drawable/logis_app"/>
 
         </LinearLayout>
 

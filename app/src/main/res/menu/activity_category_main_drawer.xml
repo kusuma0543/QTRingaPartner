@@ -37,7 +37,7 @@
         <item
             android:id="@+id/nav_tc"
             android:icon="@drawable/nav_terms"
-            android:title="Terms &amp; Comditions" />
+            android:title="Terms &amp; Conditions" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/nav_logout"

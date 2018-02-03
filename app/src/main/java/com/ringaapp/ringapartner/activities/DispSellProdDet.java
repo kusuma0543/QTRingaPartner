@@ -99,7 +99,7 @@ public class DispSellProdDet extends AppCompatActivity {
         but_publish_prod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DispSellProdDet.this,CategoryMain.class));
+                startActivity(new Intent(DispSellProdDet.this,AppreciationAccept.class));
             }
         });
         sell_dis_add_images.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class DispSellProdDet extends AppCompatActivity {
         });
     }
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
+        final CharSequence[] items = { "Choose from Gallery", "Take Photo",
                 "Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DispSellProdDet.this);
@@ -132,8 +132,8 @@ public class DispSellProdDet extends AppCompatActivity {
                     if(result)
                         cameraIntent();
 
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask ="Choose from Library";
+                } else if (items[item].equals("Choose from Gallery")) {
+                    userChoosenTask ="Choose from Gallery";
                     if(result)
                         showFileChooser();
                 } else if (items[item].equals("Cancel")) {

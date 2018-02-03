@@ -1,7 +1,9 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -42,6 +44,7 @@ import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
 import com.ringaapp.ringapartner.javaclasses.AppController;
 import com.ringaapp.ringapartner.javaclasses.RequestHandler;
+import com.ringaapp.ringapartner.javaclasses.Utility;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -67,6 +70,7 @@ private ImageView docv_itemsel;
 
     private RadioGroup shome_groupone;
     private RadioButton shome_oneradio,shom_tworadio;
+    private String userChoosenTask;
 
 
     public static final String UPLOAD_KEY = "proof_images";
@@ -85,7 +89,7 @@ private ImageView docv_itemsel;
     private SessionManager session;
     private SQLiteHandler db;
     TextView front;
-
+    private int REQUEST_CAMERA = 1, SELECT_FILE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,6 +189,40 @@ private ImageView docv_itemsel;
         }
 
     }
+    private void selectImage() {
+        final CharSequence[] items = {  "Choose from Gallery","Take Photo",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(HomeScreen.this);
+
+                if (items[item].equals("Choose from Gallery")) {
+                    userChoosenTask ="Choose from Gallery";
+                    if(result)
+                        showFileChooser();
+                }  else if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                }
+                else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
 
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -279,11 +317,11 @@ private ImageView docv_itemsel;
     @Override
     public void onClick(View v) {
         if (v == docv_imagesel) {
-            showFileChooser();
+            selectImage();
         }
         if(v==docv_itemsel)
         {
-            showFileChooser();
+            selectImage();
         }
 //        if (v == docv_docsel) {
 //            showFileChoosers();

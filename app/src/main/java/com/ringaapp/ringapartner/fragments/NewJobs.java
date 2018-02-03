@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +68,6 @@ import java.util.Map;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
-import pl.droidsonroids.gif.GifImageView;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -79,22 +80,24 @@ TextView gettext;
     String URLL;
     String URLCOUNT,jobcounttool;
     String getmid;
-    GifImageView homebut_buy;
+    FloatingActionButton homebut_buy;
 
      KonfettiView konfettiView;
     private final int  FIVE_SECONDS=5000;
-    GifImageView gifImageView;
+    ImageView gifImageView;
     AlertDialog alertDialog1;
     FrameLayout fragmentContainer;
     CharSequence[] values = {" I am on other Project "," I cant do the Service right now",
             " Its not my Requirement "," I am out of Station "," My reason is not listed "};
-final Handler handler=new Handler();
+    final Handler handler=new Handler();
     private SessionManager session;
     private SQLiteHandler db;
     public static NewJobs newInstance() {
         NewJobs fragment= new NewJobs();
         return fragment;
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,18 +117,10 @@ final Handler handler=new Handler();
         dialog.setMessage("Loading. Please wait...");
         gettext=view.findViewById(R.id.text_list);
           homebut_buy =view. findViewById(R.id.postad_partner);
-
         homebut_buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(), "szmx", Toast.LENGTH_SHORT).show();
-//                    Fragment fragment = new SellProdutsFrag();
-//                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.tab_new, fragment);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-                    android.support.v4.app.Fragment selectedFragment = SellProdutsFrag.newInstance();
+                    android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.contentContainer, selectedFragment);
                     transaction.commit();

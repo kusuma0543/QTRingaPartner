@@ -214,7 +214,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded_editsecond"
                     android:fontFamily="@font/nunito_semibold"
-                    android:hint="SIGN UP"
+                    android:hint="Sign Up"
+                    android:textAllCaps="false"
                     android:textStyle="bold"
                     android:textColorHint="#fff"
                     android:textSize="18sp" />

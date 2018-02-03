@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ public class RechargeFrag extends Fragment {
     private SessionManager session;
     private SQLiteHandler db;
     TextView jobstotal_tv; String jobcounttool;
+    FloatingActionButton homebut_buy;
 
     public static RechargeFrag newInstance() {
         RechargeFrag fragment= new RechargeFrag();
@@ -69,7 +72,17 @@ public class RechargeFrag extends Fragment {
         final HashMap<String, String> user = db.getUserDetails();
         jobbuy_partner_uid = user.get("uid");
         getJobsMyCount(jobbuy_partner_uid);
+        homebut_buy =view. findViewById(R.id.postad_partner);
 
+        homebut_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentContainer, selectedFragment);
+                transaction.commit();
+            }
+        });
         jobstotal_tv=view.findViewById(R.id.getjobs_total);
         home_gridview=view.findViewById(R.id.home_gridview);
         new kilomilo().execute(GlobalUrl.partner_buyjobslist_ret);

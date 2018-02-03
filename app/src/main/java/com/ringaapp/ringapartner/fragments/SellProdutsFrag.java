@@ -57,10 +57,12 @@ public class SellProdutsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
             View view= inflater.inflate(R.layout.fragment_sell_produts, container, false);
+
         session = new SessionManager(getActivity());
         db = new SQLiteHandler(getActivity());
         final HashMap<String, String> user = db.getUserDetails();
         sellprod_partneruid=user.get("uid");
+
            // partnerproductsel_spinner=view.findViewById(R.id.partnerproductsel_spinner);
          //   students = new ArrayList<String>();
           //  int initialposition = partnerproductsel_spinner.getSelectedItemPosition();
