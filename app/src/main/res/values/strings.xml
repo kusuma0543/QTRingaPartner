@@ -16,6 +16,7 @@
     <string name="title_activity_partner_ser_sel">PartnerSerSel</string>
     <string name="title_activity_doc_verification">DocVerification</string>
     <string name="title_activity_category_main">CategoryMain</string>
+    <string name="title_activity_terms_and_conditions">Terms And Conditions</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

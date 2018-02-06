@@ -20,6 +20,7 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+       
         // MultiDex.install(this);
     }
     public static synchronized AppController getInstance() {

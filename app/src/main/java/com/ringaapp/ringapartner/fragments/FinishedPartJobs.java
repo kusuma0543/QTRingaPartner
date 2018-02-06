@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +53,7 @@ public class FinishedPartJobs extends Fragment {
     private ProgressDialog dialog;
     private ListView partnerhome_listview;
     private String take_user_number;
-    FloatingActionButton homebut_buy;
+
 
 
     private SessionManager session;
@@ -81,17 +79,7 @@ public class FinishedPartJobs extends Fragment {
         dialog = new ProgressDialog(getActivity());
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
-        homebut_buy =view. findViewById(R.id.postad_partner);
 
-        homebut_buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentContainer, selectedFragment);
-                transaction.commit();
-            }
-        });
 
         dialog.setMessage("Loading. Please wait...");
         partnerhome_listview=view.findViewById(R.id.partnerongoingjobs_listview);

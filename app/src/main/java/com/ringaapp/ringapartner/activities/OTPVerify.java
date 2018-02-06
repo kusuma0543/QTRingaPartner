@@ -190,7 +190,10 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             case R.id.pinfour:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
+                   // showSoftKeyboard(mPinHiddenEditText);
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
                 }
                 break;
 
@@ -270,6 +273,9 @@ public class OTPVerify extends AppCompatActivity implements View.OnFocusChangeLi
             mPinThirdDigitEditText.setText(s.charAt(2) + "");
             mPinForthDigitEditText.setText("");
         } else if (s.length() == 4) {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
             mPinForthDigitEditText.setText(s.charAt(3) + "");
         }
     }

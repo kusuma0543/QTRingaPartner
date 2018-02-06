@@ -40,7 +40,6 @@ import com.ringaapp.ringapartner.fragments.FinishedPartJobs;
 import com.ringaapp.ringapartner.fragments.NewJobs;
 import com.ringaapp.ringapartner.fragments.OnGoingPartJobs;
 import com.ringaapp.ringapartner.fragments.RechargeFrag;
-import com.ringaapp.ringapartner.fragments.showprod;
 import com.ringaapp.ringapartner.javaclasses.AppController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -64,8 +63,7 @@ public class CategoryMain extends AppCompatActivity
     TextView nav_toolbar;
     String URL_CHECKPASSESS;
 TextView tv_toolbar;
-    CharSequence[] values = {" I am on other Project "," I cant do the Service right now",
-            " Its not my Requirement "," I am out of Station "," My reason is not listed "};
+
 
     private SessionManager session;
     private SQLiteHandler db;
@@ -381,14 +379,14 @@ TextView tv_toolbar;
             startActivity( new Intent(CategoryMain.this,AboutScroll.class));
 
         }
-        else if (id == R.id.nav_postad)
-        {
-            android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.contentContainer, selectedFragment);
-            transaction.commit();
-        }
+//        else if (id == R.id.nav_postad)
+//        {
+//            android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
+//
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.contentContainer, selectedFragment);
+//            transaction.commit();
+//        }
 
         else if (id == R.id.nav_contact)
         {

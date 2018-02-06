@@ -42,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="06"
                 android:textColor="@color/colorBlack"
                 android:textSize="26sp" />
             <TextView
@@ -71,32 +70,32 @@
                 android:layout_marginTop="5dp"/>
         </LinearLayout>
     </RelativeLayout>
-    <FrameLayout
-        android:layout_margin="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end">
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/postad_partner"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:elevation="10dp"
-            />
+    <!--<FrameLayout-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end">-->
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/postad_partner"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:elevation="10dp"-->
+            <!--/>-->
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="10dp"
-            android:text="POST \nAD"
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:elevation="10dp"-->
+            <!--android:text="POST \nAD"-->
 
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            <!--android:textAlignment="center"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
 
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 </FrameLayout>

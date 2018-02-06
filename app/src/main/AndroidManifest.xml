@@ -224,6 +224,10 @@
             android:name=".activities.ImageExtend"
             android:label="@string/title_activity_image_extend"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.TermsAndConditions"
+            android:label="@string/title_activity_terms_and_conditions"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

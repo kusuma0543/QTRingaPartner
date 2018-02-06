@@ -122,9 +122,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/otp_bottom"
                 android:contentDescription="@string/pin_content_desc"
-                android:fontFamily="@font/nunito_semibold"
-
-                android:hint="*"
+                android:fontFamily="@font/nunito_semibold"  android:hint="*"
+                android:ems="1"
+                android:maxEms="1"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:paddingLeft="30dp" />
 

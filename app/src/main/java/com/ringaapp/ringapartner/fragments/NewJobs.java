@@ -15,9 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
@@ -80,7 +78,7 @@ TextView gettext;
     String URLL;
     String URLCOUNT,jobcounttool;
     String getmid;
-    FloatingActionButton homebut_buy;
+   // FloatingActionButton homebut_buy;
 
      KonfettiView konfettiView;
     private final int  FIVE_SECONDS=5000;
@@ -116,16 +114,16 @@ TextView gettext;
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
         gettext=view.findViewById(R.id.text_list);
-          homebut_buy =view. findViewById(R.id.postad_partner);
-        homebut_buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentContainer, selectedFragment);
-                    transaction.commit();
-                }
-            });
+//          homebut_buy =view. findViewById(R.id.postad_partner);
+//        homebut_buy.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    android.support.v4.app.Fragment selectedFragment = showprod.newInstance();
+//                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.contentContainer, selectedFragment);
+//                    transaction.commit();
+//                }
+//            });
 
 
         konfettiView=view.findViewById(R.id.viewKonfetti);

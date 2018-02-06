@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
@@ -95,6 +96,7 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             db = new SQLiteHandler(getApplicationContext());
 
             bb = new CountDownTimer(50000, 1000) { // adjust the milli seconds here
+                @SuppressLint("DefaultLocale")
                 public void onTick(long millisUntilFinished) {
                     countdown.setText("" + String.format(FORMAT,
                             TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
@@ -185,7 +187,9 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             case R.id.pinfour:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
                 }
                 break;
 
@@ -266,6 +270,9 @@ public class OTPVerifys extends AppCompatActivity implements View.OnFocusChangeL
             mPinThirdDigitEditText.setText(s.charAt(2) + "");
             mPinForthDigitEditText.setText("");
         } else if (s.length() == 4) {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(mPinHiddenEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
             mPinForthDigitEditText.setText(s.charAt(3) + "");
         }
     }

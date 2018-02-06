@@ -189,7 +189,7 @@ public class PartnerMapSel extends FragmentActivity implements LocationListener,
                     mMap.clear();
                     LatLng sydneys = place.getLatLng();
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydneys, 6.5f));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15.5f), 2000, null);
                     mMap.setMaxZoomPreference(15.5f);
                     mMap.setMinZoomPreference(6.5f);
 
