@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -84,7 +83,7 @@ public class PartnerSerSel extends AppCompatActivity  {
             partnersubcatsel_spinner = findViewById(R.id.mySpinner);
             bcategseladd = findViewById(R.id.categseladd);
             selectedcateg = findViewById(R.id.textnone);
-            addmore_srvsel = findViewById(R.id.addmore_srvsel);
+//            addmore_srvsel = findViewById(R.id.addmore_srvsel);
             partnercatsel_spinner.setTitle("Select Category Item");
 
             partnercatsel_spinner.setPositiveButton("OK");
@@ -92,12 +91,12 @@ public class PartnerSerSel extends AppCompatActivity  {
             studentss = new ArrayList<String>();
             int initialposition = partnercatsel_spinner.getSelectedItemPosition();
             partnercatsel_spinner.setSelection(initialposition, false);//clear selection
-            addmore_srvsel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(PartnerSerSel.this, "Please Select Categories", Toast.LENGTH_SHORT).show();
-                }
-            });
+//            addmore_srvsel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(PartnerSerSel.this, "Please Select Categories", Toast.LENGTH_SHORT).show();
+//                }
+//            });
             getData();
 
 

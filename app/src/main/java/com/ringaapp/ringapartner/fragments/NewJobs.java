@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -254,9 +253,9 @@ TextView gettext;
             Notification notification = builder.build();
             notification.flags = Notification.FLAG_AUTO_CANCEL;
 
-
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
-            notificationManager.notify(0, notification);
+//
+//            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+//            notificationManager.notify(0, notification);
 
 
                 holder.butaccept.setOnClickListener(new View.OnClickListener() {

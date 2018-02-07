@@ -98,7 +98,7 @@ private Button verify_proceedbut;
                             verify_proceedbut.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(new Intent(DocVerification.this,CategoryMain.class));
+                                        startActivity(new Intent(DocVerification.this,CongratulationsActivity.class));
                                     }
                                 });
                         }

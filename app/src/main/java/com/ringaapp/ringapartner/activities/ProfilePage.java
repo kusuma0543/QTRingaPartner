@@ -3,6 +3,7 @@ package com.ringaapp.ringapartner.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -83,28 +84,27 @@ ProgressDialog progressDialog;
         db = new SQLiteHandler(getApplicationContext());
 
         final HashMap<String, String> user = db.getUserDetails();
-        profilpageuid=user.get("uid");
+        profilpageuid = user.get("uid");
 
         flipperLayout_service = findViewById(R.id.flipper_layout_service);
-        listview_service =  findViewById(R.id.s_service);
+        listview_service = findViewById(R.id.s_service);
 
-        partner_image=findViewById(R.id.partner_profimage);
-        partner_name=findViewById(R.id.servpdet_name);
-        partner_address=findViewById(R.id.servpdet_localityname);
-        partner_about=findViewById(R.id.servpdet_desc);
-        partner_ratingbar=findViewById(R.id.servpdet_ratingbar);
-        partner_ratingtwo=findViewById(R.id.servpdet_totalreview);
-        servpdet_visitingcharge=findViewById(R.id.servpdet_visitingcharge);
-        partner_activesince=findViewById(R.id.servpdet_lastupdated);
-        review_list=findViewById(R.id.review_part_list);
-        partner_rating_count=findViewById(R.id.servpdet_ratingcount);
-      //  webView = (WebView)findViewById(R.id.webView);
-       // partner_profeditbut=findViewById(R.id.partner_profbut);
+        partner_image = findViewById(R.id.partner_profimage);
+        partner_name = findViewById(R.id.servpdet_name);
+        partner_address = findViewById(R.id.servpdet_localityname);
+        partner_about = findViewById(R.id.servpdet_desc);
+        partner_ratingbar = findViewById(R.id.servpdet_ratingbar);
+        partner_ratingtwo = findViewById(R.id.servpdet_totalreview);
+        servpdet_visitingcharge = findViewById(R.id.servpdet_visitingcharge);
+        partner_activesince = findViewById(R.id.servpdet_lastupdated);
+        review_list = findViewById(R.id.review_part_list);
+        partner_rating_count = findViewById(R.id.servpdet_ratingcount);
+        //  webView = (WebView)findViewById(R.id.webView);
+        // partner_profeditbut=findViewById(R.id.partner_profbut);
 
 
-
-        String URLL = "http://quaticstech.in/projecti1andro/android_partner_servprovimagesslider.php?partner_uid="+profilpageuid;
-    new kilomilo().execute(URLL);
+        String URLL = "http://quaticstech.in/projecti1andro/android_partner_servprovimagesslider.php?partner_uid=" + profilpageuid;
+        new kilomilo().execute(URLL);
 //        WebView webView = (WebView) findViewById(R.id.webView);
 //
 //        webView.getSettings().setJavaScriptEnabled(true);
@@ -128,6 +128,10 @@ ProgressDialog progressDialog;
 //        });
 
 
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
         public class MovieAdap extends ArrayAdapter {
         private List<Bannerlist> movieModelList;

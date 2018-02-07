@@ -338,7 +338,7 @@ public class UploadPartnerServImages extends AppCompatActivity implements View.O
 
 
         {
-            startActivity(new Intent(UploadPartnerServImages.this,DocVerification.class));
+            startActivity(new Intent(UploadPartnerServImages.this,CongratulationsActivity.class));
 
 
             }

@@ -1,10 +1,10 @@
 package com.ringaapp.ringapartner.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +19,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+//import com.ebs.android.sdk.Config;
+//import com.ebs.android.sdk.EBSPayment;
+//import com.ebs.android.sdk.PaymentRequest;
 import com.google.gson.Gson;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.ringaapp.ringapartner.GlobalUrl.GlobalUrl;
 import com.ringaapp.ringapartner.R;
-import com.ringaapp.ringapartner.activities.CategoryMain;
 import com.ringaapp.ringapartner.db_javaclasses.buyjobs;
 import com.ringaapp.ringapartner.dbhandlers.SQLiteHandler;
 import com.ringaapp.ringapartner.dbhandlers.SessionManager;
@@ -54,6 +56,13 @@ public class RechargeFrag extends Fragment {
     TextView jobstotal_tv; String jobcounttool;
    // FloatingActionButton homebut_buy;
 
+    private static String HOST_NAME = "";
+String values;
+
+    ArrayList<HashMap<String, String>> custom_post_parameters;
+
+    private static final int ACC_ID = 27375;// Provided by EBS
+    private static final String SECRET_KEY = "5dc4a34eaca1ccd5ffe98385c517b0ca";// Provided by EBS
     public static RechargeFrag newInstance() {
         RechargeFrag fragment= new RechargeFrag();
         return fragment;
@@ -146,7 +155,7 @@ public class RechargeFrag extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         final buyjobs  categorieslist = movieModelList.get(position);
 
-
+values=categorieslist.getJobs_value();
                         new SweetAlertDialog(getActivity())
                                 .setTitleText("Confirm Recharge")
                                 .setContentText("Your Recharge Amount is\n "+"\u20B9."+categorieslist.getJobs_value()+"\n"
@@ -155,8 +164,7 @@ public class RechargeFrag extends Fragment {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 updatemypurchasedet(jobbuy_partner_uid,categorieslist.getJobs_count(),categorieslist.getJobs_value(),jobcounttool);
-                                startActivity(new Intent(getActivity(),CategoryMain.class));
-                            }
+callEbsKit(getActivity());                         }
                         }).show();
                     }
                 });
@@ -286,5 +294,67 @@ public class RechargeFrag extends Fragment {
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+    private void callEbsKit(FragmentActivity rechargeFrag) {
+//
+//        PaymentRequest.getInstance().setTransactionAmount(
+//                String.format("%.2f", values));
+//
+//
+//        PaymentRequest.getInstance().setAccountId(ACC_ID);
+//        PaymentRequest.getInstance().setSecureKey(SECRET_KEY);
+//
+//        PaymentRequest.getInstance().setReferenceNo("223");
+//
+//        PaymentRequest.getInstance().setBillingEmail("test@testmail.com");
+//
+//        PaymentRequest.getInstance().setFailureid("1");
+//
+//        PaymentRequest.getInstance().setCurrency("INR");
+//
+//        PaymentRequest.getInstance().setTransactionDescription(
+//                "Test Transaction");
+//
+//        PaymentRequest.getInstance().setBillingName("Test_Name");
+//        PaymentRequest.getInstance().setBillingAddress("North Mada Street");
+//        PaymentRequest.getInstance().setBillingCity("Chennai");
+//        PaymentRequest.getInstance().setBillingPostalCode("600019");
+//        PaymentRequest.getInstance().setBillingState("Tamilnadu");
+//        PaymentRequest.getInstance().setBillingCountry("IND");
+//        PaymentRequest.getInstance().setBillingPhone("01234567890");
+//        PaymentRequest.getInstance().setShippingName("Test_Name");
+//        PaymentRequest.getInstance().setShippingAddress("North Mada Street");
+//        PaymentRequest.getInstance().setShippingCity("Chennai");
+//        PaymentRequest.getInstance().setShippingPostalCode("600019");
+//        PaymentRequest.getInstance().setShippingState("Tamilnadu");
+//        PaymentRequest.getInstance().setShippingCountry("IND");
+//        PaymentRequest.getInstance().setShippingEmail("test@testmail.com");
+//        PaymentRequest.getInstance().setShippingPhone("01234567890");
+//        PaymentRequest.getInstance().setLogEnabled("1");
+//
+//        PaymentRequest.getInstance().setHidePaymentOption(true);
+//
+//        PaymentRequest.getInstance().setHideCashCardOption(true);
+//
+//        PaymentRequest.getInstance().setHideCreditCardOption(true);
+//
+//        PaymentRequest.getInstance().setHideDebitCardOption(true);
+//
+//        PaymentRequest.getInstance().setHideNetBankingOption(true);
+//
+//        PaymentRequest.getInstance().setHideStoredCardOption(true);
+//
+//        custom_post_parameters = new ArrayList<HashMap<String, String>>();
+//        HashMap<String, String> hashpostvalues = new HashMap<String, String>();
+//        hashpostvalues.put("account_details", "saving");
+//        hashpostvalues.put("merchant_type", "gold");
+//        custom_post_parameters.add(hashpostvalues);
+//
+//        PaymentRequest.getInstance()
+//                .setCustomPostValues(custom_post_parameters);
+//
+//        EBSPayment.getInstance().init(rechargeFrag, ACC_ID, SECRET_KEY,
+//                Config.Mode.ENV_TEST, Config.Encryption.ALGORITHM_MD5, HOST_NAME);
+
     }
 }

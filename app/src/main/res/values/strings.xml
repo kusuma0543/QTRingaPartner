@@ -139,5 +139,6 @@
     <string name="title_activity_about_scroll">About RingaApp</string>
     <string name="title_activity_disp_sell_prod_det">DispSellProdDet</string>
     <string name="title_activity_image_extend">ImageExtend</string>
+    <string name="title_activity_congratulations">CongratulationsActivity</string>
 
 </resources>

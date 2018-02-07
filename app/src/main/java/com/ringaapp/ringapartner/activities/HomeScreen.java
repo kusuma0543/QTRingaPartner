@@ -1,5 +1,6 @@
 package com.ringaapp.ringapartner.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +55,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -71,6 +76,7 @@ private ImageView docv_itemsel;
     private RadioGroup shome_groupone;
     private RadioButton shome_oneradio,shom_tworadio;
     private String userChoosenTask;
+    Bitmap thumbnail;
 
 
     public static final String UPLOAD_KEY = "proof_images";
@@ -260,6 +266,11 @@ private ImageView docv_itemsel;
 //                  }
 //
 //             }
+            if (resultCode == Activity.RESULT_OK) {
+
+                if (requestCode == REQUEST_CAMERA)
+                    onCaptureImageResult(data);
+            }
         }
     }
 
@@ -269,6 +280,70 @@ private ImageView docv_itemsel;
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
+    }
+    private void onCaptureImageResult(Intent data) {
+        thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+            uploadImages();
+            new JSONTask().execute(GlobalUrl.partner_retproofimages+"?"+UPLOAD_KEYTWO+"="+uidimagex);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void uploadImages(){
+        class UploadImage extends AsyncTask<Bitmap,Void,String> {
+
+            ProgressDialog loading;
+            RequestHandler rh = new RequestHandler();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(HomeScreen.this, "Uploading Image", "Please wait...",true,true);
+                mEdit.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+
+                super.onPostExecute(s);
+                loading.dismiss();
+                //Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Bitmap... params) {
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(thumbnail);
+
+                HashMap<String,String> data = new HashMap<>();
+                data.put(UPLOAD_KEYTWO,uidimagex);
+                data.put(UPLOAD_KEY, uploadImage);
+
+
+                String result = rh.sendPostRequest(GlobalUrl.partner_uploadproofimages,data);
+
+                return result;
+            }
+        }
+
+        UploadImage ui = new UploadImage();
+        ui.execute(bitmap);
     }
 
 

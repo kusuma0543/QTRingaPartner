@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ringaapp.ringapartner.activities.CongratulationsActivity"
+    tools:showIn="@layout/activity_congratulations">
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/viewKonfetti"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent" />
+<ImageView
+    android:id="@+id/first_congratulations"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="invisible"
+
+    android:background="@drawable/secondcongratulations"/>
+    <ImageView
+        android:id="@+id/second_congratulations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:background="@drawable/first_congratulations"/>
+</RelativeLayout>

@@ -75,13 +75,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
@@ -136,7 +135,7 @@
             android:name=".activities.HomeScreen"
             android:label="@string/title_activity_home_screen"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PartnerMapSel"
             android:label="@string/title_activity_partner_map_sel"
@@ -145,7 +144,7 @@
             android:name=".activities.PartnerSerSel"
             android:label="@string/title_activity_partner_ser_sel"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DocVerification"
             android:label="@string/title_activity_doc_verification"
@@ -176,6 +175,18 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ringaapp.ringapartner.activities.CategoryMain" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.ringaapp.com"
+                    android:pathPrefix="/profile"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.ServiceTracking"
@@ -219,15 +230,19 @@
         <activity
             android:name=".activities.DispSellProdDet"
             android:label="@string/title_activity_disp_sell_prod_det"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ImageExtend"
             android:label="@string/title_activity_image_extend"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.CongratulationsActivity"
+            android:label="@string/title_activity_congratulations"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
